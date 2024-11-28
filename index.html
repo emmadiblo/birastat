@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Streaming</title>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+    <div class="initial-loading" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <div id="contentWrapper" class="content-wrapper">
+
+        <div id="errorMessage" class="error-message" style="display: none; "></div>
+    
+        
+        <div class="container">
+
+            <div class="header">
+
+         
+            <div class="filters">
+<div class="logo">
+
+    <h1 class="title">Birastat</h1>
+</div>
+
+
+                <div class="search-bar">
+                    <input type="text" id="search" placeholder="Rechercher par nom, genre ou pays...">
+                    <button id="clearSearch" class="clear-search" style="display: none;">✖</button>
+                </div>
+
+           
+                <div class="filter-group">
+
+                   <div class="label">Pays</div>
+             
+                    <select id="countryFilter">
+                        <option value="">Tous les pays</option>
+                    </select>
+
+                    <div class="label">Genre</div>
+
+                    <select id="genreFilter">
+                        <option value="">Tous les genres</option>
+                    </select>
+
+                    <div class="label">Langue</div>
+                    <select id="languageFilter">
+                        <option value="">Toutes les langues</option>
+                    </select>
+                </div>
+
+                <div id="toggleThemeBtn">
+                    <input type="checkbox" id="toggle"/>
+                    <label for="toggle"></label>
+                </div>
+            </div>
+
+
+
+        </div>
+
+            <section class="stations-section">
+                <h2 class="section-title">Stations Radio <span id="stationCount"></span></h2>
+                <div id="loadingSpinner" class="spinner" style="display: none;"></div>
+                <div class="stations-grid" id="stations"></div>
+                <button class="load-more" id="loadMore">Voir plus</button>
+            </section>
+
+            <hr>
+
+            <section class="favorites-section">
+                <h2 class="section-title">Favoris <span id="favoritesCount"></span></h2>
+                <div class="stations-grid" id="favorites"></div>
+                <p id="noFavorites" class="no-content-message" style="display: none;">
+                    Aucune station favorite pour le moment
+                </p>
+            </section>
+        </div>
+
+
+
+        <div class="player" id="player-content">
+
+               <div class="player-info">
+                    <img id="currentStationLogo" class="station-logo" src="default-radio.png" alt="Radio logo">
+                    <div class="player-details">
+                        <h3 id="currentStationName">Aucune station sélectionnée</h3>
+                        <div id="currentStationInfo"></div>
+
+                    </div>
+
+                    <div id="player-controls">
+
+                        <div class="control">
+                        <div class="loadaudio" id="loadaudio" style="display: none;"></div>
+                        <audio id="audioPlayer" ></audio>
+                        <div class="button" id="playPauseBtn">
+                            <i class="fas fa-pause" id="playPauseIcon"></i>
+                        </div>
+                        </div>
+ 
+                      </div>
+
+                      
+
+                </div>
+
+                 
+                  <div class="rangeWrap">
+                    <input type="range" id="volumeSlider" list="ticks" min="0" max="100" value="50" />
+                    <datalist id="ticks">
+                        <option value="0" label="0%"></option>
+                        <option value="25" label="25%"></option>
+                        <option value="50" label="50%"></option>
+                        <option value="75" label="75%"></option>
+                        <option value="100" label="100%"></option>
+                    </datalist>
+            
+                    <p class="percent">Volume: <span id="volumeValue">50%</span></p>
+                    
+                </div>
+       
+            
+
+        </div>
+    </div>
+
+        <script>
+            window.onload = function() {
+            const loader = document.getElementById('loader-container');
+            loader.style.opacity = 0;
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                document.getElementById('contentWrapper').style.display = 'block';
+            }, 2000); 
+        };  
+        </script>
+    </body>
+    <script src="script.js"></script>
+    <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue= document.getElementById('volumeValue');
+    
+    // Initialiser le volume
+    audioPlayer.volume = volumeSlider.value / 100;
+
+// Jouer/Pause
+playPauseBtn.addEventListener('click', () => {
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseIcon.classList.remove('fa-play'); // Retirer l'icône de lecture
+        playPauseIcon.classList.add('fa-pause'); // Ajouter l'icône de pause
+    } else {
+        audioPlayer.pause();
+        playPauseIcon.classList.remove('fa-pause'); // Retirer l'icône de pause
+        playPauseIcon.classList.add('fa-play'); // Ajouter l'icône de lecture
+    }
+});
+
+    // Volume
+    volumeValue.textContent = (audioPlayer.volume * 100) + '%'; // Affiche le volume actuel
+   
+    volumeSlider.addEventListener('input', (e) => {
+        const volume = e.target.value;
+        volumeValue.textContent = volume + '%'; // Met à jour l'affichage du volume
+        audioPlayer.volume = volume / 100;
+        
+    });
+
+
+
+    // Mettre à jour le bouton de lecture à la fin de la lecture
+    audioPlayer.addEventListener('ended', () => {
+        playPauseBtn.textContent = '▶ Replay'; // Reset to play icon
+    });
+
+
+
+    //mode jour/nuit
+    const toggle = document.querySelector('#toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            // Appliquer le thème au chargement
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            toggle.checked = currentTheme === 'dark';
+
+            toggle.addEventListener('change', () => {
+                const theme = document.documentElement.getAttribute('data-theme');
+
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+
+
+});
+
+
+    </script>
+
+
+</html>
