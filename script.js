@@ -6,7 +6,7 @@ const stations = [
         logoUrl: "https://radioenlignefrance.com/storage/radios/6834/8801/conversions/1nv4hxxxqJetEoR8S42sOycSQgl2sg-metaSXNhbmdhbmlyb2JkaS5qcGc=--lg.webp", 
         country: "Burundi",
         description: "Radio Isanganiro - La voix de la réconciliation",
-        genre: "Information",
+        genre: "Actualités",
         language: "Kirundi/Français"
     },
     {
@@ -25,7 +25,7 @@ const stations = [
         url: "http://dreamsiteradiocp2.com:8082/stream",
         logoUrl: "https://www.radiomaria.bi/wp-content/themes/radiomaria/img/maria-footer.jpg",
         country: "Burundi", 
-        description: "Radio chrétienne",
+        description: "Ijwi ry'Imana iwanyu, ijwi ry'Imana iwacu",
         genre: "Religion",
         language: "Kirundi"
     },
@@ -35,9 +35,9 @@ const stations = [
         url: "https://eu10.fastcast4u.com/nderagakura",
         logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/y2f4sebqq534.jpg",
         country: "Burundi", 
-        description: "Radio pour enfants",
-        genre: "Enfants",
-        language: "Kirundi Français"
+        description: "Radio scolaire",
+        genre: "Scolaire",
+        language: "Kirundi/Français"
     },
     {
         id: 5,
@@ -46,7 +46,7 @@ const stations = [
         logoUrl: "https://pbs.twimg.com/profile_images/498881934148112384/Y6c6B-qC_400x400.jpeg",
         country: "Burundi", 
         description: "Bonesha FM",
-        genre: "information",
+        genre: "Actualités",
         language: "Kirundi"
     },
     {
@@ -66,13 +66,102 @@ const stations = [
         logoUrl: "https://pbs.twimg.com/profile_images/1447129089/logo_rema_200x200.gif",
         country: "Burundi", 
         description: "Rema",
-        genre: "Information",
+        genre: "Actualités",
         language: "Kirundi"
     },
+    {
+        id: 8,
+        name: "Radio TV Buntu",
+        url: "https://stream2.rcast.net/62581",
+        logoUrl: "https://radiotvbuntu.org/wp-content/uploads/2020/01/cropped-radiotvlogosite.jpg",
+        country: "Burundi", 
+        description: "Radio Television Buntu",
+        genre: "Actualités",
+        language: "Kirundi"
+    },
+    {
+
+    id: 9,
+    name: "Radio Peace FM",
+    url: "https://stream-176.zeno.fm/s0244utefg8uv",
+    logoUrl: "https://radiopeacefm.com/images/logo1.png",
+    country: "Burundi", 
+    description: "Radio la voix des jeunes",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+
+{
+
+    id: 10,
+    name: "Irebe FM",
+    url: "https://stream-174.zeno.fm/5wjpe2wxzdeuv?",
+    logoUrl: "https://zeno.fm/_next/image/?url=https%3A%2F%2Fimages.zeno.fm%2FbgwW9a1W7X4axC--YuTrF0Y7-huPChdVvayrNbml_I0%2Frs%3Afit%3A240%3A240%2Fg%3Ace%3A0%3A0%2FaHR0cHM6Ly9zdHJlYW0tdG9vbHMuemVub21lZGlhLmNvbS9jb250ZW50L3N0YXRpb25zL2YyMTcyYjVmLWY2MjktNGJkNi05NWJmLTMwMThjZWQ3YWQzNS9pbWFnZS8_dXBkYXRlZD0xNjk2MzM3NTcyMDAwP3U9NTc1ODYwMA.webp&w=3840&q=100",
+    country: "Burundi", 
+    description: "Irebe Fm , umunezero wacu",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+{
+
+    id: 11,
+    name: "Radio Intwali FM",
+    url: "https://stream-172.zeno.fm/f4btyyc18vzuv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/2/86852.v4.png",
+    country: "Burundi", 
+    description: "Bujumbura, 102.9 MHz FM",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 12,
+    name: "Hero Radio (burundi)",
+    url: "https://a2.asurahosting.com:6790/burundi.mp3",
+    logoUrl: "https://online-radio.eu/logo/145/145203.jpg",
+    country: "Burundi", 
+    description: "Radio la voix des jeunes",
+    genre: "Musique",
+    language: "Kirundi"
+},
+
+{
+
+    id: 13,
+    name: "Ijwi ry'amerika",
+    url: "https://n0e.radiojar.com/hzcgfqas92quv",
+    logoUrl: "https://www.radiyoyacuvoa.com/Content/responsive/VOA/rw-RW/img/logo.svg",
+    country: "Burundi/Rwanda", 
+    description: "Radio ijwi ry'amerika",
+    genre: "Actualités",
+    language: "Kirundi/Kinyarwanda"
+},
+{
+
+    id: 14,
+    name: "Antenna de Gitega",
+    url: "https://italiavera.radioca.st/stream",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/134246.v3.png",
+    country: "Burundi", 
+    description: "Gitega, Antenna web gitega",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 15,
+    name: "Radio Inkinzo",
+    url: "https://stream-175.zeno.fm/x3ktdppgx98uv",
+    logoUrl: "https://zeno.fm/_ipx/q_85&fit_cover&s_144x144/https://images.zeno.fm/_FdVwRWExsR5NKdwjP9Q36FUiEaPeQwLtimF2vW_QhA/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJRHcwdmJoendrTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJRHc0cXVibFFzTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTcxODU4NDQ0MTAwMA.webp",
+    country: "Burundi", 
+    description: "Kurwanya ikinyoma nihonyabwoko",
+    genre: "Musique",
+    language: "Kirundi"
+},
 
 ];
 
-
+//actualités,national,musique
 
 class RadioApp {
     constructor() {
@@ -162,6 +251,7 @@ async getUserCountry() {
                 error => {
                     console.error("Error getting location: ", error);
                     resolve(null); // Si l'utilisateur refuse la géolocalisation
+                    console.log('vous avez refusé la localisation')
                 }
             );
         } else {
@@ -443,9 +533,11 @@ populateFilter(select, values) {
             <h3>${station.name}</h3>
             <button class="favorite-btn">${this.favorites.some(f => f.id === station.id) ? '❤️' : '🤍'}</button>
             <div class="station-info">
-                <p>${station.country}</p>
-                <p>${station.genre}</p>
-                <p>${station.language}</p>
+                  <h5 class="description">${station.description}</h5>
+              Pays:  <p>${station.country}</p>
+        
+               Genre: <p>${station.genre}</p>
+              Langue(s):  <p>${station.language}</p>
             </div>
         `;
 

@@ -88,7 +88,9 @@ label {
       
             
         }
-
+.title,.description{
+   color: var(--primary-color);
+}
 
         #loader-container {
             position: fixed; 
@@ -370,20 +372,53 @@ label {
             padding: 20px;
         }
 
-        .error-message {
-            background: #ff4444;
-            color: white;
+        .error-container,.localiser {
+background-color: var(--background-color);
+
             padding: 10px;
             border-radius: var(--border-radius);
             text-align: center;
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            display: none;
-        }
+            top: 50%;
+            left: 50%; 
+            transform: translate(-50%, -50%);
+                z-index: 9999;
+            }
 
+
+            
+            .localiser  h1 {
+                margin-bottom: 10px;
+            }
+            
+            .localiser  p {
+                margin: 15px 0;
+            }
+            
+            .localiser button {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                margin: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            
+            .localiser #localiserButton {
+                background-color: #28a745;
+                color: white;
+            }
+            
+            .localiser #denyButton {
+                background-color: #dc3545;
+                color: white;
+            }
+            
+            .localiser #message {
+                margin-top: 20px;
+                font-weight: bold;
+            }
+     
         .fa-spinner {
     animation: spin 1s linear infinite;
 }

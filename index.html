@@ -3,7 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Streaming</title>
+    <title>Les stations de radio Burundi/Rwanda</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    
+    <!-- Description for search engines -->
+    <meta name="description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
+    
+    <!-- Keywords for search engines -->
+    <meta name="keywords" content="radio, Burundi, Rwanda, stations de radio, musique, émissions, actualités">
+    
+    <!-- Author of the website -->
+    <meta name="author" content="Emmadiblo">
+    
+    <!-- Robots meta tag for SEO -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph tags for social media sharing -->
+    <meta property="og:title" content="Les stations de radio Burundi/Rwanda">
+    <meta property="og:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
+    <meta property="og:image" content="https://emmadiblo.github.io/Birastat/">
+    <meta property="og:url" content="https://emmadiblo.github.io/Birastat/favicon.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Les stations de radio Burundi/Rwanda">
+    <meta name="twitter:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
+    <meta name="twitter:image" content="https://emmadiblo.github.io/Birastat/favicon.png">
+    
+    <!-- Charset for older browsers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -12,13 +43,22 @@
 </head>
 <body>
     <div class="initial-loading" id="loader-container">
-        <div class="loader"></div>
+        <div class="loader" ></div>
+    </div>
+
+    <div class="localiser" id="formdemande" style="display: none;">
+        <h1>Demande de Localisation</h1>
+        <p>Nous avons besoin de votre localisation pour vous offrir une meilleure expérience.</p>
+        <button id="localiserButton">Autoriser</button>
+        <button id="annuler">Annuler</button>
     </div>
 
     <div id="contentWrapper" class="content-wrapper">
 
-        <div id="errorMessage" class="error-message" style="display: none; "></div>
-    
+<div class="error-container" id="errorContainer" style="display: none;"> 
+    <p id="errorMessage" style="color: var(--red-color);"></p>
+</div>
+     
         
         <div class="container">
 
@@ -93,7 +133,7 @@
                <div class="player-info">
                     <img id="currentStationLogo" class="station-logo" src="default-radio.png" alt="Radio logo">
                     <div class="player-details">
-                        <h3 id="currentStationName">Aucune station sélectionnée</h3>
+                        <h3 id="currentStationName">Sélectionnez ou Rechercher une station à ecouter</h3>
                         <div id="currentStationInfo"></div>
 
                     </div>
@@ -104,7 +144,7 @@
                         <div class="loadaudio" id="loadaudio" style="display: none;"></div>
                         <audio id="audioPlayer" ></audio>
                         <div class="button" id="playPauseBtn">
-                            <i class="fas fa-pause" id="playPauseIcon"></i>
+                            <i class="fas fa-play" id="playPauseIcon"></i>
                         </div>
                         </div>
  
@@ -149,6 +189,7 @@
     <script src="script.js"></script>
     <script>
 
+
 document.addEventListener('DOMContentLoaded', () => {
     const audioPlayer = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
@@ -159,6 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialiser le volume
     audioPlayer.volume = volumeSlider.value / 100;
+
+
 
 // Jouer/Pause
 playPauseBtn.addEventListener('click', () => {
