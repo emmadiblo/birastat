@@ -7,7 +7,7 @@ const stations = [
         country: "Burundi",
         description: "Radio Isanganiro - La voix de la réconciliation",
         genre: "Actualités",
-        language: "Kirundi/Français"
+        language: "Kirundi,Français"
     },
     {
         id: 2,
@@ -37,7 +37,7 @@ const stations = [
         country: "Burundi", 
         description: "Radio scolaire",
         genre: "Scolaire",
-        language: "Kirundi/Français"
+        language: "Kirundi,Français"
     },
     {
         id: 5,
@@ -134,7 +134,7 @@ const stations = [
     country: "Burundi/Rwanda", 
     description: "Radio ijwi ry'amerika",
     genre: "Actualités",
-    language: "Kirundi/Kinyarwanda"
+    language: "Kirundi,Kinyarwanda"
 },
 {
 
@@ -145,11 +145,24 @@ const stations = [
     country: "Burundi", 
     description: "Gitega, Antenna web gitega",
     genre: "Musique",
-    language: "Kirundi"
+    language: "Kirundi,Italian",
 },
+   
 {
 
     id: 15,
+    name: "Radio Izere FM",
+    url: "http://5.189.189.39:8000/stream",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/3/80073.v8.png",
+    country: "Burundi", 
+    description: "Rumonge; Radio Izere FM",
+    genre: "Musique",
+    language: "Kirundi"
+},
+
+{
+
+    id: 16,
     name: "Radio Inkinzo",
     url: "https://stream-175.zeno.fm/x3ktdppgx98uv",
     logoUrl: "https://zeno.fm/_ipx/q_85&fit_cover&s_144x144/https://images.zeno.fm/_FdVwRWExsR5NKdwjP9Q36FUiEaPeQwLtimF2vW_QhA/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJRHcwdmJoendrTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJRHc0cXVibFFzTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTcxODU4NDQ0MTAwMA.webp",
@@ -159,9 +172,135 @@ const stations = [
     language: "Kirundi"
 },
 
+
+{
+
+    id: 17,
+    name: "TzGospel Burundi",
+    url: "https://stream-158.zeno.fm/nxdpssc3tchvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/134236.v2.png",
+    country: "Burundi", 
+    description: "Swahili gospel",
+    genre: "Gospel",
+    language: "Kiswahili"
+},
+{
+
+    id: 18,
+    name: "Radio voix d'espoir",
+    url: "https://stream4.rcast.net/65428",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG2xvYkD9Po-ChBUejOLPevZgneNt7JZCxKRBN2cwrKunDb-L7yhLhy5Tr__G5pFaeiJU&usqp=CAU",
+    country: "Burundi", 
+    description: "Ijwi riremesha",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+{
+
+    id: 19,
+    name: "Bdusa Media",
+    url: "https://stream-174.zeno.fm/0fpegrf70fctv",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhol3947SVr1xu3NXAh8wiLOV_aw2qQpouIw&s",
+    country: "Burundi", 
+    description: "Burundan Diaspora in The United States of America, BDUSA COMPANY",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 20,
+    name: "B.A.A MEDIA FM",
+    url: "https://stream-158.zeno.fm/nxdpssc3tchvv",
+    logoUrl: "https://images.zeno.fm/m8VOZY3pv4m_mYPVHQOUIktZbEnSlSbWm2SWLVdaakc/rs:fit:268:268/g:ce:0:0/aHR0cHM6Ly9zdHJlYW0tdG9vbHMuemVub21lZGlhLmNvbS9jb250ZW50L3N0YXRpb25zL2FneHpmbnBsYm04dGMzUmhkSE55TWdzU0NrRjFkR2hEYkdsbGJuUVlnSURnd2NTbDNna01DeElPVTNSaGRHbHZibEJ5YjJacGJHVVlnSUR3eWEzMzhRc01vZ0VFZW1WdWJ3L2ltYWdlLz91cGRhdGVkPTE3MjcxMDA4NTEwMDA_dT01NzU4Njkw.webp",
+    country: "Burundi", 
+    description: "Radio B.A.A MEDIA FM",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 21,
+    name: "Menya live",
+    url: "https://stream-154.zeno.fm/fq6c2xsn0c9uv",
+    logoUrl: "https://images.zeno.fm/AcPGa8ODQyPVx4T4JKhVSrxQyQ5OWBSEabQpnY-FI9E/rs:fit:500:500/g:ce:0:0/aHR0cHM6Ly9zdHJlYW0tdG9vbHMuemVub21lZGlhLmNvbS9jb250ZW50L3N0YXRpb25zL2FneHpmbnBsYm04dGMzUmhkSE55TWdzU0NrRjFkR2hEYkdsbGJuUVlnSURnd2NTbDNna01DeElPVTNSaGRHbHZibEJ5YjJacGJHVVlnSUR3aWR2SzZBZ01vZ0VFZW1WdWJ3L2ltYWdlLz91cGRhdGVkPTE3MjQ3NjkzMDIwMDA_dT01NzQ5NjIw.webp",
+    country: "Burundi", 
+    description: "A group of Artists and musicians from Burundi",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+{
+
+    id: 22,
+    name: "NRG BURUNDI",
+    url: "https://stream.zeno.fm/p5nkyyxnt4uvv",
+    logoUrl: "https://zeno.fm/_ipx/q_85&fit_cover&s_144x144/https://images.zeno.fm/MaMTqNCnBHj_6cH9B0sogMjwg8ZK-kf4G3V5mTZHyYI/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvNGZkYTdjMDAtNTcyNy00ZDViLWE1NDAtZjYzMWE3NzM2N2IxL2ltYWdlLz91PTE2OTQwMDQyODUwMDA.webp",
+    country: "Burundi", 
+    description: "NRG",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 23,
+    name: "EAGLE SPORTS FM",
+    url: "https://audio.bfmtv.com/rmcradio_128.mp3",
+    logoUrl: "https://static-media.streema.com/media/cache/b9/40/b9406d0b0b7cdfb197d56c3342faba76.png",
+    country: "Burundi", 
+    description: "MAKAMBA,Eagle Sport FM Radio broadcasts at 88.0 Mhz and 88.6 Mhz",
+    genre: "Sports",
+    language: "Kirundi"
+},
+
+{
+
+    id: 24,
+    name: "Regional Vibez Media",
+    url: "https://bissau.radio/listen/12182",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/9/95839.v6.png",
+    country: "Burundi", 
+    description: "Regional Vibez Media is an Online Broadcast Radio Television based in Burundi which provides regional trending news and promotes East African Culture",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 25,
+    name: "ATOCO Media",
+    url: "https://stream-153.zeno.fm/g4x4bb7uxd0uv",
+    logoUrl: "https://yt3.googleusercontent.com/4wP4fFNGYEUsPxuXXeaWqyuBewa6GXWcfyACEbfZP8euKx2hSxSBUhRaBZjk9j96I8lH28sh7g=s900-c-k-c0x00ffffff-no-rj",
+    country: "Burundi", 
+    description: "ATOCO MEDIA - a radio station from Burundi providing sport and other programs.",
+    genre: "Sports",
+    language: "Kirundi"
+},
+{
+
+    id: 26,
+    name: "Radio Intare Karemera",
+    url: "https://stream-176.zeno.fm/lvkkazg0faguv",
+    logoUrl: "https://zeno.fm/_ipx/f_webp&q_85&fit_cover&s_144x144/https://images.zeno.fm/pj9c80RNnDSPq3W1k0Jqmp09qYU4XAwTokGeGMz8PnM/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYjZjODhhYjYtYjQzZS00NWQwLWFkMTYtNzllMGIzYThiMDUxL2ltYWdlLz91PTE2ODM0OTUwMDQwMDA.webp",
+    country: "Burundi", 
+    description: "Kaze tuyage kahise k'u Burundi",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+
+{
+
+    id: 27,
+    name: "RADIO PATRIOT FM",
+    url: "https://stream-176.zeno.fm/91m701amxxhvv",
+    logoUrl: "https://zeno.fm/_ipx/q_85&fit_cover&s_144x144/https://images.zeno.fm/0KNpUkvSZG9td1ApYozXcT6Puzj5G6-uI3OgT0AK4_I/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJREludWVXbHdvTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJRElfbzZzcFFzTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY2MTc4NjM4ODAwMA.webp",
+    country: "Burundi", 
+    description: "your favorite hits and variety of music and entertainment.",
+    genre: "Musique",
+    language: "Kirundi"
+},
+
+
 ];
 
-//actualités,national,musique
+//genres: actualités,national,musique, sports
 
 class RadioApp {
     constructor() {
@@ -219,7 +358,7 @@ class RadioApp {
 
         this.elements.playPauseIcon = document.getElementById('playPauseIcon');
         this.elements.playerStatus = document.getElementById('playerStatus');
-        this.elements.errorMessage = document.getElementById('errorMessage');
+        this.elements.errorMessage = document.getElementById('status');
     }
 
     initializeFilters() {
@@ -279,173 +418,213 @@ populateFilter(select, values) {
 }
 
 
-    setupEventListeners() {
-        this.elements.searchInput.addEventListener('input', () => this.handleSearch());
-        this.elements.clearSearch.addEventListener('click', () => this.clearSearch());
+setupEventListeners() {
+    // Recherche
+    this.elements.searchInput.addEventListener('input', () => this.handleSearch());
+    this.elements.clearSearch.addEventListener('click', () => this.clearSearch());
 
-        ['countryFilter', 'genreFilter', 'languageFilter'].forEach(id => {
-            this.elements[id].addEventListener('change', (e) => this.handleFilterChange(e));
-        });
+    // Filtres (pays, genre, langue)
+    ['countryFilter', 'genreFilter', 'languageFilter'].forEach(id => {
+        this.elements[id].addEventListener('change', (e) => this.handleFilterChange(e));
+    });
 
-        this.elements.loadMoreBtn.addEventListener('click', () => this.loadMore());
+    // Bouton "Charger plus"
+    this.elements.loadMoreBtn.addEventListener('click', () => this.loadMore());
 
-        this.elements.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
+    // Contrôle du volume
+    this.elements.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
 
-        this.elements.audioPlayer.addEventListener('playing', () => {
-            this.isPlaying = true;
-            this.updatePlayState();
-        });
-
-        this.elements.audioPlayer.addEventListener('pause', () => {
-            this.isPlaying = false; 
-            this.updatePlayState();
-        });
-
-
-
-        this.elements.audioPlayer.addEventListener('waiting', () => {
-            this.setLoadingState(true);
-        });
-
-        this.elements.audioPlayer.addEventListener('playing', () => {
-            this.setLoadingState(false);
-            this.isPlaying = true;
-            this.hasError = false;
-            this.updatePlayState();
-        });
-
-        this.elements.audioPlayer.addEventListener('pause', () => {
-            this.setLoadingState(false);
-            this.isPlaying = false;
-            this.updatePlayState();
-        });
-
-        this.elements.audioPlayer.addEventListener('error', (e) => {
-            this.handlePlaybackError(e);
-        });
-
-        // Vérifie la connexion internet
-        window.addEventListener('online', () => {
-            if (this.currentStation) {
-                this.playStation(this.currentStation);
-            }
-        });
-
-        window.addEventListener('offline', () => {
-            this.handlePlaybackError({ type: 'network', message: 'Pas de connexion Internet' });
-        });
-    }
-
-    async initialize() {
-        await this.preloadImages();
-        this.displayStations();
-        this.displayFavorites();
-        
-        // Force la lecture de la dernière station
-        if (this.lastPlayedStation) {
-            await this.playStation(this.lastPlayedStation, true);
-        }
-    }
-
-    setLoadingState(isLoading) {
-        this.isLoading = isLoading;
-        if (isLoading) {
-            this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
-            this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
-            this.elements.playerStatus.textContent = 'Chargement...';
-        } else {
-            this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
-            this.elements.playPauseIcon.classList.add(this.isPlaying ? 'fa-pause' : 'fa-play');
-            this.elements.playerStatus.textContent = this.isPlaying ? 'En lecture' : 'En pause';
-        }
-    }
-
-    handlePlaybackError(error) {
-        this.isPlaying = false;
-        this.hasError = true;
-        this.setLoadingState(false);
-        
-        let errorMessage = 'Une erreur est survenue';
-        
-        if (!navigator.onLine) {
-            errorMessage = 'Pas de connexion Internet';
-        } else if (error.type === 'network') {
-            errorMessage = error.message;
-        } else {
-            switch (this.elements.audioPlayer.error?.code) {
-                case 1:
-                    errorMessage = 'Lecture interrompue';
-                    break;
-                case 2:
-                    errorMessage = 'Erreur réseau';
-                    break;
-                case 3:
-                    errorMessage = 'Erreur de décodage';
-                    break;
-                case 4:
-                    errorMessage = 'Source non disponible';
-                    break;
-            }
-        }
-
-        this.errorMessage = errorMessage;
-        this.elements.errorMessage.textContent = errorMessage;
-        this.elements.errorMessage.style.display = 'block';
+    // Gestion des événements du lecteur audio
+    this.elements.audioPlayer.addEventListener('playing', () => {
+        this.isPlaying = true;
+        this.hasError = false;
         this.updatePlayState();
+    });
+
+    this.elements.audioPlayer.addEventListener('pause', () => {
+        this.isPlaying = false;
+        this.updatePlayState();
+    });
+
+    this.elements.audioPlayer.addEventListener('waiting', () => {
+        this.setLoadingState(true);
+    });
+
+    this.elements.audioPlayer.addEventListener('playing', () => {
+        this.setLoadingState(false);
+        this.isPlaying = true;
+        this.hasError = false;
+        this.updatePlayState();
+    });
+
+    this.elements.audioPlayer.addEventListener('pause', () => {
+        this.setLoadingState(false);
+        this.isPlaying = false;
+        this.updatePlayState();
+    });
+
+    this.elements.audioPlayer.addEventListener('error', (e) => {
+        this.handlePlaybackError(e.target.error || new Error("Erreur inconnue lors de la lecture."));
+    });
+
+    // Gestion de la connexion Internet
+    window.addEventListener('online', () => {
+        this.handleOnline();
+    });
+
+    window.addEventListener('offline', () => {
+        this.handleOffline();
+    });
+}
+
+async initialize() {
+    await this.preloadImages();
+    this.displayStations();
+    this.displayFavorites();
+
+    // Lecture de la dernière station si disponible
+    if (this.lastPlayedStation) {
+        await this.playStation(this.lastPlayedStation, true);
     }
+}
 
-    async playStation(station, forcePlay = false) {
-        try {
-            if (!navigator.onLine) {
-                throw new Error('Pas de connexion Internet');
-            }
+setLoadingState(isLoading) {
+    this.isLoading = isLoading;
 
-            this.currentStation = station;
-            localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+    if (isLoading) {
+        // Lorsque le lecteur est en cours de chargement
+        this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
+        this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
+        this.elements.playerStatus.textContent = 'Chargement en cours...';
+    } else if (this.hasError) {
+        // En cas d'erreur
+        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
+        this.elements.playPauseIcon.classList.add('fa-play');
+        this.elements.playerStatus.textContent = "Erreur de lecture, actualisez ou choisissez l'autre station.";
+    } else if (this.isPlaying) {
+        // Lorsque le lecteur est en lecture
+        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
+        this.elements.playPauseIcon.classList.add('fa-pause');
+        this.elements.playerStatus.textContent = 'Live...';
+    } else {
+        // Lorsque le lecteur est en pause
+        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
+        this.elements.playPauseIcon.classList.add('fa-play');
+        this.elements.playerStatus.textContent = 'En pause.';
+    }
+}
 
-            this.elements.currentStationName.textContent = station.name;
-            this.elements.currentStationLogo.src = station.logoUrl;
-            this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+handlePlaybackError(error) {
+    this.isPlaying = false;
+    this.hasError = true;
+    this.setLoadingState(false);
 
-            this.setLoadingState(true);
-            this.elements.errorMessage.style.display = 'none';
+    let errorMessage;
 
-            if (forcePlay || this.elements.audioPlayer.paused) {
-                this.elements.audioPlayer.src = station.url;
-                await this.elements.audioPlayer.play();
-            }
-        } catch (error) {
-            console.error('Error playing station:', error);
-            this.handlePlaybackError(error);
+    // Détecter si l'utilisateur est hors ligne
+    if (!navigator.onLine) {
+        errorMessage = 'Pas de connexion Internet. Vérifiez votre réseau.';
+    } 
+    // Gestion des erreurs audio spécifiques
+    else if (error instanceof MediaError) {
+        switch (error.code) {
+            case MediaError.MEDIA_ERR_ABORTED:
+                errorMessage = "La lecture a été interrompue. Veuillez réessayer.";
+                break;
+            case MediaError.MEDIA_ERR_NETWORK:
+                errorMessage = "Erreur réseau : impossible de charger la station.";
+                break;
+            case MediaError.MEDIA_ERR_DECODE:
+                errorMessage = "Erreur de lecture : le fichier audio est corrompu ou incompatible.";
+                break;
+            ///case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+               // errorMessage = "Cette station n'est pas disponible. Essayez une autre station.";
+              //  break;
+            default:
+                errorMessage = "";
+                break;
         }
+    } 
+    // Autres erreurs générales
+    else if (error.message) {
+        errorMessage = error.message;
+    } else {
+        errorMessage = "Une erreur inconnue est survenue.";
     }
 
-    updatePlayState() {
-        if (this.isLoading) {
-            this.elements.player.classList.add('loading');
-            this.elements.player.classList.remove('playing', 'error');
-        } else if (this.hasError) {
-            this.elements.player.classList.add('error');
-            this.elements.player.classList.remove('playing', 'loading');
-        } else if (this.isPlaying) {
-            this.elements.player.classList.add('playing');
-            this.elements.player.classList.remove('loading', 'error');
-        } else {
-            this.elements.player.classList.remove('playing', 'loading', 'error');
+    // Afficher le message d'erreur
+    this.elements.errorMessage.textContent = errorMessage;
+    this.elements.errorMessage.style.display = 'block';
+    this.updatePlayState();
+    console.error('Playback error:', errorMessage, error);
+}
+
+async playStation(station, forcePlay = false) {
+    try {
+        if (!navigator.onLine) {
+            throw new Error('Pas de connexion Internet. Impossible de lire la station.');
         }
-    }
 
-    async preloadImages() {
-        const promises = stations.map(station => {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = img.onerror = resolve;
-                img.src = station.logoUrl;
-            });
+        this.currentStation = station;
+        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+
+        // Mettre à jour les informations de la station
+        this.elements.currentStationName.textContent = station.name;
+        this.elements.currentStationLogo.src = station.logoUrl;
+        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+
+        this.setLoadingState(true);
+        this.elements.errorMessage.style.display = 'none';
+
+        // Forcer la lecture ou détecter si le lecteur est en pause
+        if (forcePlay || this.elements.audioPlayer.paused) {
+            this.elements.audioPlayer.src = station.url;
+            await this.elements.audioPlayer.play();
+        }
+    } catch (error) {
+        console.error('Error playing station:', error);
+        this.handlePlaybackError(error);
+    }
+}
+
+updatePlayState() {
+    if (this.isLoading) {
+        this.elements.player.classList.add('loading');
+        this.elements.player.classList.remove('playing', 'error');
+    } else if (this.hasError) {
+        this.elements.player.classList.add('error');
+        this.elements.player.classList.remove('playing', 'loading');
+    } else if (this.isPlaying) {
+        this.elements.player.classList.add('playing');
+        this.elements.player.classList.remove('loading', 'error');
+    } else {
+        this.elements.player.classList.remove('playing', 'loading', 'error');
+    }
+}
+
+handleOnline() {
+    this.elements.errorMessage.style.display = 'none'; // Cacher les messages d'erreur précédents
+    if (this.currentStation) {
+        this.playStation(this.currentStation);
+    }
+}
+
+handleOffline() {
+    const errorMessage = 'Pas de connexion Internet. Vous ne pouvez pas écouter de stations.';
+    this.elements.errorMessage.textContent = errorMessage;
+    this.elements.errorMessage.style.display = 'block';
+}
+
+async preloadImages() {
+    const promises = stations.map(station => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = img.onerror = resolve;
+            img.src = station.logoUrl;
         });
-        await Promise.all(promises);
-    }
-
+    });
+    await Promise.all(promises);
+}
     handleSearch() {
         this.currentSearchQuery = this.elements.searchInput.value;
         this.elements.clearSearch.style.display = this.currentSearchQuery ? 'block' : 'none';

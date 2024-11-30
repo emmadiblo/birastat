@@ -139,13 +139,9 @@ label {
 
         .filters {
      padding: 10px;
-    position: sticky;
-    top: 0px;
+
     background-color: var(--background-color);
-    display: flex
-;
-    gap: 15px;
-    z-index: 9999;
+    display: flex;
     margin: 10px 0;
     flex-wrap: wrap;
         }
@@ -180,7 +176,7 @@ label {
             border: var(--red-color);
             border-radius: var(--border-radius);
             font-size: 16px;
-            min-width: 150px;
+      
             cursor: pointer;
         
         }
@@ -237,18 +233,19 @@ label {
             transform: scale(1.2);
         }
 
-        .player {
-            padding: 10px;
- margin-bottom: 20px;
+.player {
+    box-sizing: border-box;
+    padding: 10px;
     position: fixed; 
     bottom: 0; 
-    left: 0; 
     right: 0;
-    max-height: 200px;
+    max-height: 280px;
     background: var(--background-color); 
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); 
     z-index: 1000; 
 }
+
+
 
 .player-info {
     display: flex;
