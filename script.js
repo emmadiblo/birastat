@@ -404,6 +404,7 @@ selectUserCountry(userCountry, select) {
     const optionExists = [...select.options].some(option => option.value === userCountry);
     if (optionExists) {
         select.value = userCountry; // Sélectionne le pays s'il existe
+        userCountry.selected
     }
 }
 
@@ -500,7 +501,7 @@ setLoadingState(isLoading) {
         // En cas d'erreur
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-play');
-        this.elements.playerStatus.textContent = "Erreur de lecture, actualisez ou choisissez l'autre station.";
+        this.elements.playerStatus.textContent = "Erreur de lecture, Actualisez sinon choisissez l'autre station.";
     } else if (this.isPlaying) {
         // Lorsque le lecteur est en lecture
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
@@ -510,7 +511,7 @@ setLoadingState(isLoading) {
         // Lorsque le lecteur est en pause
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
         this.elements.playPauseIcon.classList.add('fa-play');
-        this.elements.playerStatus.textContent = 'En pause.';
+        this.elements.playerStatus.textContent = 'Mis en pause.';
     }
 }
 
@@ -764,10 +765,6 @@ async preloadImages() {
         this.updateCounts();
     }
 
-    toggleMute() {
-        this.elements.audioPlayer.muted = !this.elements.audioPlayer.muted;
-        this.elements.volumeBtn.textContent = this.elements.audioPlayer.muted ? '🔈' : '🔊';
-    }
 
     handleVolumeChange(event) {
         const volume = event.target.value;
@@ -804,7 +801,6 @@ async preloadImages() {
         }
     }
 }
-
 
 
 // Initialisation de l'application

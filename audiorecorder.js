@@ -113,7 +113,7 @@ class AudioRecorder {
   
         this.startButton.classList.add('rec-effect');
         this.stopButton.style.display = 'block';
-        this.updateStatus('Enregistrement...');
+        this.updateStatus('Enregistrement en cours...');
       } catch (error) {
         console.error('Error starting recording:', error);
 
@@ -125,7 +125,7 @@ class AudioRecorder {
     stopRecording() {
       if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
         this.mediaRecorder.stop();
-        this.updateStatus('Enregistrement arreté, preparation de votre audio...');
+        this.updateStatus('Enregistrement arreté, préparation de votre audio en cours...');
         this.startButton.style.display = 'none';
        
         this.stopButton.style.display = 'none';
@@ -179,7 +179,8 @@ class AudioRecorder {
   
           const downloadLink = document.createElement('a');
           downloadLink.href = url;
-          downloadLink.download = `Birastat_${new Date().toISOString().replace(/:/g, '-')}.mp3`;
+          downloadLink.download = `Birastat_Record.${new Date().toLocaleString('fr-FR').replace(/:/g, '_')}.mp3`;
+
         downloadLink.innerHTML = '<i class="fas fa-download"></i>'
           downloadLink.className = 'download-link';
   
@@ -198,7 +199,7 @@ class AudioRecorder {
           this.downloadContainer.style.display='block'
         }, (error) => {
           console.error('Error decoding audio:', error);
-          this.updateStatus('La préparation de votre audio echoue', true);
+          this.updateStatus('Ooops! La préparation de votre audio echoue', true);
         });
       };
       reader.readAsArrayBuffer(blob);
