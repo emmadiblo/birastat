@@ -250,6 +250,30 @@ nav li a i{
   transition: width 0.3s ease;
 }
 
+.visiteurs{
+    margin: 20px;
+}
+
+#user-count {
+
+    font-weight: bold;
+    color: #FF5722;
+    font-size: 1.5em;
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.count {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
 </style>
 </head>
 <body>
@@ -356,9 +380,11 @@ nav li a i{
             </div>
         </section>
 
-
-        <h1>Bienvenue sur notre site !</h1>
-        <p> Nombre de visiteurs actuels: <span id="user-count">0</span></p>
+<div class="visiteurs">
+    <h2>Bienvenue sur notre site !</h2>
+    <p> Nombre de visiteurs depuis le 1/12/2024: <span id="user-count">0</span></p>
+</div>
+        
 
 <div class="player" id="player-content">
 
@@ -439,64 +465,82 @@ nav li a i{
         </script>
     </body>
     <script>
-        //compter les visiteurs
-        const firebaseConfig = {
-            apiKey: "AIzaSyC3cFYAck46dsgi37oBmjv20FiGqF1cRS8",
-            authDomain: "weber-d9ace.firebaseapp.com",
-            databaseURL: "https://weber-d9ace-default-rtdb.firebaseio.com",
-            projectId: "weber-d9ace",
-            storageBucket: "weber-d9ace.firebasestorage.app",
-            messagingSenderId: "865412247130",
-            appId: "1:865412247130:web:6aa1a7829d57c444e33263",
-            measurementId: "G-E5T6M2FHST"
-        };
+        //compteur utilisateurs
+   // Configuration de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyC3cFYAck46dsgi37oBmjv20FiGqF1cRS8",
+    authDomain: "weber-d9ace.firebaseapp.com",
+    databaseURL: "https://weber-d9ace-default-rtdb.firebaseio.com",
+    projectId: "weber-d9ace",
+    storageBucket: "weber-d9ace.firebasestorage.app",
+    messagingSenderId: "865412247130",
+    appId: "1:865412247130:web:6aa1a7829d57c444e33263",
+    measurementId: "G-E5T6M2FHST"
+};
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+// Initialiser Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-        // Fonction pour générer un ID unique pour le visiteur
-        function generateVisitorId() {
-            // Utilise une combinaison de timestamp et userAgent
-            let visitorId = localStorage.getItem('visitorId');
-            if (!visitorId) {
-                visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-                localStorage.setItem('visitorId', visitorId);
-            }
-            return visitorId;
-        }
+// Fonction pour générer un ID unique pour le visiteur
+function generateVisitorId() {
+    let visitorId = localStorage.getItem('visitorId');
+    if (!visitorId) {
+        visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        localStorage.setItem('visitorId', visitorId);
+    }
+    return visitorId;
+}
 
-        // Référence à la base de données
-        const visitorsRef = database.ref('visitors');
-        const visitorId = generateVisitorId();
+// Référence à la base de données
+const visitorsRef = database.ref('visitors');
+const visitorId = generateVisitorId();
 
-        // Vérifie si c'est un nouveau visiteur
-        visitorsRef.child(visitorId).once('value')
-            .then((snapshot) => {
-                if (!snapshot.exists()) {
-                    // Nouveau visiteur
-                    return visitorsRef.child(visitorId).set({
-                        firstVisit: firebase.database.ServerValue.TIMESTAMP
-                    });
-                }
-            })
-            .then(() => {
-                // Compte le nombre total de visiteurs uniques
-                return visitorsRef.once('value');
-            })
-            .then((snapshot) => {
-                const count = snapshot.numChildren();
-                document.getElementById('user-count').textContent = count;
-            })
-            .catch((error) => {
-                console.error("Erreur:", error);
+// Vérifie si c'est un nouveau visiteur
+visitorsRef.child(visitorId).once('value')
+    .then((snapshot) => {
+        if (!snapshot.exists()) {
+            // Nouveau visiteur
+            return visitorsRef.child(visitorId).set({
+                firstVisit: firebase.database.ServerValue.TIMESTAMP
             });
+        }
+    })
+    .then(() => {
+        // Compte le nombre total de visiteurs uniques
+        return visitorsRef.once('value');
+    })
+    .then((snapshot) => {
+        const count = snapshot.numChildren();
+        document.getElementById('user-count').textContent = count;
+    })
+    .catch((error) => {
+        console.error("Erreur:", error);
+    });
 
-        // Écoute les changements dans le nombre total de visiteurs
-        visitorsRef.on('value', (snapshot) => {
-            const count = snapshot.numChildren();
-            document.getElementById('user-count').textContent = count;
-        });
+// Écoute les changements dans le nombre total de visiteurs
+visitorsRef.on('value', (snapshot) => {
+    const count = snapshot.numChildren();
+    document.getElementById('user-count').textContent = count;
+});
+
+// Fonction pour mettre à jour le nombre de visiteurs avec animation
+function updateVisitorCount(count) {
+    const userCountElement = document.getElementById('user-count');
+    userCountElement.classList.remove('show');
+    
+    // Mettre à jour le texte après une courte pause pour l'animation
+    setTimeout(() => {
+        userCountElement.textContent = count;
+        userCountElement.classList.add('show');
+    }, 300); // Délai correspondant à l'animation
+}
+
+// Écoute les changements dans le nombre total de visiteurs
+visitorsRef.on('value', (snapshot) => {
+    const count = snapshot.numChildren();
+    updateVisitorCount(count);
+});
     </script>
     <script src="script.js"></script>
     <script src="audiorecorder.js"></script>

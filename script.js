@@ -340,6 +340,7 @@ class RadioApp {
             genreFilter: document.getElementById('genreFilter'), 
             languageFilter: document.getElementById('languageFilter'),
             loadMoreBtn: document.getElementById('loadMore'),
+            mic: document.getElementById('start'),
             volumeBtn: document.getElementById('volumeBtn'),
             volumeSlider: document.getElementById('volumeSlider'),
            
@@ -492,26 +493,36 @@ async initialize() {
 setLoadingState(isLoading) {
     this.isLoading = isLoading;
 
+  
+         this.elements.playerStatus.textContent = "Cliquer pour ecouter."
+
+
     if (isLoading) {
         // Lorsque le lecteur est en cours de chargement
         this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
         this.elements.playerStatus.textContent = 'Chargement en cours...';
+
     } else if (this.hasError) {
         // En cas d'erreur
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-play');
         this.elements.playerStatus.textContent = "Erreur de lecture, Actualisez sinon choisissez l'autre station.";
+        //masquer le recordeur
+        this.elements.mic.style.display="none"
     } else if (this.isPlaying) {
         // Lorsque le lecteur est en lecture
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
         this.elements.playPauseIcon.classList.add('fa-pause');
         this.elements.playerStatus.textContent = 'Live...';
+         //afficher le recordeur
+        this.elements.mic.style.display="block"
     } else {
         // Lorsque le lecteur est en pause
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
         this.elements.playPauseIcon.classList.add('fa-play');
         this.elements.playerStatus.textContent = 'Mis en pause.';
+  
     }
 }
 
@@ -805,3 +816,7 @@ async preloadImages() {
 
 // Initialisation de l'application
 const app = new RadioApp();  
+
+
+
+
