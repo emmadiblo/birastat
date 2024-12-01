@@ -440,7 +440,7 @@ nav li a i{
     </body>
     <script>
         //compter les visiteurs
-            const firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyC3cFYAck46dsgi37oBmjv20FiGqF1cRS8",
             authDomain: "weber-d9ace.firebaseapp.com",
             databaseURL: "https://weber-d9ace-default-rtdb.firebaseio.com",
@@ -451,56 +451,52 @@ nav li a i{
             measurementId: "G-E5T6M2FHST"
         };
 
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Fonction pour obtenir l'identifiant unique du visiteur
-        async function getVisitorId() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return btoa(data.ip); // Encode l'IP en base64
-            } catch (error) {
-                // Fallback si l'IP ne peut pas être obtenue
-                return btoa(navigator.userAgent + new Date().getDate());
+        // Fonction pour générer un ID unique pour le visiteur
+        function generateVisitorId() {
+            // Utilise une combinaison de timestamp et userAgent
+            let visitorId = localStorage.getItem('visitorId');
+            if (!visitorId) {
+                visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+                localStorage.setItem('visitorId', visitorId);
             }
+            return visitorId;
         }
 
-        // Fonction pour gérer les visiteurs uniques
-        async function handleUniqueVisitor() {
-            const visitorId = await getVisitorId();
-            const visitorRef = database.ref('sites/birastat/visitors');
-            const totalCountRef = database.ref('sites/birastat/totalUniqueVisitors');
+        // Référence à la base de données
+        const visitorsRef = database.ref('visitors');
+        const visitorId = generateVisitorId();
 
-            // Vérifie si le visiteur existe déjà
-            visitorRef.child(visitorId).once('value', async (snapshot) => {
+        // Vérifie si c'est un nouveau visiteur
+        visitorsRef.child(visitorId).once('value')
+            .then((snapshot) => {
                 if (!snapshot.exists()) {
                     // Nouveau visiteur
-                    await visitorRef.child(visitorId).set({
-                        timestamp: firebase.database.ServerValue.TIMESTAMP,
-                        lastVisit: firebase.database.ServerValue.TIMESTAMP
-                    });
-
-                    // Incrémente le compteur total
-                    totalCountRef.transaction(currentCount => {
-                        return (currentCount || 0) + 1;
-                    });
-                } else {
-                    // Met à jour le timestamp de la dernière visite
-                    visitorRef.child(visitorId).update({
-                        lastVisit: firebase.database.ServerValue.TIMESTAMP
+                    return visitorsRef.child(visitorId).set({
+                        firstVisit: firebase.database.ServerValue.TIMESTAMP
                     });
                 }
+            })
+            .then(() => {
+                // Compte le nombre total de visiteurs uniques
+                return visitorsRef.once('value');
+            })
+            .then((snapshot) => {
+                const count = snapshot.numChildren();
+                document.getElementById('user-count').textContent = count;
+            })
+            .catch((error) => {
+                console.error("Erreur:", error);
             });
 
-            // Affiche le nombre total de visiteurs uniques
-            totalCountRef.on('value', (snapshot) => {
-                document.getElementById('user-count').textContent = snapshot.val() || 0;
-            });
-        }
-
-        // Démarre le comptage
-        handleUniqueVisitor();
+        // Écoute les changements dans le nombre total de visiteurs
+        visitorsRef.on('value', (snapshot) => {
+            const count = snapshot.numChildren();
+            document.getElementById('user-count').textContent = count;
+        });
     </script>
     <script src="script.js"></script>
     <script src="audiorecorder.js"></script>
