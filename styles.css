@@ -101,9 +101,9 @@ label {
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            z-index: 9999;
+            z-index: 9900;
         }
-.loader {z-index: 9000;
+.loader {z-index: 9990;
             width: 145px;
             height: 140px;
             --c: linear-gradient(#ff1313 0 0);
@@ -339,7 +339,7 @@ background-color: var(--background-color);
             top: 50%;
             left: 50%; 
             transform: translate(-50%, -50%);
-                z-index: 9999;
+                z-index: 9000;
             }
 .fa-spinner {
     animation: spin 1s linear infinite;
@@ -478,7 +478,7 @@ align-items: center;
 
 input[type=range] {
     display: flex;
-    margin-left: -10px;
+    margin: 0px;
     width: 105%;
     height: 0.5rem; /* @ot-h (3rem * 0.5) */
     -webkit-appearance: none !important;
@@ -528,11 +528,11 @@ datalist {
 }
 
 datalist > option {
+    font-size: 13px;
     z-index: 1;
     display: flex;
     position: relative;
     padding: 0;
-    border: 1px solid var(--option-color);
     border-radius: 0.5rem;
     text-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
