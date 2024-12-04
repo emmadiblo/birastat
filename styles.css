@@ -135,23 +135,27 @@ label {
 
 .filters {
      padding: 10px;
-
+position: sticky;
+top: 0;
+z-index: 9999;
     background-color: var(--background-color);
     display: flex;
     margin: 10px 0;
-    flex-wrap: wrap;
+    justify-content: space-between;
         }
 
 .search-bar {
-            flex: 1 1 30px;
-            position: relative;
+    margin-left: 10px;
         }
+.logo{
+    display: flex;
+    justify-content: space-between;
+}
 
 .search-bar input {
-            width: 100%;
-            padding: 12px 40px 12px 12px;
+            width: fit-content;
+            padding: 12px;
             border: 2px solid var(--text-color);
-            border-radius: var(--border-radius);
             font-size: 16px;
             transition: border-color 0.3s;
         }
@@ -554,3 +558,5 @@ datalist > option:before {
     color: var(--text-color); 
    margin-top: 16px; 
 }
+
+

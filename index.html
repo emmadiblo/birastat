@@ -302,31 +302,29 @@ nav li a i{
       <div class="filters">
 
                 <div class="logo">
-                  <h1 class="title">Birastat</h1>
-                </div>
-
-
+                    
+                  <h1 class="title" >Birastat</h1>
+  
                 <div class="search-bar">
                     <input type="text" id="search" placeholder="Rechercher par nom, genre ou pays...">
                     <button id="clearSearch" class="clear-search" style="display: none;">✖</button>
                </div>
-
+            </div>
            
                 <div class="filter-group">
 
-                   <div class="label">Pays</div>
+        
              
                     <select id="countryFilter">
                         <option value="">Tous les pays</option>
                     </select>
 
-                    <div class="label">Genre</div>
+        
 
                     <select id="genreFilter">
                         <option value="">Tous les genres</option>
                     </select>
 
-                    <div class="label">Langue</div>
                     <select id="languageFilter">
                         <option value="">Toutes les langues</option>
                     </select>
@@ -542,8 +540,8 @@ visitorsRef.on('value', (snapshot) => {
     updateVisitorCount(count);
 });
     </script>
-    <script src="script.js"></script>
-    <script src="audiorecorder.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/audiorecorder.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
   
     <script>
