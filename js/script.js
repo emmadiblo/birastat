@@ -22,7 +22,7 @@ const stations = [
     {
         id: 3,
         name: "Radio Maria Burundi",
-        url: "http://dreamsiteradiocp2.com:8082/stream",
+        url: "https://dreamsiteradiocp2.com:8082/stream",
         logoUrl: "https://www.radiomaria.bi/wp-content/themes/radiomaria/img/maria-footer.jpg",
         country: "Burundi", 
         description: "Ijwi ry'Imana iwanyu, ijwi ry'Imana iwacu",
@@ -42,7 +42,7 @@ const stations = [
     {
         id: 5,
         name: "Radio Bonesha",
-        url: "http://a9.asurahosting.com:8950/radio.mp3",
+        url: "https://a9.asurahosting.com:8950/radio.mp3",
         logoUrl: "https://pbs.twimg.com/profile_images/498881934148112384/Y6c6B-qC_400x400.jpeg",
         country: "Burundi", 
         description: "Bonesha FM",
@@ -152,7 +152,7 @@ const stations = [
 
     id: 15,
     name: "Radio Izere FM",
-    url: "http://5.189.189.39:8000/stream",
+    url: "https://5.189.189.39:8000/stream",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/3/80073.v8.png",
     country: "Burundi", 
     description: "Rumonge; Radio Izere FM",
@@ -300,7 +300,7 @@ const stations = [
 
     id: 28,
     name: "Radio Rwanda",
-    url: "http://listen.rba.co.rw:8000/;?type=http&nocache=1102",
+    url: "https://listen.rba.co.rw:8000/;?type=http&nocache=1102",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/3/47373.v5.png",
     country: "Rwanda", 
     description: "Radio Rwanda (Radiyo Rwanda) is a broadcast radio station in Kigali, Rwanda, providing News, Talk and Information as part of the Rwandan Office of Information (ORINFOR), a government information agency.",
@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "http://listen.rba.co.rw:8080/;?type=http&nocache=72236",
+    url: "https://listen.rba.co.rw:8080/;?type=http&nocache=72236",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -322,7 +322,7 @@ const stations = [
 
     id: 30,
     name: "Radio Isango Star",
-    url: "http://80.241.215.175:8000/;?type=http&nocache=1287",
+    url: "https://80.241.215.175:8000/;?type=http&nocache=1287",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47491.v5.png",
     country: "Rwanda", 
     description: "Kigali, 91.5 MHz FM.",
@@ -333,7 +333,7 @@ const stations = [
 
     id: 31,
     name: "Flash FM",
-    url: "http://80.241.215.175:7410/;?type=http&nocache=3105",
+    url: "https://80.241.215.175:7410/;?type=http&nocache=3105",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/4/47494.v11.png",
     country: "Rwanda", 
     description: "Radio Flash FM 89.2 is a broadcast Radio station from Kigali, Rwanda, providing news, current affairs, informative jounalism on local, national and international matters, sports and the best mix of music..",
@@ -344,7 +344,7 @@ const stations = [
 
     id: 32,
     name: "KT Radio",
-    url: "http://197.243.1.130:8006/k2dlivemp3",
+    url: "https://197.243.1.130:8006/k2dlivemp3",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/9/47649.v5.png",
     country: "Rwanda", 
     description: "KT Radio is an independent news, information and entertainment radio station, Kigali, 96.7-107.9 MHz FM.",
@@ -355,7 +355,7 @@ const stations = [
 
     id: 33,
     name: "Radio Maria Rwanda",
-    url: "http://dreamsiteradiocp2.com:8098/stream",
+    url: "https://dreamsiteradiocp2.com:8098/stream",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/2/47642.v5.png",
     country: "Rwanda", 
     description: "Une voix chretienne qui vous accompagne",
@@ -388,7 +388,7 @@ const stations = [
 
     id: 36,
     name: "Royal FM",
-    url: "http://80.241.215.175:3000/;?type=http&nocache=1094",
+    url: "https://80.241.215.175:3000/;?type=http&nocache=1094",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/47648.v5.png",
     country: "Rwanda", 
     description: "94.3 ROYAL FM,Better information,the best Music",
@@ -410,7 +410,7 @@ const stations = [
 
     id: 38,
     name: "Radio Inteko",
-    url: "http://listen.rba.co.rw:7000/;?type=http&nocache=314",
+    url: "https://listen.rba.co.rw:7000/;?type=http&nocache=314",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47405.v5.png",
     country: "Rwanda", 
     description: "Kigali, 101.5 MHz FM",
@@ -432,7 +432,7 @@ const stations = [
 
     id: 40,
     name: "Radio Musanze",
-    url: "http://listen.rba.co.rw:5000/;?type=http&nocache=1402",
+    url: "https://listen.rba.co.rw:5000/;?type=http&nocache=1402",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/109025.v6.png",
     country: "Rwanda", 
     description: "Ruhengeri, 98.4 MHz FM",
@@ -443,7 +443,7 @@ const stations = [
 
     id: 41,
     name: "Radio Huye",
-    url: "http://listen.rba.co.rw:5050/;?type=http&nocache=218",
+    url: "https://listen.rba.co.rw:5050/;?type=http&nocache=218",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/6/109026.v8.png",
     country: "Rwanda", 
     description: "Huye, 100.4 MHz FM",
@@ -454,7 +454,7 @@ const stations = [
 
     id: 42,
     name: "Radio Rubavu",
-    url: "http://listen.rba.co.rw:4000/;?type=http&nocache=276",
+    url: "https://listen.rba.co.rw:4000/;?type=http&nocache=276",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47451.v3.png",
     country: "Rwanda", 
     description: "Kigali, 95.1 MHz FM",
@@ -465,7 +465,7 @@ const stations = [
 
     id: 43,
     name: "Radio Nyagatare",
-    url: "http://listen.rba.co.rw:3050/rcnyagatare",
+    url: "https://listen.rba.co.rw:3050/rcnyagatare",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/109028.v5.png",
     country: "Rwanda", 
     description: "Nyagatare, 95.5 MHz FM",
