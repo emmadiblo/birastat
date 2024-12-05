@@ -181,7 +181,7 @@ const stations = [
     logoUrl: "https://cdn.onlineradiobox.com/img/l/6/134236.v2.png",
     country: "Burundi", 
     description: "Swahili gospel",
-    genre: "Gospel",
+    genre: "Musique",
     language: "Kiswahili"
 },
 {
@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "http://listen.rba.co.rw:8080/",
+    url: "http://listen.rba.co.rw:8080/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -322,7 +322,7 @@ const stations = [
 
     id: 30,
     name: "Radio Isango Star",
-    url: "http://80.241.215.175:8000/;",
+    url: "http://80.241.215.175:8000/;?type=http&nocache=1284",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47491.v5.png",
     country: "Rwanda", 
     description: "Kigali, 91.5 MHz FM.",
@@ -354,13 +354,13 @@ const stations = [
 {
 
     id: 33,
-    name: "Radio Salus",
-    url: "http://salus.ur.ac.rw:8006/saluslive",
-    logoUrl: "https://cdn.onlineradiobox.com/img/l/0/47500.v8.png",
+    name: "Radio Maria Rwanda",
+    url: "http://dreamsiteradiocp2.com:8098/stream/;",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/2/47642.v5.png",
     country: "Rwanda", 
-    description: "Radio Salus is the National University of Rwanda radio station, covering about 85% of the whole country",
-    genre: "Musique",
-    language: "Kinyarwanda"
+    description: "Une voix chretienne qui vous accompagne",
+    genre: "Religion",
+    language: "Kinyarwanda,Français"
 },
 {
 
@@ -384,8 +384,94 @@ const stations = [
     genre: "Musique",
     language: "Kinyarwanda"
 },
+{
 
+    id: 36,
+    name: "Royal FM",
+    url: "http://80.241.215.175:3000/;stream.nsv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/47648.v5.png",
+    country: "Rwanda", 
+    description: "94.3 ROYAL FM,Better information,the best Music",
+    genre: "Musique",
+    language: "Kinyarwanda,English"
+},
+{
 
+    id: 37,
+    name: "Energy Radio",
+    url: "https://eu7.fastcast4u.com/proxy/energy?mp=/1",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/77686.v11.png",
+    country: "Rwanda", 
+    description: "Ruhengeri, 88.8 MHz FM",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 38,
+    name: "Radio Inteko",
+    url: "http://listen.rba.co.rw:7000/;",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47405.v5.png",
+    country: "Rwanda", 
+    description: "Kigali, 101.5 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 39,
+    name: "Radio Rusizi",
+    url: "https://streaming.shoutcast.com/radio-rusizi",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/7/109027.v6.png",
+    country: "Rwanda", 
+    description: "Kigali, 89.8 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 40,
+    name: "Radio Musanze",
+    url: "http://listen.rba.co.rw:5000/;",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/5/109025.v6.png",
+    country: "Rwanda", 
+    description: "Ruhengeri, 98.4 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 41,
+    name: "Radio Huye",
+    url: "http://listen.rba.co.rw:5050/;",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/109026.v8.png",
+    country: "Rwanda", 
+    description: "Huye, 100.4 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 42,
+    name: "Radio Rubavu",
+    url: "http://listen.rba.co.rw:4000/;",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47451.v3.png",
+    country: "Rwanda", 
+    description: "Kigali, 95.1 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 43,
+    name: "Radio Nyagatare",
+    url: "http://listen.rba.co.rw:3050/rcnyagatare",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/109028.v5.png",
+    country: "Rwanda", 
+    description: "Nyagatare, 95.5 MHz FM",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
 ];
 
 //genres: actualités,national,musique, sports

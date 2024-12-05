@@ -32,15 +32,23 @@
     --thumb-color-end: #706048; /* Fin de la couleur du curseur en mode nuit */
     --option-color: hsl(45, 80%, 70%); /* Couleur des options en mode nuit */
 }
+@font-face {
+    font-family: Ubuntu;
+    src: url('fonts/Ubuntu-R.ttf') format('truetype');
+    font-weight: normal; /*ou bold */ 
+    font-style: normal; /* ou italic */
+}
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif; 
 }
 
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     background: var(--background-color);
     color: var(--text-color);
 
@@ -103,7 +111,7 @@ label {
             align-items: center; 
             z-index: 9900;
         }
-.loader {z-index: 9990;
+.loader {z-index: 9900;
             width: 145px;
             height: 140px;
             --c: linear-gradient(#ff1313 0 0);
@@ -127,25 +135,22 @@ label {
           }
           
  .container {
-         
-            margin: 0 auto;
-            padding: 20px;
-            margin-bottom: 150px;
+            padding: 10px;
+            margin-bottom: auto;
         }
 
 .filters {
-     padding: 10px;
+
 position: sticky;
 top: 0;
-z-index: 9999;
-    background-color: var(--background-color);
+z-index: 9000;
     display: flex;
     margin: 10px 0;
     justify-content: space-between;
         }
 
 .search-bar {
-    margin-left: 10px;
+    margin-left: auto;
         }
 .logo{
     display: flex;
@@ -153,11 +158,11 @@ z-index: 9999;
 }
 
 .search-bar input {
-            width: fit-content;
+             width: auto;
             padding: 12px;
             border: 2px solid var(--text-color);
-            font-size: 16px;
             transition: border-color 0.3s;
+            font-weight: 600;
         }
 
 .search-bar input:focus {
@@ -392,17 +397,18 @@ background-color: var(--background-color);
 }
 
 .player {
-    position: fixed;
+    position: sticky;
     background-color: var(--background-color);
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
     z-index: 1000;
     bottom: 0;
-    right: 0;
+    margin-left: auto;
     box-sizing: border-box;
-    max-height: 230px;
+    max-height: 220px;
     padding-bottom: 30px; 
-        padding: 10px;
+     padding: 10px;
+    width: fit-content;
  
 }
 
@@ -483,7 +489,7 @@ align-items: center;
 input[type=range] {
     display: flex;
     margin: 0px;
-    width: 105%;
+    width: 100%;
     height: 0.5rem; /* @ot-h (3rem * 0.5) */
     -webkit-appearance: none !important;
     background: linear-gradient(180deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
