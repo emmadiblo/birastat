@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "https://listen.rba.co.rw:8080/;",
+    url: "http://listen.rba.co.rw:8080/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -322,7 +322,7 @@ const stations = [
 
     id: 30,
     name: "Radio Isango Star",
-    url: "https://80.241.215.175:8000/;",
+    url: "http://80.241.215.175:8000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47491.v5.png",
     country: "Rwanda", 
     description: "Kigali, 91.5 MHz FM.",
@@ -389,7 +389,7 @@ const stations = [
 
     id: 36,
     name: "Royal FM",
-    url: "https://80.241.215.175:3000/;",
+    url: "http://80.241.215.175:3000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/47648.v5.png",
     country: "Rwanda", 
     description: "94.3 ROYAL FM,Better information,the best Music",
@@ -411,7 +411,7 @@ const stations = [
 
     id: 38,
     name: "Radio Inteko",
-    url: "https://listen.rba.co.rw:7000/;?",
+    url: "http://listen.rba.co.rw:7000/;?",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47405.v5.png",
     country: "Rwanda", 
     description: "Kigali, 101.5 MHz FM",
@@ -433,7 +433,7 @@ const stations = [
 
     id: 40,
     name: "Radio Musanze",
-    url: "https://listen.rba.co.rw:5000/;",
+    url: "http://listen.rba.co.rw:5000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/109025.v6.png",
     country: "Rwanda", 
     description: "Ruhengeri, 98.4 MHz FM",
@@ -444,7 +444,7 @@ const stations = [
 
     id: 41,
     name: "Radio Huye",
-    url: "https://listen.rba.co.rw:5050/;",
+    url: "http://listen.rba.co.rw:5050/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/6/109026.v8.png",
     country: "Rwanda", 
     description: "Huye, 100.4 MHz FM",
@@ -455,7 +455,7 @@ const stations = [
 
     id: 42,
     name: "Radio Rubavu",
-    url: "https://listen.rba.co.rw:4000/;",
+    url: "http://listen.rba.co.rw:4000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47451.v3.png",
     country: "Rwanda", 
     description: "Kigali, 95.1 MHz FM",
@@ -466,7 +466,7 @@ const stations = [
 
     id: 43,
     name: "Radio Nyagatare",
-    url: "https://listen.rba.co.rw:3050/rcnyagatare",
+    url: "http://listen.rba.co.rw:3050/rcnyagatare",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/109028.v5.png",
     country: "Rwanda", 
     description: "Nyagatare, 95.5 MHz FM",
