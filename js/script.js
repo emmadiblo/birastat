@@ -300,10 +300,10 @@ const stations = [
 
     id: 28,
     name: "Radio Rwanda",
-    url: "https://listen.rba.co.rw:8000/;?type=http&nocache=1102",
+    url: "http://listen.rba.co.rw:8000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/3/47373.v5.png",
     country: "Rwanda", 
-    description: "Radio Rwanda (Radiyo Rwanda) is a broadcast radio station in Kigali, Rwanda, providing News, Talk and Information as part of the Rwandan Office of Information (ORINFOR), a government information agency.",
+    description: "Radio Rwanda hafi yawe.",
     genre: "National",
     language: "Kinyarwanda"
 },
@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "https://listen.rba.co.rw:8080/;?type=http&nocache=72236",
+    url: "https://listen.rba.co.rw:8080/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -322,7 +322,7 @@ const stations = [
 
     id: 30,
     name: "Radio Isango Star",
-    url: "https://80.241.215.175:8000/;?type=http&nocache=1287",
+    url: "https://80.241.215.175:8000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47491.v5.png",
     country: "Rwanda", 
     description: "Kigali, 91.5 MHz FM.",
@@ -333,7 +333,8 @@ const stations = [
 
     id: 31,
     name: "Flash FM",
-    url: "https://80.241.215.175:7410/;?type=http&nocache=3105",
+    
+    url: "http://80.241.215.175:7410/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/4/47494.v11.png",
     country: "Rwanda", 
     description: "Radio Flash FM 89.2 is a broadcast Radio station from Kigali, Rwanda, providing news, current affairs, informative jounalism on local, national and international matters, sports and the best mix of music..",
@@ -388,7 +389,7 @@ const stations = [
 
     id: 36,
     name: "Royal FM",
-    url: "https://80.241.215.175:3000/;?type=http&nocache=1094",
+    url: "https://80.241.215.175:3000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/47648.v5.png",
     country: "Rwanda", 
     description: "94.3 ROYAL FM,Better information,the best Music",
@@ -410,7 +411,7 @@ const stations = [
 
     id: 38,
     name: "Radio Inteko",
-    url: "https://listen.rba.co.rw:7000/;?type=http&nocache=314",
+    url: "https://listen.rba.co.rw:7000/;?",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47405.v5.png",
     country: "Rwanda", 
     description: "Kigali, 101.5 MHz FM",
@@ -432,7 +433,7 @@ const stations = [
 
     id: 40,
     name: "Radio Musanze",
-    url: "https://listen.rba.co.rw:5000/;?type=http&nocache=1402",
+    url: "https://listen.rba.co.rw:5000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/109025.v6.png",
     country: "Rwanda", 
     description: "Ruhengeri, 98.4 MHz FM",
@@ -443,7 +444,7 @@ const stations = [
 
     id: 41,
     name: "Radio Huye",
-    url: "https://listen.rba.co.rw:5050/;?type=http&nocache=218",
+    url: "https://listen.rba.co.rw:5050/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/6/109026.v8.png",
     country: "Rwanda", 
     description: "Huye, 100.4 MHz FM",
@@ -454,7 +455,7 @@ const stations = [
 
     id: 42,
     name: "Radio Rubavu",
-    url: "https://listen.rba.co.rw:4000/;?type=http&nocache=276",
+    url: "https://listen.rba.co.rw:4000/;",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47451.v3.png",
     country: "Rwanda", 
     description: "Kigali, 95.1 MHz FM",
@@ -863,10 +864,35 @@ async playStation(station, forcePlay = false) {
         if (forcePlay || this.elements.audioPlayer.paused) {
             this.elements.audioPlayer.src = station.url;
             await this.elements.audioPlayer.play();
+
+            // Configurer MediaSession
+            this.setupMediaSession(station);
         }
     } catch (error) {
         console.error('Error playing station:', error);
         this.handlePlaybackError(error);
+    }
+}
+
+
+
+setupMediaSession(station) {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: this.station.name,
+            artist: this.station.country,
+            album: this.station.genre,
+            artwork: [
+                { src: station.logoUrl, sizes: '96x96', type: 'image/png' },
+                { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
+                { src: station.logoUrl, sizes: '192x192', type: 'image/png' },
+                { src: station.logoUrl, sizes: '256x256', type: 'image/png' },
+                { src: station.logoUrl, sizes: '384x384', type: 'image/png' },
+                { src: station.logoUrl, sizes: '512x512', type: 'image/png' },
+            ],
+        });
+
+
     }
 }
 
