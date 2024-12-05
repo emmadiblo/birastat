@@ -474,7 +474,7 @@ const stations = [
 },
 ];
 
-//genres: actualités,national,musique, sports
+//genres: actualités,national,musique, sports,Religion
 
 class RadioApp {
     constructor() {
