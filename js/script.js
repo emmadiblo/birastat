@@ -1137,7 +1137,7 @@ async playStation(station, forcePlay = false) {
 
         // Forcer la lecture ou détecter si le lecteur est en pause
         if (forcePlay || this.elements.audioPlayer.paused) {
-             this.elements.audioPlayer.src = 'https://cors-anywhere.herokuapp.com/' + station.url;
+          this.elements.audioPlayer.src = 'https://thingproxy.freeboard.io/fetch/' + station.url;
             await this.elements.audioPlayer.play();
 
             // Configurer MediaSession
@@ -1166,9 +1166,16 @@ setupMediaSession(station) {
                 { src: station.logoUrl, sizes: '512x512', type: 'image/png' },
             ],
         });
-
+    navigator.mediaSession.setActionHandler('play', () => {
+    this.elements.audioPlayer.play();
+});
+navigator.mediaSession.setActionHandler('pause', () => {
+    this.elements.audioPlayer.pause();
+});
 
     }
+
+
 }
 
 updatePlayState() {
@@ -1316,7 +1323,7 @@ async preloadImages() {
             this.elements.currentStationLogo.src = station.logoUrl;
             this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
-           this.elements.audioPlayer.src = 'https://cors-anywhere.herokuapp.com/' + station.url;
+           this.elements.audioPlayer.src = 'https://thingproxy.freeboard.io/fetch/' + station.url;
             await this.elements.audioPlayer.play();
             
             this.isPlaying = true;
