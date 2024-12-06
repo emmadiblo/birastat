@@ -300,7 +300,7 @@ const stations = [
 
     id: 28,
     name: "Radio Rwanda",
-    url: "http://listen.rba.co.rw:8000/;",
+    url: "http://listen.rba.co.rw:8000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/3/47373.v5.png",
     country: "Rwanda", 
     description: "Radio Rwanda hafi yawe.",
@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "http://listen.rba.co.rw:8080/;",
+    url: "hhttp://listen.rba.co.rw:8080/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -322,7 +322,7 @@ const stations = [
 
     id: 30,
     name: "Radio Isango Star",
-    url: "http://80.241.215.175:8000/;",
+    url: "http://80.241.215.175:8000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47491.v5.png",
     country: "Rwanda", 
     description: "Kigali, 91.5 MHz FM.",
@@ -334,7 +334,7 @@ const stations = [
     id: 31,
     name: "Flash FM",
     
-    url: "http://80.241.215.175:7410/;",
+    url: "http://80.241.215.175:7410/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/4/47494.v11.png",
     country: "Rwanda", 
     description: "Radio Flash FM 89.2 is a broadcast Radio station from Kigali, Rwanda, providing news, current affairs, informative jounalism on local, national and international matters, sports and the best mix of music..",
@@ -389,7 +389,7 @@ const stations = [
 
     id: 36,
     name: "Royal FM",
-    url: "http://80.241.215.175:3000/;",
+    url: "http://80.241.215.175:3000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/47648.v5.png",
     country: "Rwanda", 
     description: "94.3 ROYAL FM,Better information,the best Music",
@@ -411,7 +411,7 @@ const stations = [
 
     id: 38,
     name: "Radio Inteko",
-    url: "http://listen.rba.co.rw:7000/;?",
+    url: "http://listen.rba.co.rw:7000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47405.v5.png",
     country: "Rwanda", 
     description: "Kigali, 101.5 MHz FM",
@@ -433,7 +433,7 @@ const stations = [
 
     id: 40,
     name: "Radio Musanze",
-    url: "http://listen.rba.co.rw:5000/;",
+    url: "http://listen.rba.co.rw:5000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/109025.v6.png",
     country: "Rwanda", 
     description: "Ruhengeri, 98.4 MHz FM",
@@ -444,7 +444,7 @@ const stations = [
 
     id: 41,
     name: "Radio Huye",
-    url: "http://listen.rba.co.rw:5050/;",
+    url: "http://listen.rba.co.rw:5050/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/6/109026.v8.png",
     country: "Rwanda", 
     description: "Huye, 100.4 MHz FM",
@@ -455,7 +455,7 @@ const stations = [
 
     id: 42,
     name: "Radio Rubavu",
-    url: "http://listen.rba.co.rw:4000/;",
+    url: "http://listen.rba.co.rw:4000/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/1/47451.v3.png",
     country: "Rwanda", 
     description: "Kigali, 95.1 MHz FM",
@@ -571,6 +571,281 @@ const stations = [
     language: "Kinyarwanda"
 },
 
+{
+
+    id: 52,
+    name: "Radio5 Rwanda",
+    url: "http://listen.rba.co.rw:8000/;stream.nsv",
+    logoUrl: "https://station-images.prod.radio-api.net/300/radio5rwandax3.jpeg?version=1d09c898fdb55c7b51bef0ac87d7f697",
+    country: "Rwanda", 
+    description: "The best music",
+    genre: "Musique",
+    language: "Kinyarwanda,English"
+},
+{
+
+    id: 53,
+    name: "Power FM",
+    url: "https://stream-154.zeno.fm/mcecy240vhhvv",
+    logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/qbnJPzHzGc.jpg",
+    country: "Rwanda", 
+    description: "104.1 Power FM",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 54,
+    name: "BTN Radio",
+    url: "https://stream-176.zeno.fm/0a2rkwhxwd0uv",
+    logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/aj3aaqfzvwmk.png",
+    country: "Rwanda", 
+    description: "BIG TELEVISION NETWORK RADIO is a Rwanda's leading Informative, Business and Entertainment",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 55,
+    name: "Best FM Radio Rwanda",
+    url: "https://stream-176.zeno.fm/gqe8kcdawp8uv",
+    logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/rvx9kmhkxlsn.png",
+    country: "Rwanda", 
+    description: "Best FM Radio Rwanda is an entertainment ,business, music & Religional radio",
+    genre: "Religion",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 56,
+    name: "Ikosora Radio",
+    url: "https://stream-176.zeno.fm/apzbkv76zf9uv",
+    logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/UwKcFXtf6L.jpg",
+    country: "Rwanda", 
+    description: "Turi Ikosora",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 57,
+    name: "Radio1",
+    url: "http://80.241.215.175:5000/;stream.nsv",
+    logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/pf4a3ad8seg8.jpg",
+    country: "Rwanda", 
+    description: "Radio 1",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 58,
+    name: "Nufashwa Yafasha Radio",
+    url: "https://stream-172.zeno.fm/b6n0aqzvdhruv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/4/82514.v4.png",
+    country: "Rwanda", 
+    description: "Our Community radio station provides a new voice for hundreds of local communities across the Rwanda.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 59,
+    name: "KU Bright FM",
+    url: "https://stream-175.zeno.fm/00dfaapsmd0uv",
+    logoUrl: "https://scontent.fnbo18-1.fna.fbcdn.net/v/t39.30808-1/310666507_478698027611441_4086646909033983464_n.jpg",
+    country: "Rwanda", 
+    description: "Kigali Updates",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 60,
+    name: "Umucyo Radio",
+    url: "http://80.241.215.175:4000/;stream.nsv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/2/47492.v6.png",
+    country: "Rwanda", 
+    description: "Umucyo radio is the first Christian radio station in Rwanda.",
+    genre: "Religion",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 61,
+    name: "Favor Radio",
+    url: "https://a10.asurahosting.com:7660/rwanda.mp3",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/139426.v7.png",
+    country: "Rwanda", 
+    description: "non-denominational radio",
+    genre: "Religion",
+    language: "Kiswahili"
+},
+{
+
+    id: 62,
+    name: "Capital Fm Kigali",
+    url: "https://stream-175.zeno.fm/wmf5p1176juvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/4/121244.v5.png",
+    country: "Rwanda", 
+    description: "A youth oriented station playing Hit Music.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 63,
+    name: "Ibyiringiro Byacu",
+    url: "https://stream-153.zeno.fm/zwav88by1ehvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/4/132294.v2.png",
+    country: "Rwanda", 
+    description: "Ibyiringiro Byacu Radio/tv.",
+    genre: "Religion",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 64,
+    name: "CNM Station",
+    url: "https://stream-153.zeno.fm/ewcnhntrbq8uv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/7/101847.v4.png",
+    country: "Rwanda", 
+    description: "We exist to be “Carriers of His Love, Revealers of His Compassion and Healers to the Nations“.",
+    genre: "Religion",
+    language: "English"
+},
+{
+
+    id: 65,
+    name: "Hose Radio",
+    url: "https://stream-173.zeno.fm/ys02hune31zuv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/1/89591.v2.png",
+    country: "Rwanda", 
+    description: "It's all about entertainment.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 66,
+    name: "Kigali yacu",
+    url: "https://stream-173.zeno.fm/1m29g6tg308uv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/9/105639.v2.png",
+    country: "Rwanda", 
+    description: "kigali yacu online Radio.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 67,
+    name: "Kigali Groove Radio",
+    url: "https://stream-175.zeno.fm/wmf5p1176juvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/139746.v1.png",
+    country: "Rwanda", 
+    description: "Feel the Beat of Kigali, Embrace the Journey",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 68,
+    name: "MenyaTips Radio",
+    url: "https://stream-174.zeno.fm/hgezozdttrrvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/120468.v5.png",
+    country: "Rwanda", 
+    description: "The best station to maximize your needs.",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 69,
+    name: "Ubuvumbuzi Radio",
+    url: "https://stream-175.zeno.fm/xrx74pv20f9uv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/5/124055.v8.png",
+    country: "Rwanda", 
+    description: "helps people enjoy and feel comfortable day per day.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 70,
+    name: "Classic Fm Kigali",
+    url: "https://stream-173.zeno.fm/4yvxkrz7sjpvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/2/125792.v2.png",
+    country: "Rwanda", 
+    description: "CLASSIC FM, Feel the Music of a Generation African best Radio station",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 71,
+    name: "Dreams Radio",
+    url: "https://stream-175.zeno.fm/necesdv59ehvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/112228.v1.png",
+    country: "Rwanda", 
+    description: "Informing, Educating, And most of the times is for Entertaining people",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 72,
+    name: "Umwezi Radio 95.3 FM",
+    url: "http://80.241.215.175:7480/;stream.nsv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/2/138382.v2.png",
+    country: "Rwanda", 
+    description: "We talk Politics, Sports, Heath; with hot hit music for entertainment",
+    genre: "Actualités",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 73,
+    name: "High Line Fm",
+    url: "https://stream-154.zeno.fm/rkzws6xemuwuv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/139768.v1.png",
+    country: "Rwanda", 
+    description: "This radio is going to be publishing the news acrossing the world including sport, entertainement, music and politic as well.",
+    genre: "Musique",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 74,
+    name: "ANGELS Radio",
+    url: "https://stream-173.zeno.fm/z8yz4hfdwg0uv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/0/107420.v5.png",
+    country: "Rwanda", 
+    description: "ANGELS Radio is a radio station from Rwanda providing a big variety of music",
+    genre: "Musique",
+    language: "Kinyarwanda,English"
+},
+{
+
+    id: 75,
+    name: "SBN Gospel",
+    url: "https://stream-174.zeno.fm/yyvcrpnqnujtv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/140716.v1.png",
+    country: "Rwanda", 
+    description: "SBN Gospel providing big variety of music",
+    genre: "Religion",
+    language: "Kinyarwanda,English"
+},
+{
+
+    id: 76,
+    name: "94.5 KEY FM",
+    url: "https://stream-153.zeno.fm/xvdahws8w6rtv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/5/137245.v5.png",
+    country: "Rwanda", 
+    description: " brings you the finest selection of music and entertainment from around the world",
+    genre: "Musique",
+    language: "Kinyarwanda,English"
+},
 
 ];
 
