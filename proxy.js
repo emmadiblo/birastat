@@ -9,8 +9,9 @@ app.get('/proxy', (req, res) => {
     }
     request(url).pipe(res);
 });
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000; // Utilisez le port fourni par Render
 app.listen(PORT, () => {
-    console.log(`Proxy en cours d'exécution sur:${PORT}`);
+    console.log(`Proxy en cours d'exécution sur http://localhost:${PORT}`);
 });
+
+
