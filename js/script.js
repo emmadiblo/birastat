@@ -1138,7 +1138,7 @@ async playStation(station, forcePlay = false) {
         // Forcer la lecture ou détecter si le lecteur est en pause
         if (forcePlay || this.elements.audioPlayer.paused) {
             
-             this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(stationUrl)}`;
+             this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
 
             // Configurer MediaSession
@@ -1317,7 +1317,7 @@ async preloadImages() {
             this.elements.currentStationLogo.src = station.logoUrl;
             this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
-           this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(stationUrl)}`;
+           this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
             
             this.isPlaying = true;
