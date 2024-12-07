@@ -29,7 +29,7 @@ class AudioRecorder {
     initializeEventListeners() {
       this.startButton.addEventListener('click', () => this.toggleRecording());
       this.stopButton.addEventListener('click', () => this.stopRecording());
-      this.audioElement.addEventListener('error', (e) => this.handleAudioError(e));
+  
     }
   
     updateStatus(message, isError = false) {
@@ -219,7 +219,7 @@ class AudioRecorder {
                     setTimeout(() => {
                       this.downloadContainer.style.display = 'none';
                       this.updateStatus('');
-                      this.updateStatus("Actualiser la page pour pouvoir enregistrer", true);
+                      this.updateStatus("Actualiser la page pour pouvoir enregistrer", false);
                       this.refresh.style.display = 'block';
                       this.startButton.style.display = 'none';
                     }, 500);

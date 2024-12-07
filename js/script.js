@@ -653,7 +653,7 @@ const stations = [
     id: 59,
     name: "KU Bright FM",
     url: "https://stream-175.zeno.fm/00dfaapsmd0uv",
-    logoUrl: "https://scontent.fnbo18-1.fna.fbcdn.net/v/t39.30808-1/310666507_478698027611441_4086646909033983464_n.jpg",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/1/94811.v3.png",
     country: "Rwanda", 
     description: "Kigali Updates",
     genre: "Musique",
@@ -895,7 +895,7 @@ class RadioApp {
             stationCount: document.getElementById('stationCount'),
             favoritesCount: document.getElementById('favoritesCount'),
             noFavorites: document.getElementById('noFavorites'),
-            player: document.getElementById('player'),
+            player: document.getElementById('player-content'),
             currentStationName: document.getElementById('currentStationName'),
             currentStationLogo: document.getElementById('currentStationLogo'),
             currentStationInfo: document.getElementById('currentStationInfo'),
@@ -1131,6 +1131,9 @@ async playStation(station, forcePlay = false) {
         this.elements.currentStationName.textContent = station.name;
         this.elements.currentStationLogo.src = station.logoUrl;
         this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+            // Configurer MediaSession
+            this.setupMediaSession(station);
+
 
         this.setLoadingState(true);
         this.elements.errorMessage.style.display = 'none';
@@ -1141,8 +1144,7 @@ async playStation(station, forcePlay = false) {
              this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
 
-            // Configurer MediaSession
-            this.setupMediaSession(station);
+
         }
     } catch (error) {
         console.error('Error playing station:', error);
@@ -1150,6 +1152,24 @@ async playStation(station, forcePlay = false) {
     }
 }
 
+async playStation(station) {
+    try {
+        this.currentStation = station;
+        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+
+        this.elements.currentStationName.textContent = station.name;
+        this.elements.currentStationLogo.src = station.logoUrl;
+        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+
+       this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+        await this.elements.audioPlayer.play();
+        
+        this.isPlaying = true;
+        this.updatePlayState();
+    } catch (error) {
+        console.error('Error playing station:', error);
+    }
+}
 
 
 setupMediaSession(station) {
@@ -1173,19 +1193,14 @@ setupMediaSession(station) {
 }
 
 updatePlayState() {
-    if (this.isLoading) {
-        this.elements.player.classList.add('loading');
-        this.elements.player.classList.remove('playing', 'error');
-    } else if (this.hasError) {
-        this.elements.player.classList.add('error');
-        this.elements.player.classList.remove('playing', 'loading');
-    } else if (this.isPlaying) {
-        this.elements.player.classList.add('playing');
-        this.elements.player.classList.remove('loading', 'error');
-    } else {
-        this.elements.player.classList.remove('playing', 'loading', 'error');
+    if (!this.elements.player) {
+        console.warn("L'élément 'player' est introuvable. Vérifiez votre DOM.");
+        return;
     }
+
+
 }
+
 
 handleOnline() {
     this.elements.errorMessage.style.display = 'none'; // Cacher les messages d'erreur précédents
@@ -1308,24 +1323,7 @@ async preloadImages() {
         return card;
     }
 
-    async playStation(station) {
-        try {
-            this.currentStation = station;
-            localStorage.setItem('lastPlayedStation', JSON.stringify(station));
 
-            this.elements.currentStationName.textContent = station.name;
-            this.elements.currentStationLogo.src = station.logoUrl;
-            this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-
-           this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            await this.elements.audioPlayer.play();
-            
-            this.isPlaying = true;
-            this.updatePlayState();
-        } catch (error) {
-            console.error('Error playing station:', error);
-        }
-    }
 
     toggleFavorite(station) {
         const index = this.favorites.findIndex(f => f.id === station.id);
@@ -1355,13 +1353,7 @@ async preloadImages() {
         this.displayStations();
     }
 
-    updatePlayState() {
-        if (this.isPlaying) {
-            this.elements.player.classList.add('playing');
-        } else {
-            this.elements.player.classList.remove('playing');
-        }
-    }
+
 
     updateCounts() {
         const filteredCount = this.filterStations().length;
