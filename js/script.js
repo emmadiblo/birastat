@@ -891,7 +891,7 @@ class RadioApp {
             mic: document.getElementById('start'),
             volumeBtn: document.getElementById('volumeBtn'),
             volumeSlider: document.getElementById('volumeSlider'),
-           
+      
             stationCount: document.getElementById('stationCount'),
             favoritesCount: document.getElementById('favoritesCount'),
             noFavorites: document.getElementById('noFavorites'),
@@ -901,7 +901,11 @@ class RadioApp {
             currentStationInfo: document.getElementById('currentStationInfo'),
             
         };
-
+      
+           this.elements.player = document.getElementById('player');
+            if (!this.elements.player) {
+          console.error("L'élément 'player' est introuvable dans le DOM.");
+      }
         this.elements.volumeSlider.value = this.currentVolume;
         this.elements.audioPlayer.volume = this.currentVolume / 100;
 
@@ -1127,25 +1131,36 @@ async playStation(station, forcePlay = false) {
         this.currentStation = station;
         localStorage.setItem('lastPlayedStation', JSON.stringify(station));
 
-        // Mettre à jour les informations de la station
-        this.elements.currentStationName.textContent = station.name;
-        this.elements.currentStationLogo.src = station.logoUrl;
-        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+        // Vérifiez les éléments DOM avant de les manipuler
+        if (this.elements.currentStationName) {
+            this.elements.currentStationName.textContent = station.name;
+        }
+        if (this.elements.currentStationLogo) {
+            this.elements.currentStationLogo.src = station.logoUrl;
+        }
+        if (this.elements.currentStationInfo) {
+            this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+        }
 
-        this.setLoadingState(true);
-        this.elements.errorMessage.style.display = 'none';
+        // Gestion du lecteur audio
+        if (this.elements.audioPlayer) {
+            this.setLoadingState(true); // Définir l'état de chargement
+            this.elements.errorMessage.style.display = 'none'; // Cacher les erreurs précédentes
 
-        // Forcer la lecture ou détecter si le lecteur est en pause
-        if (forcePlay || this.elements.audioPlayer.paused) {
-            
-             this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            await this.elements.audioPlayer.play();
+            // Forcer la lecture ou détecter si le lecteur est en pause
+            if (forcePlay || this.elements.audioPlayer.paused) {
+                this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+                await this.elements.audioPlayer.play();
+            }
 
-            // Configurer MediaSession
+            // Configure MediaSession si pris en charge
             this.setupMediaSession(station);
         }
+
+        this.isPlaying = true;
+        this.updatePlayState();
     } catch (error) {
-        console.error('Error playing station:', error);
+        console.error('Erreur lors de la lecture de la station:', error);
         this.handlePlaybackError(error);
     }
 }
@@ -1172,7 +1187,14 @@ setupMediaSession(station) {
     }
 }
 
+
 updatePlayState() {
+    if (!this.elements.player) {
+        console.warn("L'élément 'player' est introuvable. Vérifiez votre DOM.");
+        return;
+    }
+
+    // Gestion des états du lecteur
     if (this.isLoading) {
         this.elements.player.classList.add('loading');
         this.elements.player.classList.remove('playing', 'error');
@@ -1186,6 +1208,7 @@ updatePlayState() {
         this.elements.player.classList.remove('playing', 'loading', 'error');
     }
 }
+
 
 handleOnline() {
     this.elements.errorMessage.style.display = 'none'; // Cacher les messages d'erreur précédents
@@ -1308,24 +1331,6 @@ async preloadImages() {
         return card;
     }
 
-    async playStation(station) {
-        try {
-            this.currentStation = station;
-            localStorage.setItem('lastPlayedStation', JSON.stringify(station));
-
-            this.elements.currentStationName.textContent = station.name;
-            this.elements.currentStationLogo.src = station.logoUrl;
-            this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-
-           this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            await this.elements.audioPlayer.play();
-            
-            this.isPlaying = true;
-            this.updatePlayState();
-        } catch (error) {
-            console.error('Error playing station:', error);
-        }
-    }
 
     toggleFavorite(station) {
         const index = this.favorites.findIndex(f => f.id === station.id);
