@@ -1111,7 +1111,8 @@ handlePlaybackError(error) {
     }
 
     // Afficher le message d'erreur
-    this.elements.errorMessage.textContent = errorMessage;
+    this.elements.errorMessage.textContent = `Impossible de lire cette station. Erreur : ${error.message || error.code}`;
+
     this.elements.errorMessage.style.display = 'block';
     this.updatePlayState();
     console.error('Playback error:', errorMessage, error);
