@@ -311,7 +311,7 @@ const stations = [
 
     id: 29,
     name: "Magic FM",
-    url: "hhttp://listen.rba.co.rw:8080/;stream.nsv",
+    url: "http://listen.rba.co.rw:8080/;stream.nsv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/5/47415.v6.png",
     country: "Rwanda", 
     description: "Magic FM is the unique youthful Infotainment radio in Rwanda.",
@@ -1138,7 +1138,7 @@ async playStation(station, forcePlay = false) {
         // Forcer la lecture ou détecter si le lecteur est en pause
         if (forcePlay || this.elements.audioPlayer.paused) {
             
-             this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(station.url)}`;
+             this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
 
             // Configurer MediaSession
@@ -1317,7 +1317,7 @@ async preloadImages() {
             this.elements.currentStationLogo.src = station.logoUrl;
             this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
-           this.elements.audioPlayer.src =  `https://birastat-2.onrender.com/proxy?url=${encodeURIComponent(station.url)}`;
+           this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
             
             this.isPlaying = true;
