@@ -1382,6 +1382,3 @@ async preloadImages() {
 
 // Initialisation de l'application
 const app = new RadioApp();  
-
-
-
