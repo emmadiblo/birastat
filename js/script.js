@@ -926,6 +926,31 @@ class RadioApp {
     });
 }
 
+
+generatePlayUrl(station) {
+    const params = new URLSearchParams({
+        station: station.name,
+        country: station.country,
+        genre: station.genre,
+        lang: station.language
+    });
+
+    return `/?${params.toString()}`;
+}
+
+
+handleFilterChange(event) {
+    const filterType = event.target.id.replace('Filter', '').toLowerCase();
+    this.currentFilters[filterType] = event.target.value;
+
+    const params = new URLSearchParams(this.currentFilters);
+    history.pushState(null, '', `/?${params.toString()}`); // Met à jour l'URL sans recharger la page
+
+    this.resetAndDisplay();
+}
+
+
+
 async getUserCountry() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -1035,6 +1060,43 @@ async initialize() {
         await this.playStation(this.lastPlayedStation, true);
     }
 }
+
+
+updateFilterSelections() {
+    this.elements.countryFilter.value = this.currentFilters.country || '';
+    this.elements.genreFilter.value = this.currentFilters.genre || '';
+    this.elements.languageFilter.value = this.currentFilters.language || '';
+}
+
+
+initialize() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Récupérer les paramètres depuis l'URL
+    const stationName = urlParams.get('station');
+    const country = urlParams.get('country');
+    const genre = urlParams.get('genre');
+    const lang = urlParams.get('lang');
+
+    // Appliquer les filtres s'ils existent
+    this.currentFilters.country = country || '';
+    this.currentFilters.genre = genre || '';
+    this.currentFilters.language = lang || '';
+    this.updateFilterSelections();
+
+    // Trouver la station par son nom et la jouer
+    if (stationName) {
+        const matchingStation = stations.find(
+            station => station.name.toLowerCase() === stationName.toLowerCase()
+        );
+        if (matchingStation) {
+            this.playStation(matchingStation, true); // Jouer la station automatiquement
+        }
+    }
+
+    this.resetAndDisplay(); // Afficher les stations filtrées
+}
+
 
 setLoadingState(isLoading) {
     this.isLoading = isLoading;
@@ -1152,24 +1214,27 @@ async playStation(station, forcePlay = false) {
     }
 }
 
-async playStation(station) {
+async playStation(station, forcePlay = false) {
     try {
         this.currentStation = station;
-        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+        const playUrl = this.generatePlayUrl(station); // Génère l'URL
+        history.pushState(null, '', playUrl); // Met à jour l'URL sans recharger la page
 
         this.elements.currentStationName.textContent = station.name;
         this.elements.currentStationLogo.src = station.logoUrl;
         this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
-       this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
         await this.elements.audioPlayer.play();
-        
+
         this.isPlaying = true;
         this.updatePlayState();
     } catch (error) {
         console.error('Error playing station:', error);
     }
 }
+
+
 
 
 setupMediaSession(station) {
@@ -1232,10 +1297,16 @@ async preloadImages() {
 
 
     handleFilterChange(event) {
-        const filterType = event.target.id.replace('Filter', '');
+        const filterType = event.target.id.replace('Filter', '').toLowerCase();
         this.currentFilters[filterType] = event.target.value;
-        this.resetAndDisplay();
+    
+        // Générer une URL mise à jour avec les filtres actuels
+        const params = new URLSearchParams(this.currentFilters);
+        history.pushState(null, '', `/?${params.toString()}`); // Mettre à jour l'URL
+    
+        this.resetAndDisplay(); // Afficher les nouvelles stations filtrées
     }
+    
 
     resetAndDisplay() {
         this.currentPage = 1;
@@ -1371,6 +1442,9 @@ async preloadImages() {
     }
 }
 
+window.addEventListener('popstate', () => {
+    this.initialize(); // Réinitialiser l'application à l'état correspondant à l'URL actuelle
+});
 
 // Initialisation de l'application
 const app = new RadioApp();  
