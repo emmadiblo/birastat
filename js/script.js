@@ -949,13 +949,16 @@ async getUserCountry() {
     });
 }
 
+
+
 selectUserCountry(userCountry, select) {
     const optionExists = [...select.options].some(option => option.value === userCountry);
     if (optionExists) {
         select.value = userCountry; // Sélectionne le pays s'il existe
-        userCountry.selected
+        select.dispatchEvent(new Event('change')); // Déclenche l'événement de changement
     }
 }
+
 
 populateFilter(select, values) {
     values.sort().forEach(value => {
