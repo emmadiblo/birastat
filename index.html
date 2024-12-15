@@ -24,20 +24,18 @@
     <!-- Open Graph tags for social media sharing -->
     <meta property="og:title" content="Les stations de radio Burundi/Rwanda">
     <meta property="og:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
-    <meta property="og:image" content="https://emmadiblo.github.io/Birastat/">
-    <meta property="og:url" content="https://emmadiblo.github.io/Birastat/favicon.png">
+    <meta property="og:image" content="https://emmadiblo.github.io/birastat/">
+    <meta property="og:url" content="https://emmadiblo.github.io/birastat/favicon.png">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Les stations de radio Burundi/Rwanda">
     <meta name="twitter:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
-    <meta name="twitter:image" content="https://emmadiblo.github.io/Birastat/favicon.png">
+    <meta name="twitter:image" content="https://emmadiblo.github.io/birastat/favicon.png">
     
     <!-- Charset for older browsers -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
     <link rel="stylesheet" href="styles.css">
 
@@ -125,12 +123,12 @@
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1000;
+    z-index: 9999;
     display: block; 
 }
 
 nav{
-    z-index: 9000;
+    z-index: 8000;
   position: fixed;
   width: 30px;
   margin-top: 90px;
@@ -355,7 +353,6 @@ nav li a i{
         
             </section>
 </div>
-
         <div id="statusMessage" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px;">
             La radio n'est pas disponible pour le moment, veuillez jouer l'autre station.
         </div>
@@ -431,7 +428,7 @@ nav li a i{
 
                       </div>
 
-                      
+    
                 </div>
 
                  
@@ -548,9 +545,6 @@ visitorsRef.on('value', (snapshot) => {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
   
     <script>
-
-
-
 let deferredPrompt;
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -565,7 +559,7 @@ function isAppInstalled() {
 
 // Événement pour détecter l'installabilité de l'application
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Important : Ne pas appeler preventDefault() immédiatement
+   
     
     // Stocker l'événement pour une utilisation ultérieure
     deferredPrompt = e;
@@ -637,10 +631,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
 });
-
-
-
-
 
 
 
@@ -718,12 +708,9 @@ playPauseBtn.addEventListener('click', () => {
     });
 }
 
-
-
-
 });
 
- 
-    </script>
+
+</script>
 
 </html>
