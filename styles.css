@@ -140,13 +140,11 @@ label {
         }
 
 .filters {
-
 position: sticky;
 top: 0;
-z-index: 9000;
-    display: flex;
-    margin: 10px 0;
-    justify-content: space-between;
+display: flex;
+margin: 10px 0;
+justify-content: space-between;
         }
 
 .search-bar {
@@ -192,7 +190,6 @@ z-index: 9000;
         }
 
 .station-card {
-    
             border-radius: var(--border-radius);
             padding: 15px;
             cursor: pointer;
@@ -363,6 +360,7 @@ background-color: var(--background-color);
     font-size: 0.8em;
     color: #666;
     margin-top: 5px;
+    
 }
 
 .error-message {
@@ -412,7 +410,6 @@ background-color: var(--background-color);
  
 }
 
-
 .control {
 margin: 10px;
 justify-content: center;
@@ -460,8 +457,6 @@ align-items: center;
     text-align: center;
     line-height: 1;
 }
-
-
 
 .button,
 .button i {
@@ -558,7 +553,6 @@ datalist > option:before {
     background: var(--option-color);
     transform: translateY(-100%);
 }
-
 
 .percent {
     color: var(--text-color); 
