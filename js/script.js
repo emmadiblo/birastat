@@ -851,7 +851,7 @@ const stations = [
 
 //genres: actualités,national,musique, sports,Religion
 
-class RadioApp {
+class Birastat {
     constructor() {
         this.ITEMS_PER_PAGE = 15;
         this.currentPage = 1;
@@ -891,7 +891,6 @@ class RadioApp {
             mic: document.getElementById('start'),
             volumeBtn: document.getElementById('volumeBtn'),
             volumeSlider: document.getElementById('volumeSlider'),
-           
             stationCount: document.getElementById('stationCount'),
             favoritesCount: document.getElementById('favoritesCount'),
             noFavorites: document.getElementById('noFavorites'),
@@ -904,7 +903,6 @@ class RadioApp {
 
         this.elements.volumeSlider.value = this.currentVolume;
         this.elements.audioPlayer.volume = this.currentVolume / 100;
-
         this.elements.playPauseIcon = document.getElementById('playPauseIcon');
         this.elements.playerStatus = document.getElementById('playerStatus');
         this.elements.errorMessage = document.getElementById('status');
@@ -1102,7 +1100,7 @@ handlePlaybackError(error) {
                // errorMessage = "Cette station n'est pas disponible. Essayez une autre station.";
               //  break;
             default:
-                errorMessage = "";
+           errorMessage = "";
                 break;
         }
     } 
@@ -1115,11 +1113,43 @@ handlePlaybackError(error) {
 
     // Afficher le message d'erreur
     this.elements.errorMessage.textContent =errorMessage;
-
     this.elements.errorMessage.style.display = 'block';
     this.updatePlayState();
     console.error('Playback error:', errorMessage, error);
 }
+
+
+// Mettre en place Mediasession pour lecture dans les notification
+setupMediaSession(station) {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: station.name,
+            artist: station.country, 
+            album: "Birastat radio", 
+            artwork: [
+                { src: station.logoUrl, sizes: '96x96', type: 'image/jpeg' }, 
+                { src: station.logoUrl, sizes: '128x128', type: 'image/jpeg' },
+                { src: station.logoUrl, sizes: '192x192', type: 'image/jpeg' },
+                { src: station.logoUrl, sizes: '256x256', type: 'image/jpeg' },
+                { src: station.logoUrl, sizes: '384x384', type: 'image/jpeg' },
+                { src: station.logoUrl, sizes: '512x512', type: 'image/jpeg' }
+            ],
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            this.elements.audioPlayer.play();
+        });
+
+        navigator.mediaSession.setActionHandler('pause', () => {
+            this.elements.audioPlayer.pause();
+        });
+
+    } else {
+        console.warn('Media Session API not supported in this browser.');
+    }
+}
+
+
 
 async playStation(station, forcePlay = false) {
     try {
@@ -1134,10 +1164,6 @@ async playStation(station, forcePlay = false) {
         this.elements.currentStationName.textContent = station.name;
         this.elements.currentStationLogo.src = station.logoUrl;
         this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-            // Configurer MediaSession
-            this.setupMediaSession(station);
-
-
         this.setLoadingState(true);
         this.elements.errorMessage.style.display = 'none';
 
@@ -1146,14 +1172,13 @@ async playStation(station, forcePlay = false) {
             
              this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
             await this.elements.audioPlayer.play();
-
-
         }
     } catch (error) {
         console.error('Error playing station:', error);
         this.handlePlaybackError(error);
     }
 }
+
 
 async playStation(station) {
     try {
@@ -1165,6 +1190,7 @@ async playStation(station) {
         this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
        this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+       this.setupMediaSession(station);
         await this.elements.audioPlayer.play();
         
         this.isPlaying = true;
@@ -1175,32 +1201,13 @@ async playStation(station) {
 }
 
 
-setupMediaSession(station) {
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: this.station.name,
-            artist: this.station.country,
-            album: this.station.genre,
-            artwork: [
-                { src: station.logoUrl, sizes: '96x96', type: 'image/png' },
-                { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
-                { src: station.logoUrl, sizes: '192x192', type: 'image/png' },
-                { src: station.logoUrl, sizes: '256x256', type: 'image/png' },
-                { src: station.logoUrl, sizes: '384x384', type: 'image/png' },
-                { src: station.logoUrl, sizes: '512x512', type: 'image/png' },
-            ],
-        });
 
-
-    }
-}
 
 updatePlayState() {
     if (!this.elements.player) {
         console.warn("L'élément 'player' est introuvable. Vérifiez votre DOM.");
         return;
     }
-
 
 }
 
@@ -1279,9 +1286,8 @@ async preloadImages() {
     requestAnimationFrame(() => {
         this.elements.stationsContainer.innerHTML = ''; // Vider le conteneur une fois
         this.elements.stationsContainer.appendChild(fragment);
-
         this.elements.loadMoreBtn.style.display = 
-            stationsToShow.length < filteredStations.length ? 'block' : 'none';
+        stationsToShow.length < filteredStations.length ? 'block' : 'none';
     });
 }
 
@@ -1357,7 +1363,6 @@ async preloadImages() {
     }
 
 
-
     updateCounts() {
         const filteredCount = this.filterStations().length;
         this.elements.stationCount.textContent = `(${filteredCount})`;
@@ -1374,6 +1379,5 @@ async preloadImages() {
     }
 }
 
-
 // Initialisation de l'application
-const app = new RadioApp();  
+const app = new Birastat();  
