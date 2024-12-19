@@ -1,10 +1,10 @@
 :root {
-    --primary-color: #ff1313; /* Couleur principale */
+    --primary-color: #fc4f4f; /* Couleur principale */
     --secondary-color: #1f1fb6; /* Couleur secondaire */
     --background-color: #fff7f7; /* Couleur de fond */
     --red-color: #ff1313; /* Couleur rouge */
     --text-color: #54576f; /* Couleur du texte */
-    --accent-color: #3e8e41; /* Couleur d'accentuation */
+    --accent-color: #7c7858;/* Couleur d'accentuation */
     --border-radius: 15px; /* Arrondi des bordures */
     --shadow: 0 30px 80px #000000; /* Ombre  */
     --gradient-start: #8f3d3d; /* Début du dégradé */
@@ -21,7 +21,7 @@
     --secondary-color: #706048; /* Couleur secondaire en mode nuit */
     --background-color: #121212; /* Couleur de fond en mode nuit */
     --text-color: #ff7b7b; /* Couleur du texte en mode nuit */
-    --accent-color: #7A702A; /* Couleur d'accentuation en mode nuit */
+    --accent-color: #3e8e41;  /* Couleur d'accentuation en mode nuit */
     --border-radius: 15px; /* Arrondi des bordures */
     --shadow: 0 30px 80px #656565; /* Ombre */
     --gradient-start: #8f813d; /* Début du dégradé en mode nuit */
@@ -190,6 +190,7 @@ justify-content: space-between;
         }
 
 .station-card {
+    
             border-radius: var(--border-radius);
             padding: 15px;
             cursor: pointer;
@@ -410,6 +411,7 @@ background-color: var(--background-color);
  
 }
 
+
 .control {
 margin: 10px;
 justify-content: center;
@@ -457,6 +459,8 @@ align-items: center;
     text-align: center;
     line-height: 1;
 }
+
+
 
 .button,
 .button i {
@@ -554,9 +558,165 @@ datalist > option:before {
     transform: translateY(-100%);
 }
 
+
 .percent {
     color: var(--text-color); 
    margin-top: 16px; 
 }
 
+
+
+
+/* Footer*/
+
+.footer-distributed{
+	background: var(--background-color);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	font: bold 16px ;
+	padding: 55px 50px;
+}
+
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right{
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+
+.footer-distributed .footer-left{
+	width: 40%;
+}
+
+/*logo */
+
+.footer-distributed h3{
+    color:  var(--option-color);
+	font: normal 36px;
+	margin: 0;
+}
+
+.footer-distributed h3 span{
+	color:  var(--accent-color);
+}
+
+/* Footer links */
+
+.footer-distributed .footer-links{
+	color:   var(--secondary-color);;
+	margin: 20px 0 12px;
+	padding: 0;
+}
+
+.footer-distributed .footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+  font-weight:400;
+	text-decoration: none;
+	color:  inherit;
+}
+
+.footer-distributed .footer-company-name{
+	color:  var(--text-color);
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0;
+}
+
+/* Footer Center */
+
+.footer-distributed .footer-center{
+	width: 35%;
+}
+
+.footer-distributed .footer-center i{
+	background-color:  var(--background-color);
+	color:  var(--primary-color);;
+	font-size: 25px;
+	width: 38px;
+	height: 38px;
+	text-align: center;
+	line-height: 42px;
+	margin: 10px 15px;
+	vertical-align: middle;
+}
+
+
+.footer-distributed .footer-center p{
+	display: inline-block;
+	color:  var(--primary-color);;
+  font-weight:400;
+	vertical-align: middle;
+	margin:0;
+}
+
+.footer-distributed .footer-center p span{
+	display:block;
+	font-weight: normal;
+	font-size:14px;
+	line-height:2;
+}
+
+.footer-distributed .footer-center p a{
+	color:  var(--accent-color);
+	text-decoration: none;;
+}
+
+.footer-distributed .footer-links a:before {
+  content: "|";
+  font-weight:300;
+  font-size: 20px;
+  left: 0;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.footer-distributed .footer-links .link-1:before {
+  content: none;
+}
+
+/* Footer Right */
+
+.footer-distributed .footer-right{
+	width: 20%;
+}
+
+.footer-distributed .footer-company-about{
+	line-height: 20px;
+    color:  var(--primary-color);
+
+	font-size: 13px;
+	font-weight: normal;
+	margin: 0;
+}
+
+.footer-distributed .footer-icons{
+	margin-top: 25px;
+}
+
+
+@media (max-width: 880px) {
+
+	.footer-distributed{
+		font: bold 14px sans-serif;
+	}
+
+	.footer-distributed .footer-left,
+	.footer-distributed .footer-center,
+	.footer-distributed .footer-right{
+		display: block;
+		width: 100%;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+
+	.footer-distributed .footer-center i{
+		margin-left: 0;
+	}
+
+}
 
