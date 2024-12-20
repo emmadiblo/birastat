@@ -1180,25 +1180,31 @@ async playStation(station, forcePlay = false) {
 }
 
 
-async playStation(station) {
+playStation(station) {
     try {
         this.currentStation = station;
-        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
 
+        // Incrémenter le compteur de visites
+        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
+        visits[station.id] = (visits[station.id] || 0) + 1;
+        localStorage.setItem('stationVisits', JSON.stringify(visits));
+
+        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
         this.elements.currentStationName.textContent = station.name;
         this.elements.currentStationLogo.src = station.logoUrl;
         this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
 
-       this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-       this.setupMediaSession(station);
-        await this.elements.audioPlayer.play();
-        
+        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+        this.setupMediaSession(station);
+        this.elements.audioPlayer.play();
+
         this.isPlaying = true;
         this.updatePlayState();
     } catch (error) {
         console.error('Error playing station:', error);
     }
 }
+
 
 
 
@@ -1254,20 +1260,29 @@ async preloadImages() {
     }
 
     filterStations() {
-        return stations.filter(station => {
-            const matchesSearch = !this.currentSearchQuery || 
-                Object.values(station).some(value => 
-                    String(value).toLowerCase().includes(this.currentSearchQuery.toLowerCase())
+        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
+    
+        return stations
+            .filter(station => {
+                const matchesSearch = !this.currentSearchQuery || 
+                    Object.values(station).some(value => 
+                        String(value).toLowerCase().includes(this.currentSearchQuery.toLowerCase())
+                    );
+    
+                const matchesFilters = Object.entries(this.currentFilters).every(([key, value]) => 
+                    !value || station[key] === value
                 );
-
-            const matchesFilters = Object.entries(this.currentFilters).every(([key, value]) => 
-                !value || station[key] === value
-            );
-
-            return matchesSearch && matchesFilters;
-        });
+    
+                return matchesSearch && matchesFilters;
+            })
+            .sort((a, b) => {
+                if (!this.currentFilters.country && !this.currentFilters.genre && !this.currentFilters.language) {
+                    return (visits[b.id] || 0) - (visits[a.id] || 0);
+                }
+                return 0; // Pas de tri spécifique si des filtres sont appliqués
+            });
     }
-
+    
 
     displayStations() {
     const filteredStations = this.filterStations();
@@ -1378,6 +1393,7 @@ async preloadImages() {
         }
     }
 }
+
 
 // Initialisation de l'application
 const app = new Birastat();  
