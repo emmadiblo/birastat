@@ -36,7 +36,7 @@ const stations = [
         logoUrl: "https://static2.mytuner.mobi/media/tvos_radios/y2f4sebqq534.jpg",
         country: "Burundi", 
         description: "Radio scolaire",
-        genre: "Scolaire",
+        genre: "Education",
         language: "Kirundi,Français"
     },
     {
@@ -847,9 +847,45 @@ const stations = [
     language: "Kinyarwanda,English"
 },
 
+{
+
+    id: 77,
+    name: "Shima FM",
+    url: "http://5.189.189.39:8000/zabujadotcom.mp3",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/3/128293.v3.png",
+    country: "Burundi", 
+    description: "Ijambo kuri bose; Kihwanya, Rumonge, Burundi",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+
+{
+
+    id: 78,
+    name: "Radio Indundi culture",
+    url: "https://indundiculture.com:8003/indundiculture",
+    logoUrl: "https://indundi.com/wp-content/uploads/2023/08/cropped-indundi-333-png-1-e1691275713185.png",
+    country: "Burundi", 
+    description: "FM 88.2 / 99.9 - Bujumbura",
+    genre: "Actualités",
+    language: "Kirundi"
+},
+
+{
+
+    id: 79,
+    name: "Radio Homewood",
+    url: "https://stream-176.zeno.fm/b9zg6ceg5ehvv",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/111958.v17.png",
+    country: "Burundi", 
+    description: "	Bujumbura,Ntahangwa kamenge,Twinyoni,11Av53 Iwabo w'abasigayz",
+    genre: "Education",
+    language: "Kirundi"
+},
+
 ];
 
-//genres: actualités,national,musique, sports,Religion
+//genres: actualités,national,musique, sports,Religion,education 
 
 class Birastat {
     constructor() {
