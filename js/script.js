@@ -1201,13 +1201,6 @@ async playStation(station, forceRefresh = false) {
         }
 
         this.currentStation = station;
-
-        
-        // Incrémenter le compteur de visites
-        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
-        visits[station.id] = (visits[station.id] || 0) + 1;
-        localStorage.setItem('stationVisits', JSON.stringify(visits));
-
         localStorage.setItem('lastPlayedStation', JSON.stringify(station));
 
         // Mettre à jour les informations de la station
@@ -1217,13 +1210,11 @@ async playStation(station, forceRefresh = false) {
         this.setLoadingState(true);
         this.elements.errorMessage.style.display = 'none';
 
-        this.setupMediaSession(station);
-        
         // Rafraîchir le flux si nécessaire
         if (forceRefresh || this.elements.audioPlayer.paused) {
-    
+            this.elements.audioPlayer.pause(); // Arrêter le flux en cours
             this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-           
+            this.elements.audioPlayer.load(); // Recharger le flux
         }
 
         // Lecture
@@ -1234,10 +1225,9 @@ async playStation(station, forceRefresh = false) {
         this.updatePlayState();
     } catch (error) {
         console.error('Error playing station:', error);
-       
+        this.handlePlaybackError(error);
     }
 }
-
 
 
 handlePlayPause() {
@@ -1253,6 +1243,31 @@ handlePlayPause() {
 }
 
 
+
+playStation(station) {
+    try {
+        this.currentStation = station;
+
+        // Incrémenter le compteur de visites
+        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
+        visits[station.id] = (visits[station.id] || 0) + 1;
+        localStorage.setItem('stationVisits', JSON.stringify(visits));
+
+        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+        this.elements.currentStationName.textContent = station.name;
+        this.elements.currentStationLogo.src = station.logoUrl;
+        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+
+        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+        this.setupMediaSession(station);
+        this.elements.audioPlayer.play();
+
+        this.isPlaying = true;
+        this.updatePlayState();
+    } catch (error) {
+        console.error('Error playing station:', error);
+    }
+}
 
 
 
