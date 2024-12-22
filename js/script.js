@@ -23,7 +23,7 @@ const stations = [
         id: 3,
         name: "Radio Maria Burundi",
         url: "https://dreamsiteradiocp2.com:8082/stream",
-        logoUrl: "https://www.radiomaria.bi/wp-content/themes/radiomaria/img/maria-footer.jpg",
+        logoUrl: "https://nz.radio.net/300/radiomariaitalia.png?version=68ee5439df84e672599a4f4649675913",
         country: "Burundi", 
         description: "Ijwi ry'Imana iwanyu, ijwi ry'Imana iwacu",
         genre: "Religion",
@@ -863,7 +863,7 @@ const stations = [
 
     id: 78,
     name: "Radio Indundi culture",
-    url: "https://indundiculture.com:8003/indundiculture",
+    url: "http://63.250.40.39:8008/indundiculture",
     logoUrl: "https://indundi.com/wp-content/uploads/2023/08/cropped-indundi-333-png-1-e1691275713185.png",
     country: "Burundi", 
     description: "FM 88.2 / 99.9 - Bujumbura",
@@ -1052,6 +1052,18 @@ setupEventListeners() {
         this.handlePlaybackError(e.target.error || new Error("Erreur inconnue lors de la lecture."));
     });
 
+    this.elements.audioPlayer.addEventListener('ended', () => {
+        // Recharger le flux en cas de fin inattendue
+        this.playStation(this.currentStation, true);
+    });
+    
+    this.elements.audioPlayer.addEventListener('stalled', () => {
+        console.warn('Audio stalled, reloading stream...');
+        // Redémarrer la lecture en cas de blocage
+        this.playStation(this.currentStation, true);
+    });
+    
+
     // Gestion de la connexion Internet
     window.addEventListener('online', () => {
         this.handleOnline();
@@ -1076,38 +1088,33 @@ async initialize() {
 setLoadingState(isLoading) {
     this.isLoading = isLoading;
 
-  
-         this.elements.playerStatus.textContent = "Cliquer pour ecouter."
-
-
     if (isLoading) {
-        // Lorsque le lecteur est en cours de chargement
+        // Lors du chargement
         this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
         this.elements.playerStatus.textContent = 'Chargement en cours...';
-
     } else if (this.hasError) {
         // En cas d'erreur
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-play');
         this.elements.playerStatus.textContent = "Erreur de lecture, Actualisez sinon choisissez l'autre station.";
-        //masquer le recordeur
-        this.elements.mic.style.display="none"
+        this.elements.mic.style.display = "none"; // Masquer le micro
     } else if (this.isPlaying) {
-        // Lorsque le lecteur est en lecture
+        // En lecture
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
         this.elements.playPauseIcon.classList.add('fa-pause');
-        this.elements.playerStatus.textContent = 'Live...';
-         //afficher le recordeur
-        this.elements.mic.style.display="block"
+        this.elements.playerStatus.textContent = 'En direct...';
+        this.elements.mic.style.display = "block"; // Afficher le micro
     } else {
-        // Lorsque le lecteur est en pause
-        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
+        // En pause
+        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-play');
         this.elements.playerStatus.textContent = 'Mis en pause.';
-  
+        this.elements.mic.style.display = "none"; // Masquer le micro
     }
 }
+
+
 
 handlePlaybackError(error) {
     this.isPlaying = false;
@@ -1187,13 +1194,20 @@ setupMediaSession(station) {
 
 
 
-async playStation(station, forcePlay = false) {
+async playStation(station, forceRefresh = false) {
     try {
         if (!navigator.onLine) {
             throw new Error('Pas de connexion Internet. Impossible de lire la station.');
         }
 
         this.currentStation = station;
+
+        
+        // Incrémenter le compteur de visites
+        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
+        visits[station.id] = (visits[station.id] || 0) + 1;
+        localStorage.setItem('stationVisits', JSON.stringify(visits));
+
         localStorage.setItem('lastPlayedStation', JSON.stringify(station));
 
         // Mettre à jour les informations de la station
@@ -1203,12 +1217,22 @@ async playStation(station, forcePlay = false) {
         this.setLoadingState(true);
         this.elements.errorMessage.style.display = 'none';
 
-        // Forcer la lecture ou détecter si le lecteur est en pause
-        if (forcePlay || this.elements.audioPlayer.paused) {
-            
-             this.elements.audioPlayer.src =  `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            await this.elements.audioPlayer.play();
+        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+        this.setupMediaSession(station);
+        
+        // Rafraîchir le flux si nécessaire
+        if (forceRefresh || this.elements.audioPlayer.paused) {
+            this.elements.audioPlayer.pause(); // Arrêter le flux en cours
+            this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+            this.elements.audioPlayer.load(); // Recharger le flux
         }
+
+        // Lecture
+        await this.elements.audioPlayer.play();
+
+        this.isPlaying = true;
+        this.setLoadingState(false); // Arrêter l'état de chargement
+        this.updatePlayState();
     } catch (error) {
         console.error('Error playing station:', error);
         this.handlePlaybackError(error);
@@ -1216,30 +1240,22 @@ async playStation(station, forcePlay = false) {
 }
 
 
-playStation(station) {
-    try {
-        this.currentStation = station;
 
-        // Incrémenter le compteur de visites
-        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
-        visits[station.id] = (visits[station.id] || 0) + 1;
-        localStorage.setItem('stationVisits', JSON.stringify(visits));
-
-        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
-        this.elements.currentStationName.textContent = station.name;
-        this.elements.currentStationLogo.src = station.logoUrl;
-        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-
-        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-        this.setupMediaSession(station);
-        this.elements.audioPlayer.play();
-
-        this.isPlaying = true;
+handlePlayPause() {
+    if (this.isPlaying) {
+        // Mettre en pause
+        this.elements.audioPlayer.pause();
+        this.isPlaying = false;
         this.updatePlayState();
-    } catch (error) {
-        console.error('Error playing station:', error);
+    } else {
+        // forcer le rafraîchissement pour lire le flux en temps réel
+        this.playStation(this.currentStation, true);
     }
 }
+
+
+
+
 
 
 

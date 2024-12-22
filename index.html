@@ -7,7 +7,7 @@
      <!-- Include Firebase SDK -->
      <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
      <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <!-- Description for search engines -->
     <meta name="description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
@@ -25,14 +25,14 @@
     <meta property="og:title" content="Les stations de radio Burundi/Rwanda">
     <meta property="og:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
     <meta property="og:image" content="https://emmadiblo.github.io/birastat/">
-    <meta property="og:url" content="https://emmadiblo.github.io/birastat/favicon.png">
+    <meta property="og:url" content="https://emmadiblo.github.io/birastat/favicon.ico">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Les stations de radio Burundi/Rwanda">
     <meta name="twitter:description" content="Découvrez les meilleures stations de radio au Burundi et au Rwanda. Écoutez vos émissions préférées en direct.">
-    <meta name="twitter:image" content="https://emmadiblo.github.io/birastat/favicon.png">
+    <meta name="twitter:image" content="https://emmadiblo.github.io/birastat/favicon.ico">
     
     <!-- Charset for older browsers -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,6 +40,8 @@
 
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
     <link rel="stylesheet" href="styles.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795015952384621"
+    crossorigin="anonymous"></script>
 
     <style>
 
@@ -498,6 +500,36 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
     </div>
 
 </footer>
+<div id="ad-container" style="display: none;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795015952384621"
+            crossorigin="anonymous"></script>
+    <!-- Annonce -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4795015952384621"
+         data-ad-slot="5419132659"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+<script>
+    // Attendre que le script adsbygoogle soit chargé
+    window.onload = function() {
+        const adContainer = document.getElementById('ad-container');
+        // Vérifier si l'annonce a été générée
+        setTimeout(function() {
+            if (adContainer.offsetParent !== null) {
+                adContainer.style.display = 'block'; // Afficher l'annonce si prête
+            } else {
+                adContainer.style.display = 'none'; // Ne pas afficher si pas prêt
+            }
+        }, 1000); // Délai pour donner le temps à l'annonce de se charger
+    };
+</script>
+
 
         <script>
             window.onload = function() {
