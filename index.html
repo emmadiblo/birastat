@@ -606,125 +606,106 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
     });
 </script>
 
-
 <script type="text/javascript">
-    (function () {
-const form = document.getElementById('suggestionForm');
-const closeBtn = document.querySelector('#close-btn');
-const overlay = document.querySelector('.overlay');
-const modalBox = document.querySelector('.modal-box');
-const suggest = document.querySelector('.contactus');
-
-const paysSelect = document.getElementById('pays');
-const autrePaysInput = document.getElementById('autrePays');
-const contactTypeSelect = document.getElementById('contactType');
-const stationInput = document.getElementById('station');
-const problemeSelect = document.getElementById('probleme');
-
-
-
-function showModal() {
+(function () {
+    const form = document.getElementById('suggestionForm');
+    const closeBtn = document.querySelector('#close-btn');
+    const overlay = document.querySelector('.overlay');
     const suggest = document.querySelector('.contactus');
-    suggest.style.display = 'flex';
-}
+    const paysSelect = document.getElementById('pays');
+    const autrePaysInput = document.getElementById('autrePays');
+    const contactTypeSelect = document.getElementById('contactType');
+    const stationInput = document.getElementById('station');
+    const problemeSelect = document.getElementById('probleme');
 
+    function showModal() {
+        suggest.style.display = 'flex';
+    }
 
+    //esposer showModal
 window.showModal = showModal;
+    function closeModal() {
+        suggest.style.display = 'none';
+    }
 
-function closeModal() {
-    const suggest = document.querySelector('.contactus');
-    suggest.style.display = 'none';
-}
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
 
+    paysSelect.addEventListener('change', function () {
+        autrePaysInput.style.display = paysSelect.value === 'Autre' ? 'block' : 'none';
+        autrePaysInput.required = paysSelect.value === 'Autre';
+    });
 
-document.getElementById('close-btn').addEventListener('click', closeModal);
-document.querySelector('.overlay').addEventListener('click', closeModal);
+    contactTypeSelect.addEventListener('change', function () {
+        const isStationProblem = contactTypeSelect.value === 'Problème de la station';
+        const isStationAddition = contactTypeSelect.value === "Ajout d'une station";
 
+        stationInput.style.display = isStationProblem || isStationAddition ? 'block' : 'none';
+        stationInput.required = isStationProblem || isStationAddition;
 
+        problemeSelect.style.display = isStationProblem ? 'block' : 'none';
+        problemeSelect.required = isStationProblem;
+    });
 
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-closeBtn.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
+        // Validation des champs
+        const contactPratform = document.getElementById('contactPratform').value;
+        const contactType = contactTypeSelect.value;
+        const name = document.getElementById('name').value;
+        const pays = paysSelect.value;
+        const autrePays = autrePaysInput.style.display === 'block' ? autrePaysInput.value : '';
+        const description = document.getElementById('description').value;
+        const station = stationInput.style.display === 'block' ? stationInput.value : '';
+        const probleme = problemeSelect.style.display === 'block' ? problemeSelect.value : '';
 
+        if (!contactPratform || !contactType || !name || !pays || (pays === 'Autre' && !autrePays)) {
+            alert('Veuillez remplir tous les champs requis.');
+            return;
+        }
 
-paysSelect.addEventListener('change', function () {
-   autrePaysInput.style.display = paysSelect.value === 'Autre' ? 'block' : 'none';
-   autrePaysInput.required = paysSelect.value === 'Autre'; 
-});
+        if ((contactType === 'Problème de la station' || contactType === "Ajout d'une station") && !station) {
+            alert('Veuillez spécifier la station.');
+            return;
+        }
 
+        if (contactType === 'Problème de la station' && !probleme) {
+            alert('Veuillez spécifier le problème de la station.');
+            return;
+        }
 
-contactTypeSelect.addEventListener('change', function () {
-   const isStationProblem = contactTypeSelect.value === 'Problème de la station';
-   const isStationAddition = contactTypeSelect.value === "Ajout d'une station";
+        let message = `
+            Bonjour Emma! Je m'appelle ${name}, j'habite au ${pays === 'Autre' ? autrePays : pays}.
+            Message : ${description}
+        `;
 
-   stationInput.style.display = isStationProblem || isStationAddition ? 'block' : 'none';
-   stationInput.required = isStationProblem || isStationAddition;
+        if (contactType === 'Problème de la station') {
+            message += `\nAlerte : la station "${station}" ${probleme}.`;
+        } else if (contactType === "Ajout d'une station") {
+            message += `\nJ'aimerais que vous ajoutiez la station : "${station}".`;
+        }
 
-   problemeSelect.style.display = isStationProblem ? 'block' : 'none';
-   problemeSelect.required = isStationProblem;
-});
+        const subject = encodeURIComponent(`${contactType} - Contact via Birastat`);
+        const encodedMessage = encodeURIComponent(message);
 
+        if (contactPratform === 'email') {
+            const mailtoLink = `mailto:emmadiblouwizeyimana@gmail.com?subject=${subject}&body=${encodedMessage}`;
+            window.location.href = mailtoLink;
+            alert("Gmail va s'ouvrir ...");
+        } else if (contactPratform === 'whatsapp') {
+            const whatsappMessage = `${subject} ${encodedMessage}`;
+            window.open(`https://wa.me/25765517561?text=${whatsappMessage}`, '_blank');
+            alert("WhatsApp va s'ouvrir...");
+        } else {
+            alert("Veuillez sélectionner une plateforme de contact.");
+        }
 
-form.addEventListener('submit', function (event) {
-   event.preventDefault();
-
-   // Basic validation
-   const contactPratform = document.getElementById('contactPratform').value;
-   const contactType = contactTypeSelect.value;
-   const name = document.getElementById('name').value;
-   const pays = paysSelect.value;
-   const autrePays = autrePaysInput.style.display === 'block' ? autrePaysInput.value : '';
-   const description = document.getElementById('description').value;
-   const station = stationInput.style.display === 'block' ? stationInput.value : '';
-   const probleme = problemeSelect.style.display === 'block' ? problemeSelect.value : '';
-
-   if (!contactPratform || !contactType || !name || !phone || !pays || (pays === 'Autre' && !autrePays)) {
-       alert('Veuillez remplir tous les champs requis.');
-       return;
-   }
-
-   if ((contactType === 'Problème de la station' || contactType === "Ajout d'une station") && !station) {
-       alert('Veuillez spécifier la station.');
-       return;
-   }
-
-   if (contactType === 'Problème de la station' && !probleme) {
-       alert('Veuillez spécifier le problème de la station.');
-       return;
-   }
-
-   let message = `
-      \n Bonjour Emma! Je m'appelle ${name}, j'habite au ${pays === 'Autre' ? autrePays : pays}.
-       Message : ${description}
-   `;
-
-   if (contactType === 'Problème de la station') {
-       message += `\nAlerte : la station "${station}"  ${probleme}.`;
-   } else if (contactType === "Ajout d'une station") {
-       message += `\nJ'aimerais que vous ajoutiez la station : "${station}".`;
-   }
-
-   const subject = encodeURIComponent(`${contactType} - Contact via Birastat`);
-   const encodedMessage = encodeURIComponent(message);
-
-   if (contactPratform === 'email') {
-       const mailtoLink = `mailto:emmadiblouwizeyimana@gmail.com?subject=${subject}&body=${encodedMessage}`;
-       window.location.href = mailtoLink;
-       alert("Gmail va s'ouvrir ...");
-   } else if (contactPratform === 'whatsapp') {
-       const whatsappMessage = `${subject} ${encodedMessage}`;
-       window.open(`https://wa.me/25765517561?text=${whatsappMessage}`, '_blank');
-       alert("WhatsApp va s'ouvrir...");
-   } else {
-       alert("Veuillez sélectionner une plateforme de contact.");
-   }
-
-   form.reset();
-   closeModal();
-});
+        form.reset();
+        closeModal();
+    });
 })();
-
-   </script>
+     </script>
         <script>
             window.onload = function() {
             const loader = document.getElementById('loader-container');
