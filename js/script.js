@@ -1217,14 +1217,13 @@ async playStation(station, forceRefresh = false) {
         this.setLoadingState(true);
         this.elements.errorMessage.style.display = 'none';
 
-        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
         this.setupMediaSession(station);
         
         // Rafraîchir le flux si nécessaire
         if (forceRefresh || this.elements.audioPlayer.paused) {
-            this.elements.audioPlayer.pause(); // Arrêter le flux en cours
+    
             this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            this.elements.audioPlayer.load(); // Recharger le flux
+           
         }
 
         // Lecture
@@ -1235,7 +1234,7 @@ async playStation(station, forceRefresh = false) {
         this.updatePlayState();
     } catch (error) {
         console.error('Error playing station:', error);
-        this.handlePlaybackError(error);
+       
     }
 }
 

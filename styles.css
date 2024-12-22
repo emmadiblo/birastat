@@ -95,7 +95,7 @@ label {
 	}
 }
 
-.title,.description{
+.description{
    color: var(--primary-color);
 }
 
@@ -155,16 +155,18 @@ justify-content: space-between;
     justify-content: space-between;
 }
 
-.search-bar input {
+input,select ,textarea{
              width: auto;
-            padding: 12px;
             border: 2px solid var(--text-color);
             transition: border-color 0.3s;
             font-weight: 600;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
 
-.search-bar input:focus {
-            border-color: var(--red-color);
+ input:focus,select:focus {
+            border-color: var(--text-color);
             outline: none;
         }
 
@@ -174,13 +176,6 @@ justify-content: space-between;
             flex-wrap: wrap;
         }
 
-.filter-group select {
-            padding: 12px;
-            border: var(--red-color);
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            border: 1px solid var(--red-color);
-        }
 
 .stations-grid {
             display: grid;
@@ -192,7 +187,7 @@ justify-content: space-between;
 .station-card {
     
             border-radius: var(--border-radius);
-            padding: 15px;
+            padding: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
@@ -404,7 +399,7 @@ background-color: var(--background-color);
     bottom: 0;
     margin-left: auto;
     box-sizing: border-box;
-    max-height: 220px;
+    max-height: 230px;
     padding-bottom: 30px; 
      padding: 10px;
     width: fit-content;

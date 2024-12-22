@@ -45,6 +45,10 @@
 
     <style>
 
+        a{
+            text-decoration: none;
+        }
+
 .download-link {
     display: inline-flex;
     align-items: center;
@@ -175,10 +179,8 @@ nav li a i{
   font-size: 17px;
 }
 
-
-
 /* //install app */
-.modal {
+.modal,.contactus {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,7 +190,7 @@ nav li a i{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000; 
+    z-index: 2000; 
 }
 
 .modal-box {
@@ -200,11 +202,11 @@ nav li a i{
     width: 350px; 
 }
 
-.modal h2 {
+.modal h2,.contactus h2{
     color: var(--primary-color); 
 }
 
-.modal h3 {
+.modal h3, .contactus h4 {
     color: var(--text-color); 
 }
 
@@ -212,7 +214,7 @@ nav li a i{
     margin-top: 20px;
 }
 
-.modal button {
+.modal button,.contactus button {
     background-color: var(--secondary-color); 
     color: #fff; 
     border: none;
@@ -223,16 +225,13 @@ nav li a i{
     transition: background-color 0.3s;
 }
 
-.modal button:hover {
+.modal button:hover,.contactus .send-button:hover {
     background-color: var(--accent-color); 
 }
 
-.modal.close-btn {
-    background-color: var(--red-color);
-}
 
-.modal.close-btn:hover {
-    background-color: darken(var(--red-color), 10%); 
+.close-btn:hover {
+    background-color:var(--red-color); 
 } 
 
 
@@ -305,11 +304,10 @@ nav li a i{
 
                 <div class="logo">
                     
-                  <h1 class="title" style="margin-right: auto">Birastat</h1>
+                    <a href="./"><h1 class="title" style="margin-right: auto; color: var(--accent-color);">Birastat</h1></a>
   
                 <div class="search-bar">
                     <input type="text" id="search" placeholder="Rechercher par nom, genre...">
-                    <button id="clearSearch" class="clear-search" style="display: none;">✖</button>
                </div>
             </div>
            
@@ -318,8 +316,6 @@ nav li a i{
                     <select id="countryFilter">
                         <option value="">Tous les pays</option>
                     </select>
-
-        
 
                     <select id="genreFilter">
                         <option value="">Tous les genres</option>
@@ -330,10 +326,13 @@ nav li a i{
                     </select>
                 </div>
 
+                <div style="display: flex; justify-content: space-between">
+                <a href="#" onclick="showModal()"> <i class="fas fa-comment" style="font-size: 50px;color: var(--accent-color);"></i></a>
                 <div id="toggleThemeBtn">
                     <input type="checkbox" id="toggle"/>
                     <label for="toggle"></label>
                 </div>
+            </div>
         </div>
 
     </div>
@@ -368,12 +367,84 @@ nav li a i{
                 <i class="fa fa-check-circle" style="font-size: 50px;"></i>
                 <h2>Birastat</h2>
                 <h3>Ça sera mieux d'utiliser l'application</h3>
+                
                 <div class="buttons">
                     <button class="close-btn">Ignorer</button>
                     <button id="install-button">Installer l'application</button>
                 </div>
             </div>
         </section>
+
+        <section class="contactus" style="display: none;">
+            <span class="overlay"></span>
+      
+            <div class="modal-box">
+                <i class="fas fa-comment" style="font-size: 50px;"></i>
+
+                <h2>Contactez- Nous</h2>
+                <br>
+                <h4>Suggérez des améliorations, faites des alertes pour tout ce qui ne va pas</h4>
+                <br>
+                <form id="suggestionForm">
+
+                    <input type="text" id="name" name="name" placeholder="Nom et prénom" required>
+                    <select id="pays" name="pays" required>
+                        <option value="">Pays d'écoute</option>
+                        <option value="Burundi">Burundi</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+        
+                    <select id="contactType" name="contactType" required>
+                        <option value="">Choisissez le type de contact</option>
+                        <option value="Problème de la station">Problème de station</option>
+                        <option value="Ajout d'une station">Suggérer une station à ajouter</option>
+                        <option value="Améliorations">Autres améliorations</option>
+                        <option value="Appreciations">Appréciations</option>
+                    </select>
+                    
+                
+                    <input type="text" id="station" name="station" placeholder="Quelle station ?" style="display: none;"  />
+        
+                
+                    <select id="probleme" name="probleme" style="display: none;" >
+                        <option value="">Choisissez le problème de la station</option>
+                        <option value="ne fonctionne pas">La station ne fonctionne pas</option>
+                        <option value="a un signal faible">Le signal est faible</option>
+                    </select>
+                    
+
+        
+                    <input type="text" id="autrePays" name="autrePays" placeholder="Veuillez spécifier votre pays" style="display: none;" />
+        
+                    <textarea id="description" name="description" placeholder="Message supplémentaire ici..." ></textarea>
+                    <select id="contactPratform" name="contactPratform" required>
+                        <option value="">Envoyer le message via:</option>
+                        <option value="email">Email (Gmail)</option>
+                        <option value="whatsapp">WhatsApp</option>
+                    </select>
+
+                    <div class="buttons">
+                        <button class="close-btn" id="close-btn">Fermer</button>
+                        <button type="submit" id="send-button" class="send-button"><i class="fas fa-paper-plane"></i>
+                            Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+ 
+        
+        
+        
+        <style>
+
+.contactus input,.contactus select ,.contactus textarea{
+    width: 100%;
+    margin: 10px 2%;
+}
+      
+        </style>
 
 <div class="visiteurs">
     <h2>Bienvenue sur notre site !</h2>
@@ -464,7 +535,8 @@ nav li a i{
             <a href="#head">Rechercher</a>
         
             <a href="#favoritesSection">Favoris</a>
-
+            <a href="#" onclick="showModal()">Contact, suggestions</a>
+        
         </p>
 
         <p class="footer-company-name">Birastat © 2024</p>
@@ -516,21 +588,143 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
 </div>
 
 <script>
-    // Attendre que le script adsbygoogle soit chargé
-    window.onload = function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const adContainer = document.getElementById('ad-container');
-        // Vérifier si l'annonce a été générée
+
+        // Vérifier si l'annonce est générée après un délai
         setTimeout(function() {
-            if (adContainer.offsetParent !== null) {
-                adContainer.style.display = 'block'; // Afficher l'annonce si prête
+            // Vérification si l'élément <ins> est visible
+            const adSlot = adContainer.querySelector('.adsbygoogle');
+            const adRendered = adSlot && adSlot.offsetHeight > 0;
+
+            if (adRendered) {
+                adContainer.style.display = 'block'; // Afficher si annonce chargée
             } else {
-                adContainer.style.display = 'none'; // Ne pas afficher si pas prêt
+                adContainer.style.display = 'none'; // Cacher si l'annonce n'est pas prête
             }
-        }, 1000); // Délai pour donner le temps à l'annonce de se charger
-    };
+        }, 2000); // Attente de 2 secondes
+    });
 </script>
 
 
+<script type="text/javascript">
+    (function () {
+const form = document.getElementById('suggestionForm');
+const closeBtn = document.querySelector('#close-btn');
+const overlay = document.querySelector('.overlay');
+const modalBox = document.querySelector('.modal-box');
+const suggest = document.querySelector('.contactus');
+
+const paysSelect = document.getElementById('pays');
+const autrePaysInput = document.getElementById('autrePays');
+const contactTypeSelect = document.getElementById('contactType');
+const stationInput = document.getElementById('station');
+const problemeSelect = document.getElementById('probleme');
+
+
+
+function showModal() {
+    const suggest = document.querySelector('.contactus');
+    suggest.style.display = 'flex';
+}
+
+
+window.showModal = showModal;
+
+function closeModal() {
+    const suggest = document.querySelector('.contactus');
+    suggest.style.display = 'none';
+}
+
+
+document.getElementById('close-btn').addEventListener('click', closeModal);
+document.querySelector('.overlay').addEventListener('click', closeModal);
+
+
+
+
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+
+
+paysSelect.addEventListener('change', function () {
+   autrePaysInput.style.display = paysSelect.value === 'Autre' ? 'block' : 'none';
+   autrePaysInput.required = paysSelect.value === 'Autre'; 
+});
+
+
+contactTypeSelect.addEventListener('change', function () {
+   const isStationProblem = contactTypeSelect.value === 'Problème de la station';
+   const isStationAddition = contactTypeSelect.value === "Ajout d'une station";
+
+   stationInput.style.display = isStationProblem || isStationAddition ? 'block' : 'none';
+   stationInput.required = isStationProblem || isStationAddition;
+
+   problemeSelect.style.display = isStationProblem ? 'block' : 'none';
+   problemeSelect.required = isStationProblem;
+});
+
+
+form.addEventListener('submit', function (event) {
+   event.preventDefault();
+
+   // Basic validation
+   const contactPratform = document.getElementById('contactPratform').value;
+   const contactType = contactTypeSelect.value;
+   const name = document.getElementById('name').value;
+   const pays = paysSelect.value;
+   const autrePays = autrePaysInput.style.display === 'block' ? autrePaysInput.value : '';
+   const description = document.getElementById('description').value;
+   const station = stationInput.style.display === 'block' ? stationInput.value : '';
+   const probleme = problemeSelect.style.display === 'block' ? problemeSelect.value : '';
+
+   if (!contactPratform || !contactType || !name || !phone || !pays || (pays === 'Autre' && !autrePays)) {
+       alert('Veuillez remplir tous les champs requis.');
+       return;
+   }
+
+   if ((contactType === 'Problème de la station' || contactType === "Ajout d'une station") && !station) {
+       alert('Veuillez spécifier la station.');
+       return;
+   }
+
+   if (contactType === 'Problème de la station' && !probleme) {
+       alert('Veuillez spécifier le problème de la station.');
+       return;
+   }
+
+   let message = `
+      \n Bonjour Emma! Je m'appelle ${name}, j'habite au ${pays === 'Autre' ? autrePays : pays}.
+       Message : ${description}
+   `;
+
+   if (contactType === 'Problème de la station') {
+       message += `\nAlerte : la station "${station}"  ${probleme}.`;
+   } else if (contactType === "Ajout d'une station") {
+       message += `\nJ'aimerais que vous ajoutiez la station : "${station}".`;
+   }
+
+   const subject = encodeURIComponent(`${contactType} - Contact via Birastat`);
+   const encodedMessage = encodeURIComponent(message);
+
+   if (contactPratform === 'email') {
+       const mailtoLink = `mailto:emmadiblouwizeyimana@gmail.com?subject=${subject}&body=${encodedMessage}`;
+       window.location.href = mailtoLink;
+       alert("Gmail va s'ouvrir ...");
+   } else if (contactPratform === 'whatsapp') {
+       const whatsappMessage = `${subject} ${encodedMessage}`;
+       window.open(`https://wa.me/25765517561?text=${whatsappMessage}`, '_blank');
+       alert("WhatsApp va s'ouvrir...");
+   } else {
+       alert("Veuillez sélectionner une plateforme de contact.");
+   }
+
+   form.reset();
+   closeModal();
+});
+})();
+
+   </script>
         <script>
             window.onload = function() {
             const loader = document.getElementById('loader-container');
