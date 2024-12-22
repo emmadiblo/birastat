@@ -34,4 +34,3 @@ Nous espérons que vous apprécierez votre expérience d'écoute sur Birastat. M
 
 ---
 
-*Dernière mise à jour : [28 Novembre 2024]*
