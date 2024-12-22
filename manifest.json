@@ -1,7 +1,6 @@
 {
     "name": "Birastat app",
     "short_name": "Birastat",
-    "start_url": ".",
     "display": "standalone",
     "background_color": "#121212",
     "theme_color": "#121212",
@@ -16,5 +15,10 @@
             "sizes": "512x512",
             "type": "image/ico"
         }
-    ]
+    ],
+
+    "orientation": "any",
+    "start_url": ".",
+    "url": "index.html",
+
 }
