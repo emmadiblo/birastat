@@ -95,7 +95,7 @@ const stations = [
 
     id: 10,
     name: "Irebe FM",
-    url: "https://stream-174.zeno.fm/5wjpe2wxzdeuv?",
+    url: "https://stream-174.zeno.fm/5wjpe2wxzdeuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI1d2pwZTJ3eHpkZXV2IiwiaG9zdCI6InN0cmVhbS0xNzQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkY0QTBTajM0UmstUkUtS3FTc010alEiLCJpYXQiOjE3NDcwNzc4NzgsImV4cCI6MTc0NzA3NzkzOH0.V-z3Xl0p08MDMcZlNvrlaxiZsn8od3_2ZG5OlQyqkRA",
     logoUrl: "https://zeno.fm/_next/image/?url=https%3A%2F%2Fimages.zeno.fm%2FbgwW9a1W7X4axC--YuTrF0Y7-huPChdVvayrNbml_I0%2Frs%3Afit%3A240%3A240%2Fg%3Ace%3A0%3A0%2FaHR0cHM6Ly9zdHJlYW0tdG9vbHMuemVub21lZGlhLmNvbS9jb250ZW50L3N0YXRpb25zL2YyMTcyYjVmLWY2MjktNGJkNi05NWJmLTMwMThjZWQ3YWQzNS9pbWFnZS8_dXBkYXRlZD0xNjk2MzM3NTcyMDAwP3U9NTc1ODYwMA.webp&w=3840&q=100",
     country: "Burundi", 
     description: "Irebe Fm , umunezero wacu",
