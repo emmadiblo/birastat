@@ -878,11 +878,44 @@ const stations = [
     url: "https://stream-176.zeno.fm/b9zg6ceg5ehvv",
     logoUrl: "https://cdn.onlineradiobox.com/img/l/8/111958.v17.png",
     country: "Burundi", 
-    description: "	Bujumbura,Ntahangwa kamenge,Twinyoni,11Av53 Iwabo w'abasigayz",
+    description: "	Bujumbura,Ntahangwa kamenge,Twinyoni,11Av53 Iwabo w'abasigaye",
     genre: "Education",
     language: "Kirundi"
 },
 
+{
+
+    id: 80,
+    name: "Radio Fo-Fe",
+    url: "http://cast.thiff.com:8012/stream",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/1/73531.v3.png",
+    country: "Burundi", 
+    description: "Fondation FEMIDEJABAT au Service du Peuple et de la Nation",
+    genre: "Musique",
+    language: "Kirundi"
+},
+{
+
+    id: 81,
+    name: "B&B Kigali 89.7FM",
+    url: "https://eu4.fastcast4u.com/proxy/bbkigali?mp=/1",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/143176.v1.png",
+    country: "Rwanda", 
+    description: "Muri Siporo ni Igitego.",
+    genre: "Sports",
+    language: "Kinyarwanda"
+},
+{
+
+    id: 82,
+    name: "SDA Radio station",
+    url: "https://stream-158.zeno.fm/tx5ktvnp4ehvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0eDVrdHZucDRlaHZ2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImdMRWZ1d1pHU1BpWDc2cWNLcEc3MkEiLCJpYXQiOjE3NDcwODI5MDIsImV4cCI6MTc0NzA4Mjk2Mn0.hegDZJcBY3rRR9UbuNORkbNbQDdVqcHuie4D6DuvDXE",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/6/112096.v5.png",
+    country: "Rwanda", 
+    description: "SDA Radio station Ni radio ikorera kuri murandasi intego yacu nukubagezaho ijambo ry'Imana binyujijwe mundirimbo ndetse no mubyigisho bitandukanye.",
+    genre: "Religion",
+    language: "Kinyarwanda"
+},
 ];
 
 //genres: actualités,national,musique, sports,Religion,education 
