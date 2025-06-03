@@ -916,6 +916,28 @@ const stations = [
     genre: "Religion",
     language: "Kinyarwanda"
 },
+   {
+
+    id: 83,
+    name: "Radio CDN la voie de Cibitoke",
+    url: "https://s48.myradiostream.com/:11844/listen.mp3",
+    logoUrl: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.cdnburundi.org%2Fimg%2Flogo_ass.png&f=1&nofb=1&ipt=ba205d1cee4d7061fa95c4ac615aab628fea5896ec83f8e679cf92a0303dff83",
+    country: "Burundi", 
+    description: "Cibitoke Diaspora Network.",
+    genre: "Sport",
+    language: "Kirundi"
+},
+    {
+
+    id: 84,
+    name: "Buja FM",
+    url: "https://bujafmbujumbura-atunwadigital.streamguys1.com/bujafmbujumbura",
+    logoUrl: "https://cdn.onlineradiobox.com/img/l/8/143568.v1.png",
+    country: "Burundi", 
+    description: "Bujumbura, 87.6 MHz FM.",
+    genre: "Actualités",
+    language: "Kirundi"
+},
 ];
 
 //genres: actualités,national,musique, sports,Religion,education 
