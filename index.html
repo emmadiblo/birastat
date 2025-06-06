@@ -586,18 +586,63 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
 
     // Vérifie si l'app est déjà installée
     function isInstalled() {
-        return window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
+        if (window.navigator.standalone) return true;
+        if (window.matchMedia('(display-mode: standalone)').matches) return true;
+        return false;
     }
 
     // Événement pour vérifier l'état d'installation au chargement de la page
     document.addEventListener('DOMContentLoaded', () => {
-        if (isInstalled()) {
-            console.log('Application déjà installée');
-            modal.style.display = 'none';
-        } else {
-            console.log('Application non installée - affichage de la modale');
+        // On cache initialement le modal
+        modal.style.display = 'none';
+    });
+
+    // Gestion de l'installation de l'application
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // Empêche le prompt automatique
+        deferredPrompt = e;
+
+        // On vérifie si l'app n'est pas déjà installée
+        if (!isInstalled()) {
             modal.style.display = 'flex';
+            console.log('Application installable - affichage de la modale');
         }
+    });
+
+    // Écouter les changements de display-mode
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+        if (evt.matches) {
+            // L'app vient d'être installée
+            modal.style.display = 'none';
+        }
+    });
+
+    // Bouton "Installer"
+    installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        try {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            if (outcome === 'accepted') {
+                console.log('Installation acceptée');
+                modal.style.display = 'none';
+            } else {
+                console.log('Installation refusée');
+            }
+            
+            deferredPrompt = null;
+        } catch (error) {
+            console.error('Erreur d\'installation :', error);
+        }
+    });
+
+    // Fermeture manuelle de la modale
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
 
         // Initialisation du lecteur audio
         const audioPlayer = document.getElementById('audioPlayer');
@@ -646,45 +691,7 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
-    });
 
-    // Gestion de l'installation de l'application
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); // Empêche le prompt automatique
-        deferredPrompt = e;
-
-        // Si l'app n'est pas installée, afficher le modal
-        if (!isInstalled()) {
-            modal.style.display = 'flex';
-            console.log('Application installable - affichage de la modale');
-        }
-    });
-
-    // Bouton "Installer"
-    installButton.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-
-        try {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-
-            if (outcome === 'accepted') {
-                console.log('Installation acceptée');
-            } else {
-                console.log('Installation refusée');
-            }
-
-            modal.style.display = 'none';
-            deferredPrompt = null;
-        } catch (error) {
-            console.error('Erreur d\'installation :', error);
-        }
-    });
-
-    // Fermeture manuelle de la modale
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
 
     // Service Worker
     if ('serviceWorker' in navigator) {
