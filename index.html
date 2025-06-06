@@ -647,22 +647,27 @@ playPauseBtn.addEventListener('click', () => {
                 }
             });
 
-	        let deferredPrompt;
+	let deferredPrompt;
 	const modal = document.querySelector('.modal');
 	const overlay = document.querySelector('.overlay');
 	const closeBtn = document.querySelector('.close-btn');
 	const installButton = document.getElementById('install-button');
 	
 	// Vérifie si l'app est déjà installée
-	function isAppInstalled() {
-	    return window.matchMedia('(display-mode: standalone)').matches || 
-	           window.navigator.standalone === true ||
-	           localStorage.getItem('appInstalled') === 'true'; // Vérifie le stockage local
+	function isInstalled() {
+	  // Pour iOS
+	  if (window.navigator.standalone) return true;
+	
+	  // Pour Android
+	  if (window.matchMedia("(display-mode: standalone)").matches) return true;
+	
+	  // Si aucun des deux n'est vrai, l'app n'est pas installée
+	  return false;
 	}
 	
 	// L'app est déjà installée ? => Ne rien afficher
 	document.addEventListener('DOMContentLoaded', () => {
-	    if (isAppInstalled()) {
+	    if (isInstalled()) {
 	        console.log('Application déjà installée');
 	        modal.style.display = 'none';
 	    }
@@ -674,7 +679,7 @@ playPauseBtn.addEventListener('click', () => {
 	    deferredPrompt = e;
 	
 	    // Si l'app n'est pas installée, afficher le modal
-	    if (!isAppInstalled()) {
+	    if (!isInstalled()) {
 	        modal.style.display = 'flex';
 	        console.log('Application installable - affichage de la modale');
 	    }
@@ -690,7 +695,6 @@ playPauseBtn.addEventListener('click', () => {
 	
 	        if (outcome === 'accepted') {
 	            console.log('Installation acceptée');
-	            localStorage.setItem('appInstalled', 'true'); // Mémorise l'installation
 	        } else {
 	            console.log('Installation refusée');
 	        }
@@ -730,6 +734,7 @@ playPauseBtn.addEventListener('click', () => {
 	        });
 	    });
 	}
+	
 });
 
 </script>
