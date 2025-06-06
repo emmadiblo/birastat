@@ -1198,7 +1198,7 @@ handlePlaybackError(error) {
                // errorMessage = "Cette station n'est pas disponible. Essayez une autre station.";
               //  break;
             default:
-           errorMessage = "";
+           errorMessage = "La chaine est hors ligne";
                 break;
         }
     } 
