@@ -274,7 +274,10 @@ nav li a i{
     opacity: 1;
     transform: scale(1);
 }
-
+.contactus input,.contactus select ,.contactus textarea{
+	    width: 100%;
+	    margin: 10px 2%;
+	}
 </style>
 </head>
 <body>
@@ -430,19 +433,6 @@ nav li a i{
                 </form>
             </div>
         </section>
-        
- 
-        
-        
-        
-        <style>
-
-	.contactus input,.contactus select ,.contactus textarea{
-	    width: 100%;
-	    margin: 10px 2%;
-	}
-      
-        </style>
 
 	<div class="visiteurs">
 	    <h2>Bienvenue sur notre site !</h2>
@@ -562,22 +552,12 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
       
     </div>
 
-</footer>
-<div id="ad-container" style="display: none;">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795015952384621"
-            crossorigin="anonymous"></script>
-    <!-- Annonce -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4795015952384621"
-         data-ad-slot="5419132659"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
+</body>
 
+</footer>
+<script src="js/script.js"></script>
+<script src="js/audiorecorder.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
 <script>
     let deferredPrompt;
     const modal = document.querySelector('.modal');
@@ -892,9 +872,5 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
         updateVisitorCount(count);
     });
 </script>
-
-<script src="js/script.js"></script>
-<script src="js/audiorecorder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
 	
 </html>
