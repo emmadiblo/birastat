@@ -579,334 +579,315 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
 </div>
 
 <script>
+    let deferredPrompt;
+    const modal = document.querySelector('.modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const installButton = document.getElementById('install-button');
 
-	let deferredPrompt;
-	const modal = document.querySelector('.modal');
-	const closeBtn = document.querySelector('.close-btn');
-	const installButton = document.getElementById('install-button');
-	
-	// Vérifie si l'app est déjà installée
-	function isInstalled() {
-	    return window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
-	}
-	
-	// Événement pour vérifier l'état d'installation au chargement de la page
-	document.addEventListener('DOMContentLoaded', () => {
-	    if (isInstalled()) {
-	        console.log('Application déjà installée');
-	        modal.style.display = 'none';
-	    } else {
-	        console.log('Application non installée - affichage de la modale');
-	        modal.style.display = 'flex';
-	    }
-	});
-	
-	// Événement déclenché quand l'app devient installable
-	window.addEventListener('beforeinstallprompt', (e) => {
-	    e.preventDefault(); // Empêche le prompt automatique
-	    deferredPrompt = e;
-	
-	    // Si l'app n'est pas installée, afficher le modal
-	    if (!isInstalled()) {
-	        modal.style.display = 'flex';
-	        console.log('Application installable - affichage de la modale');
-	    }
-	});
-	
-	// Bouton "Installer"
-	installButton.addEventListener('click', async () => {
-	    if (!deferredPrompt) return;
-	
-	    try {
-	        deferredPrompt.prompt();
-	        const { outcome } = await deferredPrompt.userChoice;
-	
-	        if (outcome === 'accepted') {
-	            console.log('Installation acceptée');
-	        } else {
-	            console.log('Installation refusée');
-	        }
-	
-	        modal.style.display = 'none';
-	        deferredPrompt = null;
-	    } catch (error) {
-	        console.error('Erreur d\'installation :', error);
-	    }
-	});
-	
-	// Fermeture manuelle de la modale
-	closeBtn.addEventListener('click', () => {
-	    modal.style.display = 'none';
-	});
-	
-	// Service Worker
-	if ('serviceWorker' in navigator) {
-	    window.addEventListener('load', () => {
-	        navigator.serviceWorker.register('service-worker.js')
-	        .then(registration => {
-	            console.log('Service Worker enregistré :', registration);
-	        })
-	        .catch(error => {
-	            console.error('Erreur SW :', error);
-	        });
-	    });
-	}
-	
- document.addEventListener('DOMContentLoaded', () => {
-    const audioPlayer = document.getElementById('audioPlayer');
-    const audioRecorder = new AudioRecorder(audioPlayer);
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playPauseIcon = document.getElementById('playPauseIcon');
-    const volumeBtn = document.getElementById('volumeBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeValue= document.getElementById('volumeValue');
-    
-    // Initialiser le volume
-    audioPlayer.volume = volumeSlider.value / 100;
-
-// Jouer/Pause
-playPauseBtn.addEventListener('click', () => {
-
-    if (audioPlayer.paused) {
-        audioPlayer.play();
-        playPauseIcon.classList.remove('fa-play'); // Retirer l'icône de lecture
-        playPauseIcon.classList.add('fa-pause'); // Ajouter l'icône de pause
-        this.playStation(audioPlayer).play();
-    } else {
-        audioPlayer.pause();
-        playPauseIcon.classList.remove('fa-pause'); // Retirer l'icône de pause
-        playPauseIcon.classList.add('fa-play'); // Ajouter l'icône de lecture
-    }
-});
-
-    // Volume
-    volumeValue.textContent = (audioPlayer.volume * 100) + '%'; // Affiche le volume actuel
-   
-    volumeSlider.addEventListener('input', (e) => {
-        const volume = e.target.value;
-        volumeValue.textContent = volume + '%'; // Met à jour l'affichage du volume
-        audioPlayer.volume = volume / 100;
-        
-    });
-
-
-    //mode jour/nuit
-    const toggle = document.querySelector('#toggle');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-
-            // Appliquer le thème au chargement
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            toggle.checked = currentTheme === 'dark';
-
-            toggle.addEventListener('change', () => {
-                const theme = document.documentElement.getAttribute('data-theme');
-
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-            });
-
-       
-	
-});
-
-</script>
-
-<script type="text/javascript">
-(function () {
-    const form = document.getElementById('suggestionForm');
-    const closeBtn = document.querySelector('#close-btn');
-    const overlay = document.querySelector('.overlay');
-    const suggest = document.querySelector('.contactus');
-    const paysSelect = document.getElementById('pays');
-    const autrePaysInput = document.getElementById('autrePays');
-    const contactTypeSelect = document.getElementById('contactType');
-    const stationInput = document.getElementById('station');
-    const problemeSelect = document.getElementById('probleme');
-
-    function showModal() {
-        suggest.style.display = 'flex';
+    // Vérifie si l'app est déjà installée
+    function isInstalled() {
+        return window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
     }
 
-    //esposer showModal
-window.showModal = showModal;
-    function closeModal() {
-        suggest.style.display = 'none';
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', closeModal);
-
-    paysSelect.addEventListener('change', function () {
-        autrePaysInput.style.display = paysSelect.value === 'Autre' ? 'block' : 'none';
-        autrePaysInput.required = paysSelect.value === 'Autre';
-    });
-
-    contactTypeSelect.addEventListener('change', function () {
-        const isStationProblem = contactTypeSelect.value === 'Problème de la station';
-        const isStationAddition = contactTypeSelect.value === "Ajout d'une station";
-
-        stationInput.style.display = isStationProblem || isStationAddition ? 'block' : 'none';
-        stationInput.required = isStationProblem || isStationAddition;
-
-        problemeSelect.style.display = isStationProblem ? 'block' : 'none';
-        problemeSelect.required = isStationProblem;
-    });
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        // Validation des champs
-        const contactPratform = document.getElementById('contactPratform').value;
-        const contactType = contactTypeSelect.value;
-        const name = document.getElementById('name').value;
-        const pays = paysSelect.value;
-        const autrePays = autrePaysInput.style.display === 'block' ? autrePaysInput.value : '';
-        const description = document.getElementById('description').value;
-        const station = stationInput.style.display === 'block' ? stationInput.value : '';
-        const probleme = problemeSelect.style.display === 'block' ? problemeSelect.value : '';
-
-        if (!contactPratform || !contactType || !name || !pays || (pays === 'Autre' && !autrePays)) {
-            alert('Veuillez remplir tous les champs requis.');
-            return;
-        }
-
-        if ((contactType === 'Problème de la station' || contactType === "Ajout d'une station") && !station) {
-            alert('Veuillez spécifier la station.');
-            return;
-        }
-
-        if (contactType === 'Problème de la station' && !probleme) {
-            alert('Veuillez spécifier le problème de la station.');
-            return;
-        }
-
-        let message = `
-            Bonjour Emma! Je m'appelle ${name}, j'habite au ${pays === 'Autre' ? autrePays : pays}.
-            Message : ${description}
-        `;
-
-        if (contactType === 'Problème de la station') {
-            message += `\nAlerte : la station "${station}" ${probleme}.`;
-        } else if (contactType === "Ajout d'une station") {
-            message += `\nJ'aimerais que vous ajoutiez la station : "${station}".`;
-        }
-
-        const subject = encodeURIComponent(`${contactType} - Contact via Birastat`);
-        const encodedMessage = encodeURIComponent(message);
-
-        if (contactPratform === 'email') {
-            const mailtoLink = `mailto:emmadiblouwizeyimana@gmail.com?subject=${subject}&body=${encodedMessage}`;
-            window.location.href = mailtoLink;
-            alert("Gmail va s'ouvrir ...");
-        } else if (contactPratform === 'whatsapp') {
-            const whatsappMessage = `${subject} ${encodedMessage}`;
-            window.open(`https://wa.me/25765517561?text=${whatsappMessage}`, '_blank');
-            alert("WhatsApp va s'ouvrir...");
+    // Événement pour vérifier l'état d'installation au chargement de la page
+    document.addEventListener('DOMContentLoaded', () => {
+        if (isInstalled()) {
+            console.log('Application déjà installée');
+            modal.style.display = 'none';
         } else {
-            alert("Veuillez sélectionner une plateforme de contact.");
+            console.log('Application non installée - affichage de la modale');
+            modal.style.display = 'flex';
         }
 
-        form.reset();
-        closeModal();
+        // Initialisation du lecteur audio
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioRecorder = new AudioRecorder(audioPlayer);
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playPauseIcon = document.getElementById('playPauseIcon');
+        const volumeBtn = document.getElementById('volumeBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValue = document.getElementById('volumeValue');
+
+        // Initialiser le volume
+        audioPlayer.volume = volumeSlider.value / 100;
+
+        // Jouer/Pause
+        playPauseBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseIcon.classList.remove('fa-play'); // Retirer l'icône de lecture
+                playPauseIcon.classList.add('fa-pause'); // Ajouter l'icône de pause
+            } else {
+                audioPlayer.pause();
+                playPauseIcon.classList.remove('fa-pause'); // Retirer l'icône de pause
+                playPauseIcon.classList.add('fa-play'); // Ajouter l'icône de lecture
+            }
+        });
+
+        // Volume
+        volumeValue.textContent = (audioPlayer.volume * 100) + '%'; // Affiche le volume actuel
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value;
+            volumeValue.textContent = volume + '%'; // Met à jour l'affichage du volume
+            audioPlayer.volume = volume / 100;
+        });
+
+        // Mode jour/nuit
+        const toggle = document.querySelector('#toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+
+        // Appliquer le thème au chargement
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        toggle.checked = currentTheme === 'dark';
+
+        toggle.addEventListener('change', () => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
     });
-})();
-     </script>
-        <script>
-            window.onload = function() {
-            const loader = document.getElementById('loader-container');
-            loader.style.opacity = 0;
 
-            setTimeout(() => {
-                loader.style.display = 'none';
-                document.getElementById('contentWrapper').style.display = 'block';
-            }, 2000); 
-        };  
-        </script>
-    </body>
-    <script>
-        //compteur utilisateurs
-   // Configuration de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyC3cFYAck46dsgi37oBmjv20FiGqF1cRS8",
-    authDomain: "weber-d9ace.firebaseapp.com",
-    databaseURL: "https://weber-d9ace-default-rtdb.firebaseio.com",
-    projectId: "weber-d9ace",
-    storageBucket: "weber-d9ace.firebasestorage.app",
-    messagingSenderId: "865412247130",
-    appId: "1:865412247130:web:6aa1a7829d57c444e33263",
-    measurementId: "G-E5T6M2FHST"
-};
+    // Gestion de l'installation de l'application
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // Empêche le prompt automatique
+        deferredPrompt = e;
 
-// Initialiser Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-// Fonction pour générer un ID unique pour le visiteur
-function generateVisitorId() {
-    let visitorId = localStorage.getItem('visitorId');
-    if (!visitorId) {
-        visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-        localStorage.setItem('visitorId', visitorId);
-    }
-    return visitorId;
-}
-
-// Référence à la base de données
-const visitorsRef = database.ref('visitors');
-const visitorId = generateVisitorId();
-
-// Vérifie si c'est un nouveau visiteur
-visitorsRef.child(visitorId).once('value')
-    .then((snapshot) => {
-        if (!snapshot.exists()) {
-            // Nouveau visiteur
-            return visitorsRef.child(visitorId).set({
-                firstVisit: firebase.database.ServerValue.TIMESTAMP
-            });
+        // Si l'app n'est pas installée, afficher le modal
+        if (!isInstalled()) {
+            modal.style.display = 'flex';
+            console.log('Application installable - affichage de la modale');
         }
-    })
-    .then(() => {
-        // Compte le nombre total de visiteurs uniques
-        return visitorsRef.once('value');
-    })
-    .then((snapshot) => {
+    });
+
+    // Bouton "Installer"
+    installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        try {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            if (outcome === 'accepted') {
+                console.log('Installation acceptée');
+            } else {
+                console.log('Installation refusée');
+            }
+
+            modal.style.display = 'none';
+            deferredPrompt = null;
+        } catch (error) {
+            console.error('Erreur d\'installation :', error);
+        }
+    });
+
+    // Fermeture manuelle de la modale
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker enregistré :', registration);
+                })
+                .catch(error => {
+                    console.error('Erreur SW :', error);
+                });
+        });
+    });
+
+    // Gestion du formulaire de contact
+    (function () {
+        const form = document.getElementById('suggestionForm');
+        const closeBtn = document.querySelector('#close-btn');
+        const overlay = document.querySelector('.overlay');
+        const suggest = document.querySelector('.contactus');
+        const paysSelect = document.getElementById('pays');
+        const autrePaysInput = document.getElementById('autrePays');
+        const contactTypeSelect = document.getElementById('contactType');
+        const stationInput = document.getElementById('station');
+        const problemeSelect = document.getElementById('probleme');
+
+        function showModal() {
+            suggest.style.display = 'flex';
+        }
+        window.showModal = showModal;
+
+        function closeModal() {
+            suggest.style.display = 'none';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+
+        paysSelect.addEventListener('change', function () {
+            autrePaysInput.style.display = paysSelect.value === 'Autre' ? 'block' : 'none';
+            autrePaysInput.required = paysSelect.value === 'Autre';
+        });
+
+        contactTypeSelect.addEventListener('change', function () {
+            const isStationProblem = contactTypeSelect.value === 'Problème de la station';
+            const isStationAddition = contactTypeSelect.value === "Ajout d'une station";
+
+            stationInput.style.display = isStationProblem || isStationAddition ? 'block' : 'none';
+            stationInput.required = isStationProblem || isStationAddition;
+
+            problemeSelect.style.display = isStationProblem ? 'block' : 'none';
+            problemeSelect.required = isStationProblem;
+        });
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Validation des champs
+            const contactPratform = document.getElementById('contactPratform').value;
+            const contactType = contactTypeSelect.value;
+            const name = document.getElementById('name').value;
+            const pays = paysSelect.value;
+            const autrePays = autrePaysInput.style.display === 'block' ? autrePaysInput.value : '';
+            const description = document.getElementById('description').value;
+            const station = stationInput.style.display === 'block' ? stationInput.value : '';
+            const probleme = problemeSelect.style.display === 'block' ? problemeSelect.value : '';
+
+            if (!contactPratform || !contactType || !name || !pays || (pays === 'Autre' && !autrePays)) {
+                alert('Veuillez remplir tous les champs requis.');
+                return;
+            }
+
+            if ((contactType === 'Problème de la station' || contactType === "Ajout d'une station") && !station) {
+                alert('Veuillez spécifier la station.');
+                return;
+            }
+
+            if (contactType === 'Problème de la station' && !probleme) {
+                alert('Veuillez spécifier le problème de la station.');
+                return;
+            }
+
+            let message = `
+                Bonjour Emma! Je m'appelle ${name}, j'habite au ${pays === 'Autre' ? autrePays : pays}.
+                Message : ${description}
+            `;
+
+            if (contactType === 'Problème de la station') {
+                message += `\nAlerte : la station "${station}" ${probleme}.`;
+            } else if (contactType === "Ajout d'une station") {
+                message += `\nJ'aimerais que vous ajoutiez la station : "${station}".`;
+            }
+
+            const subject = encodeURIComponent(`${contactType} - Contact via Birastat`);
+            const encodedMessage = encodeURIComponent(message);
+
+            if (contactPratform === 'email') {
+                const mailtoLink = `mailto:emmadiblouwizeyimana@gmail.com?subject=${subject}&body=${encodedMessage}`;
+                window.location.href = mailtoLink;
+                alert("Gmail va s'ouvrir ...");
+            } else if (contactPratform === 'whatsapp') {
+                const whatsappMessage = `${subject} ${encodedMessage}`;
+                window.open(`https://wa.me/25765517561?text=${whatsappMessage}`, '_blank');
+                alert("WhatsApp va s'ouvrir...");
+            } else {
+                alert("Veuillez sélectionner une plateforme de contact.");
+            }
+
+            form.reset();
+            closeModal();
+        });
+    })();
+
+    // Chargement de la page
+    window.onload = function () {
+        const loader = document.getElementById('loader-container');
+        loader.style.opacity = 0;
+
+        setTimeout(() => {
+            loader.style.display = 'none';
+            document.getElementById('contentWrapper').style.display = 'block';
+        }, 2000);
+    };
+
+    // Configuration de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyC3cFYAck46dsgi37oBmjv20FiGqF1cRS8",
+        authDomain: "weber-d9ace.firebaseapp.com",
+        databaseURL: "https://weber-d9ace-default-rtdb.firebaseio.com",
+        projectId: "weber-d9ace",
+        storageBucket: "weber-d9ace.firebasestorage.app",
+        messagingSenderId: "865412247130",
+        appId: "1:865412247130:web:6aa1a7829d57c444e33263",
+        measurementId: "G-E5T6M2FHST"
+    };
+
+    // Initialiser Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Fonction pour générer un ID unique pour le visiteur
+    function generateVisitorId() {
+        let visitorId = localStorage.getItem('visitorId');
+        if (!visitorId) {
+            visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+            localStorage.setItem('visitorId', visitorId);
+        }
+        return visitorId;
+    }
+
+    // Référence à la base de données
+    const visitorsRef = database.ref('visitors');
+    const visitorId = generateVisitorId();
+
+    // Vérifie si c'est un nouveau visiteur
+    visitorsRef.child(visitorId).once('value')
+        .then((snapshot) => {
+            if (!snapshot.exists()) {
+                // Nouveau visiteur
+                return visitorsRef.child(visitorId).set({
+                    firstVisit: firebase.database.ServerValue.TIMESTAMP
+                });
+            }
+        })
+        .then(() => {
+            // Compte le nombre total de visiteurs uniques
+            return visitorsRef.once('value');
+        })
+        .then((snapshot) => {
+            const count = snapshot.numChildren();
+            document.getElementById('user-count').textContent = count;
+        })
+        .catch((error) => {
+            console.error("Erreur:", error);
+        });
+
+    // Écoute les changements dans le nombre total de visiteurs
+    visitorsRef.on('value', (snapshot) => {
         const count = snapshot.numChildren();
         document.getElementById('user-count').textContent = count;
-    })
-    .catch((error) => {
-        console.error("Erreur:", error);
     });
 
-// Écoute les changements dans le nombre total de visiteurs
-visitorsRef.on('value', (snapshot) => {
-    const count = snapshot.numChildren();
-    document.getElementById('user-count').textContent = count;
-});
+    // Fonction pour mettre à jour le nombre de visiteurs avec animation
+    function updateVisitorCount(count) {
+        const userCountElement = document.getElementById('user-count');
+        userCountElement.classList.remove('show');
 
-// Fonction pour mettre à jour le nombre de visiteurs avec animation
-function updateVisitorCount(count) {
-    const userCountElement = document.getElementById('user-count');
-    userCountElement.classList.remove('show');
-    
-    // Mettre à jour le texte après une courte pause pour l'animation
-    setTimeout(() => {
-        userCountElement.textContent = count;
-        userCountElement.classList.add('show');
-    }, 300); // Délai correspondant à l'animation
-}
+        // Mettre à jour le texte après une courte pause pour l'animation
+        setTimeout(() => {
+            userCountElement.textContent = count;
+            userCountElement.classList.add('show');
+        }, 300); // Délai correspondant à l'animation
+    }
 
-// Écoute les changements dans le nombre total de visiteurs
-visitorsRef.on('value', (snapshot) => {
-    const count = snapshot.numChildren();
-    updateVisitorCount(count);
-});
-    </script>
-    <script src="js/script.js"></script>
-    <script src="js/audiorecorder.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
+    // Écoute les changements dans le nombre total de visiteurs
+    visitorsRef.on('value', (snapshot) => {
+        const count = snapshot.numChildren();
+        updateVisitorCount(count);
+    });
+</script>
+
+<script src="js/script.js"></script>
+<script src="js/audiorecorder.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
+	
 </html>
