@@ -942,7 +942,7 @@ const stations = [
 
 //genres: actualités,national,musique, sports,Religion,education 
 
-lass Birastat {
+class Birastat {
     constructor() {
         this.ITEMS_PER_PAGE = 15;
         this.currentPage = 1;
