@@ -1192,13 +1192,13 @@ handlePlaybackError(error) {
                 errorMessage = "Erreur réseau : impossible de charger la station.";
                 break;
             case MediaError.MEDIA_ERR_DECODE:
-                errorMessage = "Erreur de lecture : le fichier audio est corrompu ou incompatible.";
+                errorMessage = "Cette station est hors ligne";
                 break;
             ///case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
                // errorMessage = "Cette station n'est pas disponible. Essayez une autre station.";
               //  break;
             default:
-           errorMessage = "La chaine est hors ligne";
+           errorMessage = "";
                 break;
         }
     } 
