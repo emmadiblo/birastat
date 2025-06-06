@@ -95,18 +95,18 @@
 @keyframes rec-effect {
 	0% {
 		box-shadow: 0 0 0 0 #333,
-								0 0 0 0 rgba(0,255,0,.3),
-								0 0 0 0 rgba(0,255,0,.3);	
+		0 0 0 0 rgba(0,255,0,.3),
+		0 0 0 0 rgba(0,255,0,.3);	
 	}
 	11% {
 		box-shadow: 0 0 0 7px #333,
-								0 0 0 23px #3f3,
-								0 0 0 0 #3f5;
+		0 0 0 23px #3f3,
+		0 0 0 0 #3f5;
 	}
 	77% {
 		box-shadow: 0 0 0 0 #333,
-								0 0 0 11px rgba(0,255,0,.3),
-								0 0 0 33px rgba(0,255,0,.3);
+		0 0 0 11px rgba(0,255,0,.3),
+		0 0 0 33px rgba(0,255,0,.3);
 	}
 }
   
@@ -285,7 +285,6 @@ nav li a i{
     <nav>
         <ul>
            <li><a href="https://www.facebook.com/emmadiblouwizeyimana"><i class="fab fa-facebook-f"></i></a></li>
-    
            <li><a href="mailto:emmadiblouwizeyimana@gmail.com?subject=Birastat%2C%20Contact"><i class="fa fa-envelope"></i></a></li>
            <li><a href="https://www.linkedin.com/in/emmadiblouwizeyimana"><i class="fab fa-linkedin-in"></i></a></li>
       
@@ -301,8 +300,7 @@ nav li a i{
 
          
       <div class="filters" >
-
-                <div class="logo">
+              <div class="logo">
                     
                     <a href="./"><h1 class="title" style="margin-right: auto; color: var(--accent-color);">Birastat</h1></a>
   
@@ -439,18 +437,18 @@ nav li a i{
         
         <style>
 
-.contactus input,.contactus select ,.contactus textarea{
-    width: 100%;
-    margin: 10px 2%;
-}
+	.contactus input,.contactus select ,.contactus textarea{
+	    width: 100%;
+	    margin: 10px 2%;
+	}
       
         </style>
 
-<div class="visiteurs">
-    <h2>Bienvenue sur notre site !</h2>
-    <p> Nombre de visiteurs depuis le 1/12/2024: <span id="user-count">0</span></p>
-</div>
-        
+	<div class="visiteurs">
+	    <h2>Bienvenue sur notre site !</h2>
+	    <p> Nombre de visiteurs depuis le 1/12/2024: <span id="user-count">0</span></p>
+	</div>
+	        
 
 <div class="player" id="player-content">
 
@@ -459,10 +457,8 @@ nav li a i{
 
       <div id="status"></div>
      
-
      <button id="stop" style="display: none;padding: 10px;">Arrêter</button>
    
-    
      <div class="control">
 
     <div class="record" id="start" type="button">
@@ -472,16 +468,12 @@ nav li a i{
 
         <div  id="downloadLinkContainer" style="display: none;"></div>
             <button id="refreshButton" style="display: none;padding: 10px;" onclick="window.location.reload()">Actualiser Pour enregistrer l'autre audio</button>     
-    
-
-
-   </div>
+        </div>
                <div class="player-info">
                     <img id="currentStationLogo" class="station-logo" src="https://media3.giphy.com/media/lReVblhSRtxXtfK81w/200w.gif?cid=6c09b952792u4klgf1gnqlzd5y6zfxt0aqqjts2bvkng0g5m&ep=v1_gifs_search&rid=200w.gif&ct=g" alt="Radio logo">
                     <div class="player-details">
                         <h3 id="currentStationName">Sélectionnez ou Rechercher une station à ecouter</h3>
                         <div id="currentStationInfo"></div>
-
                     </div>
 
                     <div id="player-controls">
@@ -504,7 +496,6 @@ nav li a i{
     
                 </div>
 
-                 
                   <div class="rangeWrap">
                     <input type="range" id="volumeSlider" list="ticks" min="0" max="100" value="50" />
                     <datalist id="ticks">
@@ -647,46 +638,30 @@ playPauseBtn.addEventListener('click', () => {
                 }
             });
 
-	let deferredPrompt;
+       let deferredPrompt;
 	const modal = document.querySelector('.modal');
-	const overlay = document.querySelector('.overlay');
 	const closeBtn = document.querySelector('.close-btn');
 	const installButton = document.getElementById('install-button');
 	
 	// Vérifie si l'app est déjà installée
 	function isInstalled() {
-	  // Pour iOS
-	  if (window.navigator.standalone) return true;
+	  if (window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches) {
+            return true;
+	    } else{
+     return false;
+        }
 	
-	  // Pour Android
-	  if (window.matchMedia("(display-mode: standalone)").matches) return true;
-	
-	  // Si aucun des deux n'est vrai, l'app n'est pas installée
-	  return false;
 	}
 	
-	// L'app est déjà installée ? => Ne rien afficher
-	document.addEventListener('DOMContentLoaded', () => {
 	    if (isInstalled()) {
 	        console.log('Application déjà installée');
 	        modal.style.display = 'none';
 	    }
-	});
-	
-	// Événement déclenché quand l'app devient installable
-	window.addEventListener('beforeinstallprompt', (e) => {
-	    e.preventDefault(); // Empêche le prompt automatique
-	    deferredPrompt = e;
-	
-	    // Si l'app n'est pas installée, afficher le modal
-	    if (!isInstalled()) {
+        else{
 	        modal.style.display = 'flex';
 	        console.log('Application installable - affichage de la modale');
-	    }
-	});
-	
-	// Bouton "Installer"
-	installButton.addEventListener('click', async () => {
+            // Bouton "Installer"
+	    installButton.addEventListener('click', async () => {
 	    if (!deferredPrompt) return;
 	
 	    try {
@@ -704,20 +679,10 @@ playPauseBtn.addEventListener('click', () => {
 	    } catch (error) {
 	        console.error('Erreur d\'installation :', error);
 	    }
-	});
+	  });
+        }
 	
-	// L'app a été installée
-	window.addEventListener('appinstalled', () => {
-	    console.log('Application installée');
-	    modal.style.display = 'none';
-	    deferredPrompt = null;
-	});
-	
-	// Fermeture manuelle de la modale
-	overlay.addEventListener('click', () => {
-	    modal.style.display = 'none';
-	});
-	
+
 	closeBtn.addEventListener('click', () => {
 	    modal.style.display = 'none';
 	});
