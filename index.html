@@ -580,79 +580,79 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
 
 <script>
 
-        let deferredPrompt;
-        const modal = document.querySelector('.modal');
-        const closeBtn = document.querySelector('.close-btn');
-        const installButton = document.getElementById('install-button');
-
-        // Vérifie si l'app est déjà installée
-        function isInstalled() {
-            return window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
-        }
-
-        // Événement déclenché quand l'app devient installable
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); // Empêche le prompt automatique
-            deferredPrompt = e;
-
-            // Si l'app n'est pas installée, afficher le modal
-            if (!isInstalled()) {
-                modal.style.display = 'flex';
-                console.log('Application installable - affichage de la modale');
-            }
-        });
-
-        // Bouton "Installer"
-        installButton.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-
-            try {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-
-                if (outcome === 'accepted') {
-                    console.log('Installation acceptée');
-                } else {
-                    console.log('Installation refusée');
-                }
-
-                modal.style.display = 'none';
-                deferredPrompt = null;
-            } catch (error) {
-                console.error('Erreur d\'installation :', error);
-            }
-        });
-
-        // Fermeture manuelle de la modale
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        // Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                .then(registration => {
-                    console.log('Service Worker enregistré :', registration);
-                })
-                .catch(error => {
-                    console.error('Erreur SW :', error);
-                });
-            });
-        }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-
+	let deferredPrompt;
+	const modal = document.querySelector('.modal');
+	const closeBtn = document.querySelector('.close-btn');
+	const installButton = document.getElementById('install-button');
 	
-        if (isInstalled()) {
-        console.log('Application déjà installée');
-        modal.style.display = 'none';
-    } else {
-        console.log('Application installable - affichage de la modale');
-        modal.style.display = 'flex';
-    }
+	// Vérifie si l'app est déjà installée
+	function isInstalled() {
+	    return window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
+	}
 	
+	// Événement pour vérifier l'état d'installation au chargement de la page
+	document.addEventListener('DOMContentLoaded', () => {
+	    if (isInstalled()) {
+	        console.log('Application déjà installée');
+	        modal.style.display = 'none';
+	    } else {
+	        console.log('Application non installée - affichage de la modale');
+	        modal.style.display = 'flex';
+	    }
+	});
+	
+	// Événement déclenché quand l'app devient installable
+	window.addEventListener('beforeinstallprompt', (e) => {
+	    e.preventDefault(); // Empêche le prompt automatique
+	    deferredPrompt = e;
+	
+	    // Si l'app n'est pas installée, afficher le modal
+	    if (!isInstalled()) {
+	        modal.style.display = 'flex';
+	        console.log('Application installable - affichage de la modale');
+	    }
+	});
+	
+	// Bouton "Installer"
+	installButton.addEventListener('click', async () => {
+	    if (!deferredPrompt) return;
+	
+	    try {
+	        deferredPrompt.prompt();
+	        const { outcome } = await deferredPrompt.userChoice;
+	
+	        if (outcome === 'accepted') {
+	            console.log('Installation acceptée');
+	        } else {
+	            console.log('Installation refusée');
+	        }
+	
+	        modal.style.display = 'none';
+	        deferredPrompt = null;
+	    } catch (error) {
+	        console.error('Erreur d\'installation :', error);
+	    }
+	});
+	
+	// Fermeture manuelle de la modale
+	closeBtn.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+	
+	// Service Worker
+	if ('serviceWorker' in navigator) {
+	    window.addEventListener('load', () => {
+	        navigator.serviceWorker.register('service-worker.js')
+	        .then(registration => {
+	            console.log('Service Worker enregistré :', registration);
+	        })
+	        .catch(error => {
+	            console.error('Erreur SW :', error);
+	        });
+	    });
+	}
+	
+ document.addEventListener('DOMContentLoaded', () => {
     const audioPlayer = document.getElementById('audioPlayer');
     const audioRecorder = new AudioRecorder(audioPlayer);
     const playPauseBtn = document.getElementById('playPauseBtn');
