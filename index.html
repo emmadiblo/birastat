@@ -647,89 +647,89 @@ playPauseBtn.addEventListener('click', () => {
                 }
             });
 
-        let deferredPrompt;
-        const modal = document.querySelector('.modal');
-        const overlay = document.querySelector('.overlay');
-        const closeBtn = document.querySelector('.close-btn');
-        const installButton = document.getElementById('install-button');
-
-        // Vérifie si l'app est déjà installée
-        function isAppInstalled() {
-            return window.matchMedia('(display-mode: standalone)').matches || 
-                window.navigator.standalone === true;
-        }
-
-        // L'app est déjà installée ? => Ne rien afficher
-        document.addEventListener('DOMContentLoaded', () => {
-            if (isAppInstalled()) {
-                console.log('Application déjà installée');
-                modal.style.display = 'none';
-            }
-        });
-
-        // Événement déclenché quand l'app devient installable
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); // Empêche le prompt automatique
-            deferredPrompt = e;
-
-            // Si l'app n'est pas installée, afficher le modal
-            if (!isAppInstalled()) {
-                modal.style.display = 'flex';
-                console.log('Application installable - affichage de la modale');
-            }
-        });
-
-        // Bouton "Installer"
-        installButton.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-
-            try {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-
-                if (outcome === 'accepted') {
-                    console.log('Installation acceptée');
-                } else {
-                    console.log('Installation refusée');
-                }
-
-                modal.style.display = 'none';
-                deferredPrompt = null;
-            } catch (error) {
-                console.error('Erreur d\'installation :', error);
-            }
-        });
-
-        // L'app a été installée
-        window.addEventListener('appinstalled', () => {
-            console.log('Application installée');
-            modal.style.display = 'none';
-            deferredPrompt = null;
-        });
-
-        // Fermeture manuelle de la modale
-        overlay.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        // Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                .then(registration => {
-                    console.log('Service Worker enregistré :', registration);
-                })
-                .catch(error => {
-                    console.error('Erreur SW :', error);
-                });
-            });
-        }
-
-
+	        let deferredPrompt;
+	const modal = document.querySelector('.modal');
+	const overlay = document.querySelector('.overlay');
+	const closeBtn = document.querySelector('.close-btn');
+	const installButton = document.getElementById('install-button');
+	
+	// Vérifie si l'app est déjà installée
+	function isAppInstalled() {
+	    return window.matchMedia('(display-mode: standalone)').matches || 
+	           window.navigator.standalone === true ||
+	           localStorage.getItem('appInstalled') === 'true'; // Vérifie le stockage local
+	}
+	
+	// L'app est déjà installée ? => Ne rien afficher
+	document.addEventListener('DOMContentLoaded', () => {
+	    if (isAppInstalled()) {
+	        console.log('Application déjà installée');
+	        modal.style.display = 'none';
+	    }
+	});
+	
+	// Événement déclenché quand l'app devient installable
+	window.addEventListener('beforeinstallprompt', (e) => {
+	    e.preventDefault(); // Empêche le prompt automatique
+	    deferredPrompt = e;
+	
+	    // Si l'app n'est pas installée, afficher le modal
+	    if (!isAppInstalled()) {
+	        modal.style.display = 'flex';
+	        console.log('Application installable - affichage de la modale');
+	    }
+	});
+	
+	// Bouton "Installer"
+	installButton.addEventListener('click', async () => {
+	    if (!deferredPrompt) return;
+	
+	    try {
+	        deferredPrompt.prompt();
+	        const { outcome } = await deferredPrompt.userChoice;
+	
+	        if (outcome === 'accepted') {
+	            console.log('Installation acceptée');
+	            localStorage.setItem('appInstalled', 'true'); // Mémorise l'installation
+	        } else {
+	            console.log('Installation refusée');
+	        }
+	
+	        modal.style.display = 'none';
+	        deferredPrompt = null;
+	    } catch (error) {
+	        console.error('Erreur d\'installation :', error);
+	    }
+	});
+	
+	// L'app a été installée
+	window.addEventListener('appinstalled', () => {
+	    console.log('Application installée');
+	    modal.style.display = 'none';
+	    deferredPrompt = null;
+	});
+	
+	// Fermeture manuelle de la modale
+	overlay.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+	
+	closeBtn.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+	
+	// Service Worker
+	if ('serviceWorker' in navigator) {
+	    window.addEventListener('load', () => {
+	        navigator.serviceWorker.register('service-worker.js')
+	        .then(registration => {
+	            console.log('Service Worker enregistré :', registration);
+	        })
+	        .catch(error => {
+	            console.error('Erreur SW :', error);
+	        });
+	    });
+	}
 });
 
 </script>
