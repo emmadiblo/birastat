@@ -588,22 +588,153 @@ Birastat est une application conçue pour aider les Burundais et les Rwandais d'
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const adContainer = document.getElementById('ad-container');
 
-        // Vérifier si l'annonce est générée après un délai
-        setTimeout(function() {
-            // Vérification si l'élément <ins> est visible
-            const adSlot = adContainer.querySelector('.adsbygoogle');
-            const adRendered = adSlot && adSlot.offsetHeight > 0;
+document.addEventListener('DOMContentLoaded', () => {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioRecorder = new AudioRecorder(audioPlayer);
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue= document.getElementById('volumeValue');
+    
+    // Initialiser le volume
+    audioPlayer.volume = volumeSlider.value / 100;
 
-            if (adRendered) {
-                adContainer.style.display = 'block'; // Afficher si annonce chargée
-            } else {
-                adContainer.style.display = 'none'; // Cacher si l'annonce n'est pas prête
-            }
-        }, 2000); // Attente de 2 secondes
+// Jouer/Pause
+playPauseBtn.addEventListener('click', () => {
+
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseIcon.classList.remove('fa-play'); // Retirer l'icône de lecture
+        playPauseIcon.classList.add('fa-pause'); // Ajouter l'icône de pause
+        this.playStation(audioPlayer).play();
+    } else {
+        audioPlayer.pause();
+        playPauseIcon.classList.remove('fa-pause'); // Retirer l'icône de pause
+        playPauseIcon.classList.add('fa-play'); // Ajouter l'icône de lecture
+    }
+});
+
+    // Volume
+    volumeValue.textContent = (audioPlayer.volume * 100) + '%'; // Affiche le volume actuel
+   
+    volumeSlider.addEventListener('input', (e) => {
+        const volume = e.target.value;
+        volumeValue.textContent = volume + '%'; // Met à jour l'affichage du volume
+        audioPlayer.volume = volume / 100;
+        
     });
+
+
+    //mode jour/nuit
+    const toggle = document.querySelector('#toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            // Appliquer le thème au chargement
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            toggle.checked = currentTheme === 'dark';
+
+            toggle.addEventListener('change', () => {
+                const theme = document.documentElement.getAttribute('data-theme');
+
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+
+
+    let deferredPrompt;
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+const closeBtn = document.querySelector('.close-btn');
+const installButton = document.getElementById('install-button');
+
+// Fonction pour vérifier si l'application est installée
+function isAppInstalled() {
+    return window.matchMedia('(display-mode: standalone)').matches || 
+           window.navigator.standalone === true;
+}
+
+// Événement déclenché lorsque l'application est installable
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Empêche Chrome d'afficher automatiquement le prompt
+    deferredPrompt = e;
+
+    if (!isAppInstalled()) {
+        modal.style.display = 'flex';
+        console.log('Installation possible - modal affichée');
+    } else {
+        modal.style.display = 'none';
+    }
+});
+
+// Bouton d'installation cliqué
+installButton.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+        console.log('Aucun prompt d\'installation disponible');
+        return;
+    }
+
+    try {
+        deferredPrompt.prompt(); // Afficher le prompt
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+            console.log('Installation acceptée');
+        } else {
+            console.log('Installation refusée');
+        }
+
+        modal.style.display = 'none';
+        deferredPrompt = null;
+    } catch (error) {
+        console.error('Erreur lors de l\'installation :', error);
+    }
+});
+
+// Application installée avec succès
+window.addEventListener('appinstalled', () => {
+    console.log('Application installée avec succès');
+    modal.style.display = 'none';
+    deferredPrompt = null;
+});
+
+// Fermeture de la modale
+overlay.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+// Vérification à l'initialisation
+document.addEventListener('DOMContentLoaded', () => {
+    if (isAppInstalled()) {
+        modal.style.display = 'none';
+    }
+});
+
+// Enregistrement du service worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+        .then(registration => {
+            console.log('Service Worker enregistré avec succès:', registration);
+        })
+        .catch(error => {
+            console.error('Échec de l\'enregistrement du Service Worker:', error);
+        });
+    });
+}
+
+});
+
 </script>
 
 <script type="text/javascript">
@@ -799,177 +930,4 @@ visitorsRef.on('value', (snapshot) => {
     <script src="js/script.js"></script>
     <script src="js/audiorecorder.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
-  
-    <script>
-let deferredPrompt;
-const modal = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
-const closeBtn = document.querySelector('.close-btn');
-const installButton = document.getElementById('install-button');
-
-// Fonction pour vérifier l'installation
-function isAppInstalled() {
-    return window.matchMedia('(display-mode: standalone)').matches || 
-           window.navigator.standalone === true;
-}
-
-// Événement pour détecter l'installabilité de l'application
-window.addEventListener('beforeinstallprompt', (e) => {
-   
-    
-    // Stocker l'événement pour une utilisation ultérieure
-    deferredPrompt = e;
-    deferredPrompt.prompt();
-
-    // Vérifier si l'application n'est pas déjà installée
-    if (!isAppInstalled()) {
-        modal.style.display = 'flex';
-        console.log('Installation possible - modal affichée');
-    }
-    else  modal.style.display = 'none';
-});
-
-
-if (!deferredPrompt) {
-        console.log('Aucun prompt d\'installation disponible');
-        modal.style.display = 'none';
-    }
-
-installButton.addEventListener('click', async () => {
-
-
-    try {
-        // Afficher le prompt d'installation
-        const choiceResult = await deferredPrompt.prompt();
-        
-        // Gérer le résultat du choix
-        if (choiceResult.outcome === 'accepted') {
-            modal.style.display = 'none';
-            console.log('Installation acceptée');
-        } else {
-            console.log('Installation refusée');
-            modal.style.display = 'none';
-        }
-
-        // Masquer la modale
-        modal.style.display = 'none';
-        
-        // Réinitialiser le prompt
-        deferredPrompt = null;
-    } catch (error) {
-        console.error('Erreur lors de l\'installation :', error);
-    }
-});
-
-// Gérer l'installation effective
-window.addEventListener('appinstalled', (evt) => {
-    console.log('Application installée avec succès');
-    modal.style.display = 'none';
-    deferredPrompt = null;
-});
-
-// Événements pour fermer la modale
-overlay.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-// Vérification à l'initialisation
-document.addEventListener('DOMContentLoaded', () => {
-    // Vérifier si l'application est déjà installée
-    if (isAppInstalled()) {
-        modal.style.display = 'none';
-    }
-
-
-    
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const audioPlayer = document.getElementById('audioPlayer');
-    const audioRecorder = new AudioRecorder(audioPlayer);
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playPauseIcon = document.getElementById('playPauseIcon');
-    const volumeBtn = document.getElementById('volumeBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeValue= document.getElementById('volumeValue');
-    
-    // Initialiser le volume
-    audioPlayer.volume = volumeSlider.value / 100;
-
-
-
-// Jouer/Pause
-playPauseBtn.addEventListener('click', () => {
-
-    if (audioPlayer.paused) {
-        audioPlayer.play();
-        playPauseIcon.classList.remove('fa-play'); // Retirer l'icône de lecture
-        playPauseIcon.classList.add('fa-pause'); // Ajouter l'icône de pause
-        this.playStation(audioPlayer).play();
-    } else {
-        audioPlayer.pause();
-        playPauseIcon.classList.remove('fa-pause'); // Retirer l'icône de pause
-        playPauseIcon.classList.add('fa-play'); // Ajouter l'icône de lecture
-    }
-});
-
-    // Volume
-    volumeValue.textContent = (audioPlayer.volume * 100) + '%'; // Affiche le volume actuel
-   
-    volumeSlider.addEventListener('input', (e) => {
-        const volume = e.target.value;
-        volumeValue.textContent = volume + '%'; // Met à jour l'affichage du volume
-        audioPlayer.volume = volume / 100;
-        
-    });
-
-
-
-
-    //mode jour/nuit
-    const toggle = document.querySelector('#toggle');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-
-            // Appliquer le thème au chargement
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            toggle.checked = currentTheme === 'dark';
-
-            toggle.addEventListener('change', () => {
-                const theme = document.documentElement.getAttribute('data-theme');
-
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-            });
-
- if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-        .then(registration => {
-            console.log('Service Worker enregistré avec succès:', registration);
-        })
-        .catch(error => {
-            console.error('Échec de l\'enregistrement du Service Worker:', error);
-        });
-    });
-}
-
-
-
-
-});
-
-
-</script>
-
 </html>
