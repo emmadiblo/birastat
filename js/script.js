@@ -942,7 +942,7 @@ const stations = [
 
 //genres: actualités,national,musique, sports,Religion,education 
 
-class Birastat {
+lass Birastat {
     constructor() {
         this.ITEMS_PER_PAGE = 15;
         this.currentPage = 1;
@@ -958,18 +958,24 @@ class Birastat {
             language: ''
         };
 
+        // Variables pour la gestion d'erreurs améliorée
+        this.isLoading = false;
+        this.hasError = false;
+        this.errorMessage = '';
+        this.retryCount = 0;
+        this.maxRetries = 3;
+        this.retryDelay = 2000; // 2 secondes
+        this.connectionCheckInterval = null;
+        this.lastErrorTime = 0;
+        this.errorCooldown = 5000; // 5 secondes entre les tentatives
+
         this.initializeElements();
         this.initializeFilters();
         this.setupEventListeners();
         this.initialize();
-
-        this.isLoading = false;
-        this.hasError = false;
-        this.errorMessage = '';
     }
 
     initializeElements() {
-        // Récupérer tous les éléments DOM nécessaires
         this.elements = {
             audioPlayer: document.getElementById('audioPlayer'),
             stationsContainer: document.getElementById('stations'), 
@@ -989,384 +995,460 @@ class Birastat {
             currentStationName: document.getElementById('currentStationName'),
             currentStationLogo: document.getElementById('currentStationLogo'),
             currentStationInfo: document.getElementById('currentStationInfo'),
-            
+            playPauseIcon: document.getElementById('playPauseIcon'),
+            playerStatus: document.getElementById('playerStatus'),
+            errorMessage: document.getElementById('status')
         };
 
         this.elements.volumeSlider.value = this.currentVolume;
         this.elements.audioPlayer.volume = this.currentVolume / 100;
-        this.elements.playPauseIcon = document.getElementById('playPauseIcon');
-        this.elements.playerStatus = document.getElementById('playerStatus');
-        this.elements.errorMessage = document.getElementById('status');
     }
 
     initializeFilters() {
-    const countries = [...new Set(stations.map(s => s.country))];
-    const genres = [...new Set(stations.map(s => s.genre))];
-    const languages = [...new Set(stations.map(s => s.language))];
+        const countries = [...new Set(stations.map(s => s.country))];
+        const genres = [...new Set(stations.map(s => s.genre))];
+        const languages = [...new Set(stations.map(s => s.language))];
 
-    this.populateFilter(this.elements.countryFilter, countries);
-    this.populateFilter(this.elements.genreFilter, genres);
-    this.populateFilter(this.elements.languageFilter, languages);
+        this.populateFilter(this.elements.countryFilter, countries);
+        this.populateFilter(this.elements.genreFilter, genres);
+        this.populateFilter(this.elements.languageFilter, languages);
 
-    this.getUserCountry().then(userCountry => {
-        if (userCountry) {
-            this.selectUserCountry(userCountry, this.elements.countryFilter);
-        }
-    });
-}
-
-async getUserCountry() {
-    return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async position => {
-                    const { latitude, longitude } = position.coords;
-                    const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
-                    const data = await response.json();
-                    resolve(data.countryName); // Renvoie le nom du pays
-                },
-                error => {
-                    console.error("Error getting location: ", error);
-                    resolve(null); // Si l'utilisateur refuse la géolocalisation
-                    console.log('vous avez refusé la localisation')
-                }
-            );
-        } else {
-            console.error("Geolocation is not supported by this browser.");
-            resolve(null);
-        }
-    });
-}
-
-
-
-selectUserCountry(userCountry, select) {
-    const optionExists = [...select.options].some(option => option.value === userCountry);
-    if (optionExists) {
-        select.value = userCountry; // Sélectionne le pays s'il existe
-        select.dispatchEvent(new Event('change')); // Déclenche l'événement de changement
-    }
-}
-
-
-populateFilter(select, values) {
-    values.sort().forEach(value => {
-        const option = document.createElement('option');
-        option.value = value;
-        option.textContent = value;
-        select.appendChild(option);
-    });
-}
-
-setupEventListeners() {
-    // Recherche
-    this.elements.searchInput.addEventListener('input', () => this.handleSearch());
-  
-
-    // Filtres (pays, genre, langue)
-    ['countryFilter', 'genreFilter', 'languageFilter'].forEach(id => {
-        this.elements[id].addEventListener('change', (e) => this.handleFilterChange(e));
-    });
-
-    // Bouton "Charger plus"
-    this.elements.loadMoreBtn.addEventListener('click', () => this.loadMore());
-
-    // Contrôle du volume
-    this.elements.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
-
-    // Gestion des événements du lecteur audio
-    this.elements.audioPlayer.addEventListener('playing', () => {
-        this.isPlaying = true;
-        this.hasError = false;
-        this.updatePlayState();
-    });
-
-    this.elements.audioPlayer.addEventListener('pause', () => {
-        this.isPlaying = false;
-        this.updatePlayState();
-    });
-
-    this.elements.audioPlayer.addEventListener('waiting', () => {
-        this.setLoadingState(true);
-    });
-
-    this.elements.audioPlayer.addEventListener('playing', () => {
-        this.setLoadingState(false);
-        this.isPlaying = true;
-        this.hasError = false;
-        this.updatePlayState();
-    });
-
-    this.elements.audioPlayer.addEventListener('pause', () => {
-        this.setLoadingState(false);
-        this.isPlaying = false;
-        this.updatePlayState();
-    });
-
-    this.elements.audioPlayer.addEventListener('error', (e) => {
-        this.handlePlaybackError(e.target.error || new Error("Erreur inconnue lors de la lecture."));
-    });
-
-    this.elements.audioPlayer.addEventListener('ended', () => {
-        // Recharger le flux en cas de fin inattendue
-        this.playStation(this.currentStation, true);
-    });
-    
-    this.elements.audioPlayer.addEventListener('stalled', () => {
-        console.warn('Audio stalled, reloading stream...');
-        // Redémarrer la lecture en cas de blocage
-        this.playStation(this.currentStation, true);
-    });
-    
-
-    // Gestion de la connexion Internet
-    window.addEventListener('online', () => {
-        this.handleOnline();
-    });
-
-    window.addEventListener('offline', () => {
-        this.handleOffline();
-    });
-}
-
-async initialize() {
-    await this.preloadImages();
-    this.displayStations();
-    this.displayFavorites();
-
-    // Lecture de la dernière station si disponible
-    if (this.lastPlayedStation) {
-        await this.playStation(this.lastPlayedStation, true);
-    }
-}
-
-setLoadingState(isLoading) {
-    this.isLoading = isLoading;
-
-    if (isLoading) {
-        // Lors du chargement
-        this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
-        this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
-        this.elements.playerStatus.textContent = 'Chargement en cours...';
-    } else if (this.hasError) {
-        // En cas d'erreur
-        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
-        this.elements.playPauseIcon.classList.add('fa-play');
-        this.elements.playerStatus.textContent = "Erreur de lecture, Actualisez sinon choisissez l'autre station.";
-        this.elements.mic.style.display = "none"; // Masquer le micro
-    } else if (this.isPlaying) {
-        // En lecture
-        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin');
-        this.elements.playPauseIcon.classList.add('fa-pause');
-        this.elements.playerStatus.textContent = 'En direct...';
-        this.elements.mic.style.display = "block"; // Afficher le micro
-    } else {
-        // En pause
-        this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
-        this.elements.playPauseIcon.classList.add('fa-play');
-        this.elements.playerStatus.textContent = 'Mis en pause.';
-        this.elements.mic.style.display = "none"; // Masquer le micro
-    }
-}
-
-
-
-handlePlaybackError(error) {
-    this.isPlaying = false;
-    this.hasError = true;
-    this.setLoadingState(false);
-
-    let errorMessage;
-
-    // Détecter si l'utilisateur est hors ligne
-    if (!navigator.onLine) {
-        errorMessage = 'Pas de connexion Internet. Vérifiez votre réseau.';
-    } 
-    // Gestion des erreurs audio spécifiques
-    else if (error instanceof MediaError) {
-        switch (error.code) {
-            case MediaError.MEDIA_ERR_ABORTED:
-                errorMessage = "La lecture a été interrompue. Veuillez réessayer.";
-                break;
-            case MediaError.MEDIA_ERR_NETWORK:
-                errorMessage = "Erreur réseau : impossible de charger la station.";
-                break;
-            case MediaError.MEDIA_ERR_DECODE:
-                errorMessage = "Cette station est hors ligne";
-                break;
-            ///case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-               // errorMessage = "Cette station n'est pas disponible. Essayez une autre station.";
-              //  break;
-            default:
-           errorMessage = "";
-                break;
-        }
-    } 
-    // Autres erreurs générales
-    else if (error.message) {
-        errorMessage = error.message;
-    } else {
-        errorMessage = "Une erreur inconnue est survenue.";
-    }
-
-    // Afficher le message d'erreur
-    this.elements.errorMessage.textContent =errorMessage;
-    this.elements.errorMessage.style.display = 'block';
-    this.updatePlayState();
-    console.error('Playback error:', errorMessage, error);
-}
-
-
-// Mettre en place Mediasession pour lecture dans les notification
-setupMediaSession(station) {
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: station.name,
-            artist: station.country, 
-            album: "Birastat radio", 
-            artwork: [
-                { src: station.logoUrl, sizes: '96x96', type: 'image/jpeg' }, 
-                { src: station.logoUrl, sizes: '128x128', type: 'image/jpeg' },
-                { src: station.logoUrl, sizes: '192x192', type: 'image/jpeg' },
-                { src: station.logoUrl, sizes: '256x256', type: 'image/jpeg' },
-                { src: station.logoUrl, sizes: '384x384', type: 'image/jpeg' },
-                { src: station.logoUrl, sizes: '512x512', type: 'image/jpeg' }
-            ],
+        this.getUserCountry().then(userCountry => {
+            if (userCountry) {
+                this.selectUserCountry(userCountry, this.elements.countryFilter);
+            }
         });
-
-        navigator.mediaSession.setActionHandler('play', () => {
-            this.elements.audioPlayer.play();
-        });
-
-        navigator.mediaSession.setActionHandler('pause', () => {
-            this.elements.audioPlayer.pause();
-        });
-
-    } else {
-        console.warn('Media Session API not supported in this browser.');
-    }
-}
-
-
-
-async playStation(station, forceRefresh = false) {
-    try {
-        if (!navigator.onLine) {
-            throw new Error('Pas de connexion Internet. Impossible de lire la station.');
-        }
-
-        this.currentStation = station;
-        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
-
-        // Mettre à jour les informations de la station
-        this.elements.currentStationName.textContent = station.name;
-        this.elements.currentStationLogo.src = station.logoUrl;
-        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-        this.setLoadingState(true);
-        this.elements.errorMessage.style.display = 'none';
-
-        // Rafraîchir le flux si nécessaire
-        if (forceRefresh || this.elements.audioPlayer.paused) {
-            this.elements.audioPlayer.pause(); // Arrêter le flux en cours
-            this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-            this.elements.audioPlayer.load(); // Recharger le flux
-        }
-
-        // Lecture
-        await this.elements.audioPlayer.play();
-
-        this.isPlaying = true;
-        this.setLoadingState(false); // Arrêter l'état de chargement
-        this.updatePlayState();
-    } catch (error) {
-        console.error('Error playing station:', error);
-        this.handlePlaybackError(error);
-    }
-}
-
-
-handlePlayPause() {
-    if (this.isPlaying) {
-        // Mettre en pause
-        this.elements.audioPlayer.pause();
-        this.isPlaying = false;
-        this.updatePlayState();
-    } else {
-        // forcer le rafraîchissement pour lire le flux en temps réel
-        this.playStation(this.currentStation, true);
-    }
-}
-
-
-
-playStation(station) {
-    try {
-        this.currentStation = station;
-
-        // Incrémenter le compteur de visites
-        const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
-        visits[station.id] = (visits[station.id] || 0) + 1;
-        localStorage.setItem('stationVisits', JSON.stringify(visits));
-
-        localStorage.setItem('lastPlayedStation', JSON.stringify(station));
-        this.elements.currentStationName.textContent = station.name;
-        this.elements.currentStationLogo.src = station.logoUrl;
-        this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
-
-        this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
-        this.setupMediaSession(station);
-        this.elements.audioPlayer.play();
-
-        this.isPlaying = true;
-        this.updatePlayState();
-    } catch (error) {
-        console.error('Error playing station:', error);
-    }
-}
-
-
-
-
-
-
-
-updatePlayState() {
-    if (!this.elements.player) {
-        console.warn("L'élément 'player' est introuvable. Vérifiez votre DOM.");
-        return;
     }
 
-}
-
-
-handleOnline() {
-    this.elements.errorMessage.style.display = 'none'; // Cacher les messages d'erreur précédents
-    if (this.currentStation) {
-        this.playStation(this.currentStation);
-    }
-}
-
-handleOffline() {
-    const errorMessage = 'Pas de connexion Internet. Vous ne pouvez pas écouter de stations.';
-    this.elements.errorMessage.textContent = errorMessage;
-    this.elements.errorMessage.style.display = 'block';
-}
-
-async preloadImages() {
-    const promises = stations.map(station => {
+    async getUserCountry() {
         return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = img.onerror = resolve;
-            img.src = station.logoUrl;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async position => {
+                        try {
+                            const { latitude, longitude } = position.coords;
+                            const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+                            const data = await response.json();
+                            resolve(data.countryName);
+                        } catch (error) {
+                            console.warn("Erreur lors de la récupération du pays:", error);
+                            resolve(null);
+                        }
+                    },
+                    error => {
+                        console.warn("Géolocalisation refusée par l'utilisateur");
+                        resolve(null);
+                    }
+                );
+            } else {
+                resolve(null);
+            }
         });
-    });
-    await Promise.all(promises);
-}
+    }
+
+    selectUserCountry(userCountry, select) {
+        const optionExists = [...select.options].some(option => option.value === userCountry);
+        if (optionExists) {
+            select.value = userCountry;
+            select.dispatchEvent(new Event('change'));
+        }
+    }
+
+    populateFilter(select, values) {
+        values.sort().forEach(value => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+        });
+    }
+
+    setupEventListeners() {
+        // Recherche
+        this.elements.searchInput.addEventListener('input', () => this.handleSearch());
+
+        // Filtres
+        ['countryFilter', 'genreFilter', 'languageFilter'].forEach(id => {
+            this.elements[id].addEventListener('change', (e) => this.handleFilterChange(e));
+        });
+
+        // Bouton "Charger plus"
+        this.elements.loadMoreBtn.addEventListener('click', () => this.loadMore());
+
+        // Contrôle du volume
+        this.elements.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
+
+        // Événements audio améliorés
+        this.setupAudioEventListeners();
+
+        // Gestion de la connexion Internet
+        window.addEventListener('online', () => this.handleOnline());
+        window.addEventListener('offline', () => this.handleOffline());
+    }
+
+    setupAudioEventListeners() {
+        const audio = this.elements.audioPlayer;
+
+        // Événement de lecture réussie
+        audio.addEventListener('playing', () => {
+            this.isPlaying = true;
+            this.hasError = false;
+            this.retryCount = 0;
+            this.clearErrorMessage();
+            this.setLoadingState(false);
+            this.updatePlayState();
+        });
+
+        // Événement de pause
+        audio.addEventListener('pause', () => {
+            this.isPlaying = false;
+            this.setLoadingState(false);
+            this.updatePlayState();
+        });
+
+        // Événement de chargement
+        audio.addEventListener('loadstart', () => {
+            this.setLoadingState(true);
+        });
+
+        // Événement d'attente (buffering)
+        audio.addEventListener('waiting', () => {
+            this.setLoadingState(true);
+        });
+
+        // Événement de données suffisantes pour commencer la lecture
+        audio.addEventListener('canplay', () => {
+            this.setLoadingState(false);
+        });
+
+        // Gestion d'erreur principale
+        audio.addEventListener('error', (e) => {
+            const error = e.target.error;
+            this.handlePlaybackError(error);
+        });
+
+        // Gestion de la fin de stream (peut indiquer une déconnexion)
+        audio.addEventListener('ended', () => {
+            console.warn('Stream ended unexpectedly, attempting to reconnect...');
+            this.handleStreamInterruption();
+        });
+
+        // Gestion du blocage du stream
+        audio.addEventListener('stalled', () => {
+            console.warn('Stream stalled, checking connection...');
+            this.handleStreamStalled();
+        });
+
+        // Événement de suspension (peut indiquer un problème réseau)
+        audio.addEventListener('suspend', () => {
+            console.warn('Stream suspended');
+            if (this.isPlaying) {
+                this.handleStreamInterruption();
+            }
+        });
+    }
+
+    async initialize() {
+        await this.preloadImages();
+        this.displayStations();
+        this.displayFavorites();
+
+        if (this.lastPlayedStation) {
+            await this.playStation(this.lastPlayedStation, true);
+        }
+    }
+
+    setLoadingState(isLoading) {
+        this.isLoading = isLoading;
+
+        if (isLoading && !this.hasError) {
+            this.elements.playPauseIcon.classList.remove('fa-play', 'fa-pause');
+            this.elements.playPauseIcon.classList.add('fa-spinner', 'fa-spin');
+            this.elements.playerStatus.textContent = 'Connexion en cours...';
+            this.elements.mic.style.display = "none";
+        } else if (this.hasError) {
+            this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
+            this.elements.playPauseIcon.classList.add('fa-play');
+            this.elements.playerStatus.textContent = 'Erreur de lecture';
+            this.elements.mic.style.display = "none";
+        } else if (this.isPlaying) {
+            this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-play');
+            this.elements.playPauseIcon.classList.add('fa-pause');
+            this.elements.playerStatus.textContent = 'En direct...';
+            this.elements.mic.style.display = "block";
+        } else {
+            this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
+            this.elements.playPauseIcon.classList.add('fa-play');
+            this.elements.playerStatus.textContent = 'Arrêté';
+            this.elements.mic.style.display = "none";
+        }
+    }
+
+    // Gestion d'erreur améliorée avec messages spécifiques
+    async handlePlaybackError(error) {
+        this.isPlaying = false;
+        this.hasError = true;
+        this.setLoadingState(false);
+
+        let errorMessage = '';
+        let canRetry = true;
+        let retryMessage = '';
+
+        // Vérifier la connexion Internet
+        if (!navigator.onLine) {
+            errorMessage = '🌐 Pas de connexion Internet';
+            retryMessage = 'Vérifiez votre connexion réseau';
+            canRetry = false;
+        } 
+        // Station hors ligne ou inaccessible
+        else if (await this.checkStationAvailability(this.currentStation)) {
+            errorMessage = '📻 Station temporairement hors ligne';
+            retryMessage = 'Nous tentons de reconnecter automatiquement...';
+        }
+        // Erreurs spécifiques du MediaError
+        else if (error && error.code) {
+            switch (error.code) {
+                case MediaError.MEDIA_ERR_ABORTED:
+                    errorMessage = '⏹️ Lecture interrompue';
+                    retryMessage = 'Appuyez sur lecture pour reprendre';
+                    canRetry = true;
+                    break;
+                case MediaError.MEDIA_ERR_NETWORK:
+                    errorMessage = '🌐 Problème de réseau';
+                    retryMessage = 'Vérification de la connexion...';
+                    break;
+                case MediaError.MEDIA_ERR_DECODE:
+                    errorMessage = '🔧 Format audio incompatible';
+                    retryMessage = 'Essayez une autre station';
+                    canRetry = false;
+                    break;
+                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                    errorMessage = '❌ Station non disponible';
+                    retryMessage = 'Cette station ne fonctionne plus';
+                    canRetry = false;
+                    break;
+                default:
+                    errorMessage = '⚠️ Erreur de lecture';
+                    retryMessage = 'Tentative de reconnexion...';
+                    break;
+            }
+        } else {
+            errorMessage = '⚠️ Erreur de connexion';
+            retryMessage = 'Vérification du signal...';
+        }
+
+        this.showError(errorMessage, retryMessage);
+
+        // Tentative de reconnexion automatique
+        if (canRetry && this.currentStation) {
+            await this.attemptRetry();
+        }
+    }
+
+    async checkStationAvailability(station) {
+        if (!station) return false;
+        
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            
+            const response = await fetch(station.url, {
+                method: 'HEAD',
+                signal: controller.signal,
+                mode: 'no-cors' // Éviter les problèmes CORS
+            });
+            
+            clearTimeout(timeoutId);
+            return false; // Station accessible
+        } catch (error) {
+            return true; // Station probablement hors ligne
+        }
+    }
+
+    async attemptRetry() {
+        if (this.retryCount >= this.maxRetries) {
+            this.showError('❌ Connexion impossible', 'Station temporairement indisponible');
+            return;
+        }
+
+        const now = Date.now();
+        if (now - this.lastErrorTime < this.errorCooldown) {
+            return; // Éviter les tentatives trop fréquentes
+        }
+
+        this.lastErrorTime = now;
+        this.retryCount++;
+
+        this.showError('🔄 Reconnexion...', `Tentative ${this.retryCount}/${this.maxRetries}`);
+
+        setTimeout(async () => {
+            if (this.currentStation && navigator.onLine) {
+                try {
+                    await this.playStation(this.currentStation, true);
+                } catch (error) {
+                    console.warn(`Retry ${this.retryCount} failed:`, error);
+                }
+            }
+        }, this.retryDelay * this.retryCount); // Délai croissant
+    }
+
+    handleStreamInterruption() {
+        if (this.currentStation && this.isPlaying) {
+            console.log('Stream interrupted, attempting reconnection...');
+            this.showError('📡 Signal interrompu', 'Reconnexion automatique...');
+            
+            setTimeout(() => {
+                this.playStation(this.currentStation, true);
+            }, 3000);
+        }
+    }
+
+    handleStreamStalled() {
+        if (this.isPlaying) {
+            this.showError('⏳ Chargement lent', 'Patience, reconnexion en cours...');
+            
+            setTimeout(() => {
+                if (this.elements.audioPlayer.readyState < 2) {
+                    this.playStation(this.currentStation, true);
+                }
+            }, 5000);
+        }
+    }
+
+    showError(message, details = '') {
+        this.elements.errorMessage.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 5px;">${message}</div>
+            ${details ? `<div style="font-size: 0.9em; opacity: 0.8;">${details}</div>` : ''}
+        `;
+        this.elements.errorMessage.style.display = 'block';
+        
+        // Auto-masquer après 10 secondes pour les erreurs temporaires
+        if (message.includes('🔄') || message.includes('⏳')) {
+            setTimeout(() => {
+                if (this.elements.errorMessage.textContent.includes(message)) {
+                    this.clearErrorMessage();
+                }
+            }, 10000);
+        }
+    }
+
+    clearErrorMessage() {
+        this.elements.errorMessage.style.display = 'none';
+        this.elements.errorMessage.textContent = '';
+    }
+
+    setupMediaSession(station) {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: station.name,
+                artist: station.country, 
+                album: "Birastat radio", 
+                artwork: [
+                    { src: station.logoUrl, sizes: '96x96', type: 'image/jpeg' }, 
+                    { src: station.logoUrl, sizes: '128x128', type: 'image/jpeg' },
+                    { src: station.logoUrl, sizes: '192x192', type: 'image/jpeg' },
+                    { src: station.logoUrl, sizes: '256x256', type: 'image/jpeg' },
+                    { src: station.logoUrl, sizes: '384x384', type: 'image/jpeg' },
+                    { src: station.logoUrl, sizes: '512x512', type: 'image/jpeg' }
+                ],
+            });
+
+            navigator.mediaSession.setActionHandler('play', () => {
+                this.handlePlayPause();
+            });
+
+            navigator.mediaSession.setActionHandler('pause', () => {
+                this.handlePlayPause();
+            });
+        }
+    }
+
+    async playStation(station, forceRefresh = false) {
+        try {
+            // Vérifier la connexion Internet
+            if (!navigator.onLine) {
+                throw new Error('Pas de connexion Internet');
+            }
+
+            this.currentStation = station;
+            this.hasError = false;
+            this.retryCount = 0;
+            
+            localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+
+            // Incrémenter le compteur de visites
+            const visits = JSON.parse(localStorage.getItem('stationVisits')) || {};
+            visits[station.id] = (visits[station.id] || 0) + 1;
+            localStorage.setItem('stationVisits', JSON.stringify(visits));
+
+            // Mettre à jour l'interface
+            this.elements.currentStationName.textContent = station.name;
+            this.elements.currentStationLogo.src = station.logoUrl;
+            this.elements.currentStationInfo.textContent = `${station.country} - ${station.genre}`;
+            
+            this.setLoadingState(true);
+            this.clearErrorMessage();
+
+            // Configurer la source audio
+            if (forceRefresh || this.elements.audioPlayer.src === '') {
+                this.elements.audioPlayer.src = `https://birastat.glitch.me/proxy?url=${encodeURIComponent(station.url)}`;
+                this.elements.audioPlayer.load();
+            }
+
+            // Configurer Media Session
+            this.setupMediaSession(station);
+
+            // Lancer la lecture
+            await this.elements.audioPlayer.play();
+
+        } catch (error) {
+            console.error('Erreur lors de la lecture:', error);
+            this.handlePlaybackError(error);
+        }
+    }
+
+    handlePlayPause() {
+        if (this.isPlaying) {
+            this.elements.audioPlayer.pause();
+        } else if (this.currentStation) {
+            this.playStation(this.currentStation, true);
+        }
+    }
+
+    handleOnline() {
+        this.clearErrorMessage();
+        if (this.currentStation && this.hasError) {
+            this.showError('🌐 Connexion rétablie', 'Tentative de reconnexion...');
+            setTimeout(() => {
+                this.playStation(this.currentStation, true);
+            }, 1000);
+        }
+    }
+
+    handleOffline() {
+        this.elements.audioPlayer.pause();
+        this.showError('🌐 Connexion Internet perdue', 'Vérifiez votre réseau Wi-Fi ou données mobiles');
+    }
+
+    updatePlayState() {
+        // Logique d'affichage mise à jour selon l'état
+    }
+
+    async preloadImages() {
+        const promises = stations.map(station => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = img.onerror = resolve;
+                img.src = station.logoUrl;
+            });
+        });
+        await Promise.all(promises);
+    }
+
     handleSearch() {
         this.currentSearchQuery = this.elements.searchInput.value;
         this.resetAndDisplay();
     }
-
 
     handleFilterChange(event) {
         const filterType = event.target.id.replace('Filter', '');
@@ -1400,32 +1482,28 @@ async preloadImages() {
                 if (!this.currentFilters.country && !this.currentFilters.genre && !this.currentFilters.language) {
                     return (visits[b.id] || 0) - (visits[a.id] || 0);
                 }
-                return 0; // Pas de tri spécifique si des filtres sont appliqués
+                return 0;
             });
     }
-    
 
     displayStations() {
-    const filteredStations = this.filterStations();
-    const stationsToShow = filteredStations.slice(0, this.currentPage * this.ITEMS_PER_PAGE);
-    
-    // Créer un fragment pour éviter les re-rendus multiples
-    const fragment = document.createDocumentFragment();
+        const filteredStations = this.filterStations();
+        const stationsToShow = filteredStations.slice(0, this.currentPage * this.ITEMS_PER_PAGE);
+        
+        const fragment = document.createDocumentFragment();
 
-    // Créer des cartes pour les stations à afficher
-    stationsToShow.forEach(station => {
-        const card = this.createStationCard(station);
-        fragment.appendChild(card);
-    });
+        stationsToShow.forEach(station => {
+            const card = this.createStationCard(station);
+            fragment.appendChild(card);
+        });
 
-    // Vider et mettre à jour le conteneur en une seule fois
-    requestAnimationFrame(() => {
-        this.elements.stationsContainer.innerHTML = ''; // Vider le conteneur une fois
-        this.elements.stationsContainer.appendChild(fragment);
-        this.elements.loadMoreBtn.style.display = 
-        stationsToShow.length < filteredStations.length ? 'block' : 'none';
-    });
-}
+        requestAnimationFrame(() => {
+            this.elements.stationsContainer.innerHTML = '';
+            this.elements.stationsContainer.appendChild(fragment);
+            this.elements.loadMoreBtn.style.display = 
+                stationsToShow.length < filteredStations.length ? 'block' : 'none';
+        });
+    }
 
     displayFavorites() {
         this.elements.favoritesContainer.innerHTML = '';
@@ -1450,11 +1528,10 @@ async preloadImages() {
             <h3>${station.name}</h3>
             <button class="favorite-btn">${this.favorites.some(f => f.id === station.id) ? '❤️' : '🤍'}</button>
             <div class="station-info">
-                  <h5 class="description">${station.description}</h5>
-              Pays:  <p>${station.country}</p>
-        
-               Genre: <p>${station.genre}</p>
-              Langue(s):  <p>${station.language}</p>
+                <h5 class="description">${station.description}</h5>
+                Pays: <p>${station.country}</p>
+                Genre: <p>${station.genre}</p>
+                Langue(s): <p>${station.language}</p>
             </div>
         `;
 
@@ -1467,8 +1544,6 @@ async preloadImages() {
 
         return card;
     }
-
-
 
     toggleFavorite(station) {
         const index = this.favorites.findIndex(f => f.id === station.id);
@@ -1485,7 +1560,6 @@ async preloadImages() {
         this.updateCounts();
     }
 
-
     handleVolumeChange(event) {
         const volume = event.target.value;
         this.elements.audioPlayer.volume = volume / 100;
@@ -1497,7 +1571,6 @@ async preloadImages() {
         this.currentPage++;
         this.displayStations();
     }
-
 
     updateCounts() {
         const filteredCount = this.filterStations().length;
@@ -1515,6 +1588,5 @@ async preloadImages() {
     }
 }
 
-
 // Initialisation de l'application
-const app = new Birastat();  
+const app = new Birastat();
