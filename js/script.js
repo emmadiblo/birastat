@@ -1152,7 +1152,7 @@ setLoadingState(isLoading) {
         // En cas d'erreur
         this.elements.playPauseIcon.classList.remove('fa-spinner', 'fa-spin', 'fa-pause');
         this.elements.playPauseIcon.classList.add('fa-play');
-        this.elements.playerStatus.textContent = "Station non disponible, Actualisez ou choisissez l'autre.";
+        this.elements.playerStatus.textContent = "Station hors ligne, Actualisez ou choisissez l'autre.";
         this.elements.mic.style.display = "none"; // Masquer le micro
     } else if (this.isPlaying) {
         // En lecture
